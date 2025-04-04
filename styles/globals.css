@@ -4,8 +4,9 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-    --primary-color: #354739;
-    --secondary-color: #ce8624;
+    --color-primary-color: #354739;
+    --color-secondary-color: #ce8624;
+    --color-secondary-color-2: #f19210;
     --color-background: var(--background);
     --color-foreground: var(--foreground);
     --font-sans: var(--font-geist-sans);

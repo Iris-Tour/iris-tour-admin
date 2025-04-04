@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "@/styles/globals.css";
+import I18nProvider from "@/providers/I18nProvider";
 
 const degularDisplay = localFont({
     src: "./../fonts/DegularVariable.ttf",
@@ -20,7 +21,7 @@ export default function RootLayout({
     return (
         <html lang="en">
             <body className={`${degularDisplay.className} antialiased`}>
-                {children}
+                <I18nProvider>{children}</I18nProvider>
             </body>
         </html>
     );

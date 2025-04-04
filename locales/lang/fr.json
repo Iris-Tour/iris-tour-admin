@@ -1,0 +1,16 @@
+{
+    "login": {
+        "greeting": "Hé, Salut👋",
+        "description": "Entrez les informations que vous avez saisies lors de l'enregistrement.",
+        "field1": {
+            "title": "Email",
+            "placeholder": "Saisissez votre Mail"
+        },
+        "field2": {
+            "title": "Mot de passe",
+            "placeholder": "Saisissez votre Mot de passe"
+        },
+        "forgotPasswordLink": "Mot de passe oublié ?",
+        "cta": "Se Connecter"
+    }
+}
