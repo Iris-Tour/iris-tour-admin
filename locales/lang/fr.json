@@ -12,5 +12,18 @@
         },
         "forgotPasswordLink": "Mot de passe oublié ?",
         "cta": "Se Connecter"
+    },
+    "reset-password": {
+        "heading": "Réinitialiser votre mot de passe",
+        "description": "Saisissez votre adresse e-mail pour réinitialiser votre mot de passe",
+        "field1": {
+            "title": "Email",
+            "placeholder": "Saisissez votre Mail"
+        },
+        "cta": "Continuer",
+        "otp-form": {
+            "heading": "Réinitialiser votre mot de passe",
+            "description": "Entrez le code envoyé à votre adresse pour réinitialiser votre mot de passe"
+        }
     }
 }

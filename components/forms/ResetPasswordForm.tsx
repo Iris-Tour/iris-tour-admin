@@ -12,7 +12,6 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 import Input1 from "@/components/inputs/Input1";
-import Link from "next/link";
 import Button1 from "@/components/buttons/Button1";
 import { useTranslation } from "react-i18next";
 
@@ -20,17 +19,15 @@ const formSchema = z.object({
     email: z
         .string({ required_error: "Veuillez entrer le mail" })
         .email({ message: "Adresse mail invalide" }),
-    password: z.string({ required_error: "Veuillez entrer le mot de passe" }),
 });
 
-const LoginForm = () => {
+const ResetPasswordForm = () => {
     const { t } = useTranslation();
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
             email: undefined,
-            password: undefined,
         },
     });
 
@@ -48,12 +45,12 @@ const LoginForm = () => {
                         render={({ field }) => (
                             <FormItem>
                                 <FormLabel className="font-semibold text-[clamp(16px,_2vw,_20px)]">
-                                    {t("login.field1.title")}
+                                    {t("reset-password.field1.title")}
                                 </FormLabel>
                                 <FormControl>
                                     <Input1
                                         placeholder={t(
-                                            "login.field1.placeholder"
+                                            "reset-password.field1.placeholder"
                                         )}
                                         {...field}
                                     />
@@ -62,39 +59,10 @@ const LoginForm = () => {
                             </FormItem>
                         )}
                     />
-                    <div className="flex flex-col">
-                        <FormField
-                            control={form.control}
-                            name="password"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel className="font-semibold text-[clamp(16px,_2vw,_20px)]">
-                                        {t("login.field2.title")}
-                                    </FormLabel>
-                                    <FormControl>
-                                        <Input1
-                                            type="password"
-                                            placeholder={t(
-                                                "login.field2.placeholder"
-                                            )}
-                                            {...field}
-                                        />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                        <Link
-                            className="self-end underline text-secondary-color-2"
-                            href="/reset-password"
-                        >
-                            {t("login.forgotPasswordLink")}
-                        </Link>
-                    </div>
                 </div>
                 <Button1
                     type="submit"
-                    text={t("login.cta")}
+                    text={t("reset-password.cta")}
                     className="py-6 w-full"
                 />
             </form>
@@ -102,4 +70,4 @@ const LoginForm = () => {
     );
 };
 
-export default LoginForm;
+export default ResetPasswordForm;

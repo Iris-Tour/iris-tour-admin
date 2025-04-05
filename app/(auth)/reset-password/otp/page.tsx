@@ -3,6 +3,7 @@
 import { useTranslation } from "react-i18next";
 import LoginForm from "@/components/forms/LoginForm";
 import Logo from "@/components/Logo";
+import ResetPasswordOtpForm from "@/components/forms/ResetPasswordOtpForm";
 
 const LoginPage = () => {
     const { t } = useTranslation();
@@ -13,11 +14,11 @@ const LoginPage = () => {
                 <Logo />
                 <div>
                     <h1 className="font-semibold text-[clamp(18px,_5vw,_38px)]">
-                        {t("login.greeting")}
+                        {t("reset-password.otp-form.heading")}
                     </h1>
-                    <p>{t("login.description")}</p>
+                    <p>{t("reset-password.otp-form.description")}</p>
                 </div>
-                <LoginForm />
+                <ResetPasswordOtpForm />
             </div>
             <div className="hidden lg:block bg-login-image h-full"></div>
         </div>
