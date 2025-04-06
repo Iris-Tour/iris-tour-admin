@@ -24,6 +24,20 @@
         "otp-form": {
             "heading": "Réinitialiser votre mot de passe",
             "description": "Entrez le code envoyé à votre adresse pour réinitialiser votre mot de passe"
+        },
+        "change-password-form": {
+            "heading": "Réinitialiser votre mot de passe",
+            "description": "Définissez votre nouveau mot de passe",
+            "field1": {
+                "title": "Nouveau mot de passe",
+                "placeholder": "Saisissez votre nouveau Mot de passe"
+            },
+            "field2": {
+                "title": "Confirmation de mot de passe",
+                "placeholder": "Confirmez votre nouveau Mot de passe"
+            },
+            "loginLink": "Se connecter",
+            "cta": "Confirmer"
         }
     }
 }

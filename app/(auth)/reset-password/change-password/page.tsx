@@ -1,10 +1,10 @@
 "use client";
 
 import { useTranslation } from "react-i18next";
-import LoginForm from "@/components/forms/LoginForm";
 import Logo from "@/components/Logo";
+import ChangePasswordForm from "@/components/forms/ChangePasswordForm";
 
-const LoginPage = () => {
+const ChangePasswordPage = () => {
     const { t } = useTranslation();
 
     return (
@@ -13,15 +13,17 @@ const LoginPage = () => {
                 <Logo />
                 <div className="flex flex-col gap-2">
                     <h1 className="font-semibold text-[clamp(18px,_5vw,_38px)] leading-10">
-                        {t("login.greeting")}
+                        {t("reset-password.change-password-form.heading")}
                     </h1>
-                    <p>{t("login.description")}</p>
+                    <p>
+                        {t("reset-password.change-password-form.description")}
+                    </p>
                 </div>
-                <LoginForm />
+                <ChangePasswordForm />
             </div>
             <div className="hidden lg:block bg-login-image h-full"></div>
         </div>
     );
 };
 
-export default LoginPage;
+export default ChangePasswordPage;

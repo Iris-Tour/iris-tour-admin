@@ -1,11 +1,10 @@
 "use client";
 
 import { useTranslation } from "react-i18next";
-import LoginForm from "@/components/forms/LoginForm";
 import Logo from "@/components/Logo";
 import ResetPasswordOtpForm from "@/components/forms/ResetPasswordOtpForm";
 
-const LoginPage = () => {
+const ResetPasswordOtpPage = () => {
     const { t } = useTranslation();
 
     return (
@@ -25,4 +24,4 @@ const LoginPage = () => {
     );
 };
 
-export default LoginPage;
+export default ResetPasswordOtpPage;

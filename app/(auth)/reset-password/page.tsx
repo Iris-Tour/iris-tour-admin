@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import Logo from "@/components/Logo";
 import ResetPasswordForm from "@/components/forms/ResetPasswordForm";
 
-const LoginPage = () => {
+const ResetPasswordPage = () => {
     const { t } = useTranslation();
 
     return (
@@ -24,4 +24,4 @@ const LoginPage = () => {
     );
 };
 
-export default LoginPage;
+export default ResetPasswordPage;
