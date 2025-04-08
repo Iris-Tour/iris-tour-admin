@@ -18,7 +18,6 @@ import { useMutation } from "@tanstack/react-query";
 import { resetPassword } from "@/lib/api";
 import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
 
 const formSchema = z.object({
@@ -53,7 +52,7 @@ const ResetPasswordForm = () => {
                 toast.error(t(`general-errors.${error}`));
             } else {
                 toast.error(
-                    t(`reset-password.error-messages.${error.message}`)
+                    t(`reset-password.error-messages.${error.error.code}`)
                 );
             }
         },

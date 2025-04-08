@@ -16,8 +16,9 @@
         "forgotPasswordLink": "Mot de passe oublié ?",
         "cta": "Se Connecter",
         "error-messages": {
-            "email not verified": "Votre compte n'est pas encore vérifié.",
-            "E_INVALID_CREDENTIALS": "Email ou Mot de passe incorrects."
+            "UNVERIFIED_EMAIL": "Votre compte n'est pas encore vérifié.",
+            "E_INVALID_CREDENTIALS": "Email ou Mot de passe incorrects.",
+            "E_VALIDATION_ERROR": "Email ou Mot de passe incorrects."
         },
         "success-messages": {
             "login-successful": "Connexion réussie, bienvenue !"
@@ -32,10 +33,10 @@
         },
         "cta": "Continuer",
         "error-messages": {
-            "User not found": "Ce compte n'existe pas."
+            "USER_NOT_FOUND": "Ce compte n'existe pas."
         },
         "success-messages": {
-            "Email sent successfully": "Nous vous avons envoyé un email contenant le code OTP."
+            "Email sent successfully": "Nous vous avons envoyé un email contenant le lien pour réinitialiser votre mot de passe."
         },
         "otp-form": {
             "heading": "Réinitialiser votre mot de passe",

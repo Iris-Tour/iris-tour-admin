@@ -49,8 +49,6 @@ const LoginForm = () => {
         onError: (error: any) => {
             if (typeof error === "string") {
                 toast.error(t(`general-errors.${error}`));
-            } else if (error.message === "email not verified") {
-                toast.error(t(`login.error-messages.${error.message}`));
             } else {
                 toast.error(t(`login.error-messages.${error.error.code}`));
             }
