@@ -14,25 +14,53 @@ import {
 import Input1 from "@/components/inputs/Input1";
 import Button1 from "@/components/buttons/Button1";
 import { useTranslation } from "react-i18next";
+import { useMutation } from "@tanstack/react-query";
+import { resetPassword } from "@/lib/api";
+import { Loader2 } from "lucide-react";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 const formSchema = z.object({
     email: z
-        .string({ required_error: "Veuillez entrer le mail" })
+        .string()
+        .min(1, { message: "Veuillez entrer le mail" })
         .email({ message: "Adresse mail invalide" }),
 });
+
+type formSchemaType = z.infer<typeof formSchema>;
 
 const ResetPasswordForm = () => {
     const { t } = useTranslation();
 
-    const form = useForm<z.infer<typeof formSchema>>({
+    const form = useForm<formSchemaType>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            email: undefined,
+            email: "",
         },
     });
 
-    function onSubmit(values: z.infer<typeof formSchema>) {
-        console.log(values);
+    const resetPasswordMutation = useMutation({
+        mutationFn: (variables: ResetPasswordMutation) =>
+            resetPassword(variables),
+        onSuccess: () => {
+            toast.success(
+                t("reset-password.success-messages.Email sent successfully")
+            );
+        },
+        onError: (error: any) => {
+            if (typeof error === "string") {
+                toast.error(t(`general-errors.${error}`));
+            } else {
+                toast.error(
+                    t(`reset-password.error-messages.${error.message}`)
+                );
+            }
+        },
+    });
+
+    function onSubmit(values: formSchemaType) {
+        resetPasswordMutation.mutate(values);
     }
 
     return (
@@ -59,12 +87,23 @@ const ResetPasswordForm = () => {
                             </FormItem>
                         )}
                     />
+                    <Link
+                        className="self-end underline text-secondary-color-2"
+                        href="/login"
+                    >
+                        {t("reset-password.change-password-form.loginLink")}
+                    </Link>
                 </div>
                 <Button1
                     type="submit"
                     className="py-6 w-full"
+                    disabled={resetPasswordMutation.isPending}
                 >
-                        {t("reset-password.cta")}
+                    {resetPasswordMutation.isPending ? (
+                        <Loader2 className="animate-spin" />
+                    ) : (
+                        t("reset-password.cta")
+                    )}
                 </Button1>
             </form>
         </Form>

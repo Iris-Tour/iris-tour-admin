@@ -13,3 +13,12 @@ type LoginPromise = {
         identifier: string;
     };
 };
+
+// Reset password types
+type ResetPasswordMutation = {
+    email: string;
+}
+
+type ResetPasswordPromise = {
+    message: string;
+}

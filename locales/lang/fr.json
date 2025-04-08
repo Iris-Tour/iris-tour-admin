@@ -31,6 +31,12 @@
             "placeholder": "Saisissez votre Mail"
         },
         "cta": "Continuer",
+        "error-messages": {
+            "User not found": "Ce compte n'existe pas."
+        },
+        "success-messages": {
+            "Email sent successfully": "Nous vous avons envoyé un email contenant le code OTP."
+        },
         "otp-form": {
             "heading": "Réinitialiser votre mot de passe",
             "description": "Entrez le code envoyé à votre adresse pour réinitialiser votre mot de passe"

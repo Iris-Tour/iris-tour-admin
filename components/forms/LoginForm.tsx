@@ -85,7 +85,7 @@ const LoginForm = () => {
                             </FormItem>
                         )}
                     />
-                    <div className="flex flex-col">
+                    <div className="flex flex-col gap-3">
                         <FormField
                             control={form.control}
                             name="password"

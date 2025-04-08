@@ -55,7 +55,9 @@ const ChangePasswordForm = () => {
                         render={({ field }) => (
                             <FormItem>
                                 <FormLabel className="font-semibold text-[clamp(16px,_2vw,_20px)]">
-                                    {t("reset-password.change-password-form.field1.title")}
+                                    {t(
+                                        "reset-password.change-password-form.field1.title"
+                                    )}
                                 </FormLabel>
                                 <FormControl>
                                     <Input1
@@ -70,14 +72,16 @@ const ChangePasswordForm = () => {
                             </FormItem>
                         )}
                     />
-                    <div className="flex flex-col">
+                    <div className="flex flex-col gap-3">
                         <FormField
                             control={form.control}
                             name="passwordConfirmation"
                             render={({ field }) => (
                                 <FormItem>
                                     <FormLabel className="font-semibold text-[clamp(16px,_2vw,_20px)]">
-                                        {t("reset-password.change-password-form.field2.title")}
+                                        {t(
+                                            "reset-password.change-password-form.field2.title"
+                                        )}
                                     </FormLabel>
                                     <FormControl>
                                         <Input1
@@ -100,11 +104,8 @@ const ChangePasswordForm = () => {
                         </Link>
                     </div>
                 </div>
-                <Button1
-                    type="submit"
-                    className="py-6 w-full"
-                >
-                        {t("reset-password.change-password-form.cta")}
+                <Button1 type="submit" className="py-6 w-full">
+                    {t("reset-password.change-password-form.cta")}
                 </Button1>
             </form>
         </Form>

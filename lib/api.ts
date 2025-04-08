@@ -66,3 +66,8 @@ export const api = async <T>(
 
 export const login = (data: LoginMutation): Promise<LoginPromise> =>
     api(prefix, "/auth/login", "POST", data);
+
+export const resetPassword = (
+    data: ResetPasswordMutation
+): Promise<ResetPasswordPromise> =>
+    api(prefix, "/auth/forgot-password", "POST", data);
