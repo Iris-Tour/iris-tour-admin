@@ -28,12 +28,12 @@ const formSchema = z.object({
         .email({ message: "Adresse mail invalide" }),
 });
 
-type formSchemaType = z.infer<typeof formSchema>;
+type FormSchemaType = z.infer<typeof formSchema>;
 
 const ResetPasswordForm = () => {
     const { t } = useTranslation();
 
-    const form = useForm<formSchemaType>({
+    const form = useForm<FormSchemaType>({
         resolver: zodResolver(formSchema),
         defaultValues: {
             email: "",
@@ -59,7 +59,7 @@ const ResetPasswordForm = () => {
         },
     });
 
-    function onSubmit(values: formSchemaType) {
+    function onSubmit(values: FormSchemaType) {
         resetPasswordMutation.mutate(values);
     }
 

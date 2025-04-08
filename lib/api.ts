@@ -71,3 +71,9 @@ export const resetPassword = (
     data: ResetPasswordMutation
 ): Promise<ResetPasswordPromise> =>
     api(prefix, "/auth/forgot-password", "POST", data);
+
+export const changePassword = (
+    token: string,
+    data: ChangePasswordMutation
+): Promise<ChangePasswordPromise> =>
+    api(prefix, `/auth/reset-password?token=${token}`, "POST", data);

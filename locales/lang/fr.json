@@ -53,7 +53,13 @@
                 "placeholder": "Confirmez votre nouveau Mot de passe"
             },
             "loginLink": "Se connecter",
-            "cta": "Confirmer"
+            "cta": "Confirmer",
+            "error-messages": {
+                "Password reset failed": "Token expiré. Veuillez faire une autre demande de réinitialisation de mot de passe."
+            },
+            "success-messages": {
+                "Password reset successfully": "Votre mot de passe a été réinitialisé avec succès."
+            }
         }
     }
 }

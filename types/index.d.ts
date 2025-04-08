@@ -17,8 +17,18 @@ type LoginPromise = {
 // Reset password types
 type ResetPasswordMutation = {
     email: string;
-}
+};
 
 type ResetPasswordPromise = {
     message: string;
-}
+};
+
+// Change password types
+type ChangePasswordMutation = {
+    password: string;
+    passwordConfirmation: string;
+};
+
+type ChangePasswordPromise = {
+    message: string;
+};

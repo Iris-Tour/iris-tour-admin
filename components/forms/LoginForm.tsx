@@ -28,12 +28,12 @@ const formSchema = z.object({
     password: z.string().min(1, { message: "Veuillez entrer le mot de passe" }),
 });
 
-type formSchemaType = z.infer<typeof formSchema>;
+type FormSchemaType = z.infer<typeof formSchema>;
 
 const LoginForm = () => {
     const { t } = useTranslation();
 
-    const form = useForm<formSchemaType>({
+    const form = useForm<FormSchemaType>({
         resolver: zodResolver(formSchema),
         defaultValues: {
             email: "",
@@ -57,7 +57,7 @@ const LoginForm = () => {
         },
     });
 
-    function onSubmit(values: formSchemaType) {
+    function onSubmit(values: FormSchemaType) {
         loginMutation.mutate(values);
     }
 

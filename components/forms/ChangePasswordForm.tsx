@@ -15,34 +15,107 @@ import Input1 from "@/components/inputs/Input1";
 import Link from "next/link";
 import Button1 from "@/components/buttons/Button1";
 import { useTranslation } from "react-i18next";
+import { useParams, useRouter } from "next/navigation";
+import { useMutation } from "@tanstack/react-query";
+import { changePassword } from "@/lib/api";
+import { toast } from "sonner";
+import { Loader2 } from "lucide-react";
+import { useEffect, useState } from "react";
 
 const formSchema = z
     .object({
-        password: z.string({
-            required_error: "Veuillez entrer le mot de passe",
-        }),
-        passwordConfirmation: z.string({
-            required_error: "Veuillez entrer le mot de passe",
-        }),
+        password: z
+            .string({
+                required_error: "Veuillez entrer le mot de passe",
+            })
+            .min(1, { message: "Veuillez entrer le mot de passe" })
+            .min(8, {
+                message: "Le mot de passe doit contenir au moins 8 caractères.",
+            }),
+        passwordConfirmation: z
+            .string({
+                required_error: "Veuillez entrer le mot de passe",
+            })
+            .min(1, { message: "Veuillez entrer le mot de passe" }),
     })
     .refine((data) => data.password === data.passwordConfirmation, {
         message: "Les mots de passe ne correspondent pas",
         path: ["passwordConfirmation"],
     });
 
+type FormSchemaType = z.infer<typeof formSchema>;
+
 const ChangePasswordForm = () => {
     const { t } = useTranslation();
 
-    const form = useForm<z.infer<typeof formSchema>>({
+    const params = useParams();
+    const router = useRouter();
+
+    const [resetToken, setResetToken] = useState("");
+    const [isTokenValid, setIsTokenValid] = useState(false);
+
+    useEffect(() => {
+        if (!params.token) {
+            // Redirect to reset password page if no token
+            router.push("/reset-password");
+            return;
+        }
+
+        // Validate token format (basic check)
+        const token = params.token as string;
+        if (typeof token !== "string" || token.length < 10) {
+            toast.error(t("general-errors.networkError"));
+            router.push("/reset-password");
+            return;
+        }
+
+        setResetToken(token);
+        setIsTokenValid(true);
+    }, [params.token, router, t]);
+
+    const form = useForm<FormSchemaType>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            password: undefined,
-            passwordConfirmation: undefined,
+            password: "",
+            passwordConfirmation: "",
         },
     });
 
-    function onSubmit(values: z.infer<typeof formSchema>) {
-        console.log(values);
+    const changePasswordMutation = useMutation({
+        mutationFn: (variables: ChangePasswordMutation) => {
+            if (!isTokenValid) {
+                throw new Error("Invalid token");
+            }
+            return changePassword(resetToken, variables);
+        },
+        onSuccess: () => {
+            toast.success(
+                t(
+                    "reset-password.change-password-form.success-messages.Password reset successfully"
+                )
+            );
+
+            // Redirect to login after success
+            router.push("/login");
+        },
+        onError: (error: any) => {
+            if (typeof error === "string") {
+                toast.error(t(`general-errors.${error}`));
+            } else {
+                toast.error(
+                    t(
+                        `reset-password.change-password-form.error-messages.${error.message}`
+                    )
+                );
+
+                // redirect to reset password page
+                router.push("/reset-password");
+            }
+        },
+    });
+
+    function onSubmit(values: FormSchemaType) {
+        changePasswordMutation.mutate(values);
     }
 
     return (
@@ -104,8 +177,16 @@ const ChangePasswordForm = () => {
                         </Link>
                     </div>
                 </div>
-                <Button1 type="submit" className="py-6 w-full">
-                    {t("reset-password.change-password-form.cta")}
+                <Button1
+                    type="submit"
+                    className="py-6 w-full"
+                    disabled={changePasswordMutation.isPending}
+                >
+                    {changePasswordMutation.isPending ? (
+                        <Loader2 className="animate-spin" />
+                    ) : (
+                        t("reset-password.change-password-form.cta")
+                    )}
                 </Button1>
             </form>
         </Form>
