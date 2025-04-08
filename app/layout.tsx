@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "@/styles/globals.css";
-import I18nProvider from "@/providers/I18nProvider";
+import Providers from "@/providers/Providers";
+import { Toaster } from "sonner";
 
 const degularDisplay = localFont({
     src: "./../fonts/DegularVariable.ttf",
@@ -21,7 +22,17 @@ export default function RootLayout({
     return (
         <html lang="en">
             <body className={`${degularDisplay.className} antialiased`}>
-                <I18nProvider>{children}</I18nProvider>
+                <Providers>{children}</Providers>
+                <Toaster
+                    toastOptions={{
+                        style: {
+                            fontSize: "16px",
+                        },
+                    }}
+                    duration={10000}
+                    closeButton
+                    richColors
+                />
             </body>
         </html>
     );

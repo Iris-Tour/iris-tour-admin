@@ -11,31 +11,54 @@ import {
     FormLabel,
     FormMessage,
 } from "@/components/ui/form";
-import Input1 from "@/components/inputs/Input1";
 import Link from "next/link";
 import Button1 from "@/components/buttons/Button1";
 import { useTranslation } from "react-i18next";
+import { useMutation } from "@tanstack/react-query";
+import { login } from "@/lib/api";
+import { toast } from "sonner";
+import Input1 from "../inputs/Input1";
+import { Loader2 } from "lucide-react";
 
 const formSchema = z.object({
     email: z
-        .string({ required_error: "Veuillez entrer le mail" })
+        .string()
+        .min(1, { message: "Veuillez entrer le mail" })
         .email({ message: "Adresse mail invalide" }),
-    password: z.string({ required_error: "Veuillez entrer le mot de passe" }),
+    password: z.string().min(1, { message: "Veuillez entrer le mot de passe" }),
 });
+
+type formSchemaType = z.infer<typeof formSchema>;
 
 const LoginForm = () => {
     const { t } = useTranslation();
 
-    const form = useForm<z.infer<typeof formSchema>>({
+    const form = useForm<formSchemaType>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            email: undefined,
-            password: undefined,
+            email: "",
+            password: "",
         },
     });
 
-    function onSubmit(values: z.infer<typeof formSchema>) {
-        console.log(values);
+    const loginMutation = useMutation({
+        mutationFn: (data: LoginMutation) => login(data),
+        onSuccess: () => {
+            toast.success(t("login.success-messages.login-successful"));
+        },
+        onError: (error: any) => {
+            if (typeof error === "string") {
+                toast.error(t(`general-errors.${error}`));
+            } else if (error.message === "email not verified") {
+                toast.error(t(`login.error-messages.${error.message}`));
+            } else {
+                toast.error(t(`login.error-messages.${error.error.code}`));
+            }
+        },
+    });
+
+    function onSubmit(values: formSchemaType) {
+        loginMutation.mutate(values);
     }
 
     return (
@@ -94,9 +117,15 @@ const LoginForm = () => {
                 </div>
                 <Button1
                     type="submit"
-                    text={t("login.cta")}
                     className="py-6 w-full"
-                />
+                    disabled={loginMutation.isPending}
+                >
+                    {loginMutation.isPending ? (
+                        <Loader2 className="animate-spin" />
+                    ) : (
+                        t("login.cta")
+                    )}
+                </Button1>
             </form>
         </Form>
     );

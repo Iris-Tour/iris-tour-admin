@@ -50,11 +50,9 @@ const ResetPasswordOtpForm = () => {
                         )}
                     />
                 </div>
-                <Button1
-                    type="submit"
-                    text={t("reset-password.cta")}
-                    className="py-6 w-full"
-                />
+                <Button1 type="submit" className="py-6 w-full">
+                    {t("reset-password.cta")}
+                </Button1>
             </form>
         </Form>
     );

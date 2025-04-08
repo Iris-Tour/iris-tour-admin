@@ -102,9 +102,10 @@ const ChangePasswordForm = () => {
                 </div>
                 <Button1
                     type="submit"
-                    text={t("reset-password.change-password-form.cta")}
                     className="py-6 w-full"
-                />
+                >
+                        {t("reset-password.change-password-form.cta")}
+                </Button1>
             </form>
         </Form>
     );

@@ -62,9 +62,10 @@ const ResetPasswordForm = () => {
                 </div>
                 <Button1
                     type="submit"
-                    text={t("reset-password.cta")}
                     className="py-6 w-full"
-                />
+                >
+                        {t("reset-password.cta")}
+                </Button1>
             </form>
         </Form>
     );

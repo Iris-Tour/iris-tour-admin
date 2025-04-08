@@ -2,19 +2,18 @@ import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { FC } from "react";
 
-interface Input1Props {
-    type?: string;
+interface Input1Props extends React.ComponentProps<"input"> {
     placeholder?: string;
     className?: string;
 }
 
-const Input1: FC<Input1Props> = ({ type, placeholder, className }) => {
+const Input1: FC<Input1Props> = ({ placeholder, className, ...props }) => {
     return (
         <Input
-            type={type}
             placeholder={placeholder}
-            className={cn("text-base px-5 py-6", className)}
-        ></Input>
+            className={cn("px-5 py-6", className)}
+            {...props}
+        />
     );
 };
 

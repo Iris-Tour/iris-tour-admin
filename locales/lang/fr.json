@@ -1,4 +1,7 @@
 {
+    "general-errors": {
+        "networkError": "Une erreur est survenue. Veuillez vérifier votre connexion internet."
+    },
     "login": {
         "greeting": "Hé, Salut👋",
         "description": "Entrez les informations que vous avez saisies lors de l'enregistrement.",
@@ -11,7 +14,14 @@
             "placeholder": "Saisissez votre Mot de passe"
         },
         "forgotPasswordLink": "Mot de passe oublié ?",
-        "cta": "Se Connecter"
+        "cta": "Se Connecter",
+        "error-messages": {
+            "email not verified": "Votre compte n'est pas encore vérifié.",
+            "E_INVALID_CREDENTIALS": "Email ou Mot de passe incorrects."
+        },
+        "success-messages": {
+            "login-successful": "Connexion réussie, bienvenue !"
+        }
     },
     "reset-password": {
         "heading": "Réinitialiser votre mot de passe",
