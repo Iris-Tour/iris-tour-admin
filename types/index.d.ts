@@ -4,7 +4,28 @@ type LoginMutation = {
     password: string;
 };
 
-type LoginPromise = {
+type UserData = {
+    id: number;
+    firstname: string;
+    lastname: string;
+    email: string;
+    emailVerificationToken: string;
+    emailVerificationTokenExpiresAt: string;
+    emailVerified: boolean;
+    createdAt: string;
+    updatedAt: string;
+};
+
+type TokenData = {
+    type: string;
+    name: string | null;
+    token: string;
+    abilities: Array<string>;
+    lastUsedAt: string | null;
+    expiresAt: string | null;
+};
+
+type LoginError = {
     message: string;
     error: {
         name: string;
@@ -12,6 +33,10 @@ type LoginPromise = {
         code: string;
         identifier: string;
     };
+};
+
+type GetCurrentUser = {
+    token: string | undefined;
 };
 
 // Reset password types

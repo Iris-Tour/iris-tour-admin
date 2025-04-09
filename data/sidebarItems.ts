@@ -7,7 +7,7 @@ export const sidebarItems = [
         icon: Home,
     },
     {
-        title: "Gestion des admins",
+        title: "Gestion des rôles et permissions",
         url: "/manage-admins",
         icon: PersonStanding,
     },

@@ -4,10 +4,13 @@ import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import { sidebarItems } from "@/data/sidebarItems";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import useAuth from "@/hooks/useAuth";
 
 const Header = () => {
     const [title, setTitle] = useState("");
     const pathname = usePathname();
+
+    const { user } = useAuth();
 
     // Titre de l'entête
     useEffect(() => {
@@ -26,10 +29,10 @@ const Header = () => {
                     </Avatar>
                     <div className="flex flex-col">
                         <span className="font-bold text-[18px] leading-5">
-                            Florent KOMBATE
+                            {`${user?.user.firstname} ${user?.user.lastname}`}
                         </span>
                         <span className="text-sm text-gray-500">
-                            FlorentKom@gmail.com
+                            {user?.user.email}
                         </span>
                     </div>
                 </div>
