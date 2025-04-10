@@ -4,7 +4,7 @@ import { FC, ReactNode, useEffect, useState } from "react";
 import { AuthContext } from "./AuthContext";
 import { QueryClient, useQuery } from "@tanstack/react-query";
 import { currentUser } from "@/lib/api";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 interface AuthProviderProps {
     children: ReactNode;
@@ -20,6 +20,8 @@ const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
             : undefined;
     });
 
+    const pathname = usePathname();
+
     const router = useRouter();
 
     const {
@@ -34,13 +36,26 @@ const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
         retry: false,
     });
 
+    const isAuthenticated = !!user && !!token;
+
     useEffect(() => {
         const storedToken = JSON.parse(localStorage.getItem("token") ?? "{}");
 
-        if (!storedToken.token) {
+        console.log(storedToken, user);
+
+        if (isError) {
             router.push("/login");
+        } else {
+            if (storedToken.token) {
+                // Check if the user is logged in at the backend side.
+                if (user && pathname === "/login") {
+                    router.push("/dashboard");
+                }
+            } else {
+                router.push("/login");
+            }
         }
-    }, [router]);
+    }, [user, router, pathname, isError]);
 
     const login = (userData: UserData, tokenData: TokenData) => {
         localStorage.setItem("token", JSON.stringify(tokenData));
@@ -55,10 +70,6 @@ const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
         queryClient.removeQueries({ queryKey: ["current-user"] });
         router.push("/login");
     };
-
-    const isAuthenticated = !!user && !!token;
-
-    console.log(user);
 
     return (
         <AuthContext.Provider
