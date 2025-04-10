@@ -8,6 +8,7 @@ import {
     DialogTrigger,
 } from "@/components/ui/dialog";
 import { useTranslation } from "react-i18next";
+import { Separator } from "@/components/ui/separator";
 
 interface RoleCardProps {
     role?: string;
@@ -18,8 +19,9 @@ const RoleCard: FC<RoleCardProps> = ({ role }) => {
     return (
         <div className="flex bg-white w-fit gap-5 px-5 py-3 rounded-2xl">
             <h2 className="font-bold text-lg">{role}</h2>
+            <Separator orientation="vertical" />
             <Dialog>
-                <DialogTrigger className="cursor-pointer">
+                <DialogTrigger className="text-primary-color cursor-pointer">
                     {t("roles-and-permissions.role-card.update")}
                 </DialogTrigger>
                 <DialogContent>

@@ -1,12 +1,13 @@
 import axios from "axios";
 import { getServerUrl } from "@/lib/utils";
+import useAuth from "@/hooks/useAuth";
 
 const serverUrl = getServerUrl();
 
-const prefix = "/api/v1";
+const API_PREFIX = "/api/v1";
 
 export const sessionApi = async <T>(
-    prefix: string = "",
+    prefix: string = API_PREFIX,
     endpoint: string,
     method: string = "GET",
     body?: any,
@@ -67,20 +68,37 @@ export const api = async <T>(
 export const apiLogin = (
     data: LoginMutation
 ): Promise<{ user: UserData; token: TokenData }> =>
-    api(prefix, "/auth/login", "POST", data);
+    api(API_PREFIX, "/auth/login", "POST", data);
 
 export const currentUser = (
     data: GetCurrentUser
-): Promise<{user: UserData}> =>
-    sessionApi(prefix, "/auth/current-user", "GET", undefined, data.token);
+): Promise<{ user: UserData }> =>
+    sessionApi(API_PREFIX, "/auth/current-user", "GET", undefined, data.token);
 
 export const resetPassword = (
     data: ResetPasswordMutation
 ): Promise<ResetPasswordPromise> =>
-    api(prefix, "/auth/forgot-password", "POST", data);
+    api(API_PREFIX, "/auth/forgot-password", "POST", data);
 
 export const changePassword = (
     token: string,
     data: ChangePasswordMutation
 ): Promise<ChangePasswordPromise> =>
-    api(prefix, `/auth/reset-password?token=${token}`, "POST", data);
+    api(API_PREFIX, `/auth/reset-password?token=${token}`, "POST", data);
+
+// Get all roles
+export const apiGetAllRoles = (token: string): Promise<GetAllRolesPromise[]> =>
+    sessionApi(API_PREFIX, "/acl/roles", "GET", undefined, token);
+
+// Get all permissions
+export const apiGetAllPermissions = (
+    token: string
+): Promise<GetAllPermissionsPromise[]> =>
+    sessionApi(API_PREFIX, `/acl/permissions`, "GET", undefined, token);
+
+// Create a new role with permissions
+export const apiStoreRoleWithPermissions = (
+    token: string,
+    data: storeRoleWithPermissionsMutation
+): Promise<storeRoleWithPermissionsPromise> =>
+    sessionApi(API_PREFIX, "/acl/roles/permissions", "POST", data, token);

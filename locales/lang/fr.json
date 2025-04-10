@@ -66,6 +66,25 @@
     "roles-and-permissions": {
         "heading": "Liste des rôles",
         "subheading": "Un rôle donne accès à des menus et fonctionnalités prédéfinis afin qu'en fonction du rôle attribué, un administrateur puisse accéder aux besoins de l'utilisateur.",
+        "addRole": "Créer un rôle",
+        "addRoleDialog": {
+            "title": "Créer un rôle",
+            "field1": {
+                "title": "Nom",
+                "placeholder": "Nom du rôle"
+            },
+            "permissions": {
+                "title": "Permissions",
+                "description": "Veuillez définir les permissions accordées à ce rôle."
+            },
+            "cta": "Créer",
+            "error-messages": {
+                "Password reset failed": "Token expiré. Veuillez faire une autre demande de réinitialisation de mot de passe."
+            },
+            "success-messages": {
+                "Permissions assigned successfully": "Le rôle et ses permissions ont été créés avec succès."
+            }
+        },
         "role-card": {
             "update": "Modifier"
         }
