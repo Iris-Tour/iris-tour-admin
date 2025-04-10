@@ -25,7 +25,11 @@ const Header = () => {
                 <h1 className="hidden sm:block text-xl font-bold">{title}</h1>
                 <div className="flex items-center gap-3">
                     <Avatar className="w-10 h-10">
-                        <AvatarFallback>IT</AvatarFallback>
+                        <AvatarFallback>{`${user?.user.firstname
+                            .charAt(0)
+                            .toUpperCase()} ${user?.user.lastname
+                            .charAt(0)
+                            .toUpperCase()}`}</AvatarFallback>
                     </Avatar>
                     <div className="flex flex-col">
                         <span className="font-bold text-[18px] leading-5">

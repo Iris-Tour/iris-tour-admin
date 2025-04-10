@@ -281,7 +281,7 @@ function SidebarTrigger({
                 data-sidebar="trigger"
                 data-slot="sidebar-trigger"
                 size="icon"
-                className={cn("size-7", className)}
+                className={cn("size-7 cursor-pointer", className)}
                 onClick={(event) => {
                     onClick?.(event);
                     toggleSidebar();
@@ -369,7 +369,7 @@ function SidebarFooter({ className, ...props }: React.ComponentProps<"div">) {
         <div
             data-slot="sidebar-footer"
             data-sidebar="footer"
-            className={cn("flex flex-col gap-2 p-2", className)}
+            className={cn("flex flex-col gap-2 pb-5", className)}
             {...props}
         />
     );

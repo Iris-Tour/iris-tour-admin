@@ -16,8 +16,11 @@ import {
 } from "@/components/ui/sidebar";
 import { sidebarItems } from "@/data/sidebarItems";
 import { usePathname } from "next/navigation";
+import useAuth from "@/hooks/useAuth";
+import { LogOutIcon } from "lucide-react";
 
 export function AppSidebar() {
+    const { logout } = useAuth();
     const [activeLink, setActiveLink] = useState(0);
     const pathname = usePathname();
 
@@ -34,7 +37,7 @@ export function AppSidebar() {
                     <span className="text-white">Lo</span>
                     <span className="text-secondary-color">go</span>
                 </div>
-                <SidebarTrigger className="text-white/75 bg-transparent hover:bg-transparent px-3 mr-8 group-data-[collapsible=icon]:mr-0 cursor-pointer" />
+                <SidebarTrigger className="text-white/75 bg-transparent hover:bg-transparent px-3 mr-8 group-data-[collapsible=icon]:mr-0" />
             </SidebarHeader>
             <SidebarContent>
                 <SidebarGroup>
@@ -67,7 +70,19 @@ export function AppSidebar() {
                     </SidebarGroupContent>
                 </SidebarGroup>
             </SidebarContent>
-            <SidebarFooter />
+            <SidebarFooter>
+                <SidebarMenuItem className="flex flex-col items-center">
+                    <SidebarMenuButton
+                        className={`text-base px-6 py-5 rounded-none group-data-[collapsible=icon]:rounded`}
+                        asChild
+                    >
+                        <button className="cursor-pointer" onClick={() => logout()}>
+                            <LogOutIcon />
+                            <span>Déconnexion</span>
+                        </button>
+                    </SidebarMenuButton>
+                </SidebarMenuItem>
+            </SidebarFooter>
         </Sidebar>
     );
 }
