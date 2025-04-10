@@ -21,7 +21,7 @@ const Header = () => {
     }, [pathname]);
 
     return (
-        <header className="sticky top-0 bg-white w-full h-fit py-4 px-8 shadow-md">
+        <header className="sticky top-0 bg-white w-full h-fit py-4 px-8 shadow-md z-40">
             <div className="flex justify-between items-center">
                 <div className="min-[768px]:hidden">
                     <SidebarTrigger />

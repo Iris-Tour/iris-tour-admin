@@ -21,7 +21,9 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="en">
-            <body className={`${degularDisplay.className} antialiased`}>
+            <body
+                className={`${degularDisplay.className} antialiased`}
+            >
                 <Providers>{children}</Providers>
                 <Toaster
                     toastOptions={{

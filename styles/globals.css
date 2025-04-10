@@ -1,6 +1,17 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    height: 100%;
+    width: 100%;
+    overflow-x: hidden;
+}
+
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
@@ -115,31 +126,10 @@
     --sidebar-ring: oklch(0.552 0.016 285.938);
 }
 
-@layer base {
-    * {
-        box-sizing: border-box;
-    }
-    html,
-    body {
-        height: 100%;
-        width: 100%;
-        overflow-x: hidden;
-    }
-}
-
 @layer utilities {
     .bg-login-image {
         background-image: url("../public/assets/login-image.png");
         background-size: cover;
         background-position: center;
-    }
-}
-
-@layer base {
-    * {
-        @apply border-border outline-ring/50;
-    }
-    body {
-        @apply bg-background text-foreground;
     }
 }

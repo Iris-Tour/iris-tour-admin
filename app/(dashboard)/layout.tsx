@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { SidebarProvider } from "@/components/ui/sidebar";
+import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/layouts/AppSidebar";
 import { cookies } from "next/headers";
 import Header from "@/components/layouts/Header";
@@ -20,10 +20,14 @@ export default async function RootLayout({
     return (
         <SidebarProvider defaultOpen={defaultOpen}>
             <AppSidebar />
-            <div className="relative w-full h-full">
-                <Header />
-                <main className="w-full h-full">{children}</main>
-            </div>
+            <SidebarInset>
+                <main className="flex flex-col bg-[#F1F1F1] w-full h-full">
+                    <Header />
+                    <div className="w-full h-full pt-7 pb-24 px-7">
+                        {children}
+                    </div>
+                </main>
+            </SidebarInset>
         </SidebarProvider>
     );
 }
