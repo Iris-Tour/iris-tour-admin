@@ -62,5 +62,12 @@
                 "Password reset successfully": "Votre mot de passe a été réinitialisé avec succès."
             }
         }
+    },
+    "roles-and-permissions": {
+        "heading": "Liste des rôles",
+        "subheading": "Un rôle donne accès à des menus et fonctionnalités prédéfinis afin qu'en fonction du rôle attribué, un administrateur puisse accéder aux besoins de l'utilisateur.",
+        "role-card": {
+            "update": "Modifier"
+        }
     }
 }

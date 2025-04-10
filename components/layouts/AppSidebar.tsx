@@ -22,7 +22,7 @@ import Link from "next/link";
 
 export function AppSidebar() {
     const { logout } = useAuth();
-    const [activeLink, setActiveLink] = useState(0);
+    const [activeLink, setActiveLink] = useState(-1);
     const pathname = usePathname();
 
     useEffect(() => {
