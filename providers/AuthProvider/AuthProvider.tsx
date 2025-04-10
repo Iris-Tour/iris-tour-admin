@@ -41,8 +41,6 @@ const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
     useEffect(() => {
         const storedToken = JSON.parse(localStorage.getItem("token") ?? "{}");
 
-        console.log(storedToken, user);
-
         if (isError) {
             router.push("/login");
         } else {
