@@ -18,6 +18,7 @@ import { sidebarItems } from "@/data/sidebarItems";
 import { usePathname } from "next/navigation";
 import useAuth from "@/hooks/useAuth";
 import { LogOutIcon } from "lucide-react";
+import Link from "next/link";
 
 export function AppSidebar() {
     const { logout } = useAuth();
@@ -59,10 +60,17 @@ export function AppSidebar() {
                                         } text-base px-6 py-5 rounded-none group-data-[collapsible=icon]:rounded`}
                                         asChild
                                     >
-                                        <a href={item.url}>
-                                            <item.icon />
-                                            <span>{item.title}</span>
-                                        </a>
+                                        {index === activeLink ? (
+                                            <button className="cursor-pointer">
+                                                <item.icon />
+                                                <span>{item.title}</span>
+                                            </button>
+                                        ) : (
+                                            <Link href={item.url}>
+                                                <item.icon />
+                                                <span>{item.title}</span>
+                                            </Link>
+                                        )}
                                     </SidebarMenuButton>
                                 </SidebarMenuItem>
                             ))}
@@ -76,7 +84,10 @@ export function AppSidebar() {
                         className={`text-base px-6 py-5 rounded-none group-data-[collapsible=icon]:rounded`}
                         asChild
                     >
-                        <button className="cursor-pointer" onClick={() => logout()}>
+                        <button
+                            className="cursor-pointer"
+                            onClick={() => logout()}
+                        >
                             <LogOutIcon />
                             <span>Déconnexion</span>
                         </button>

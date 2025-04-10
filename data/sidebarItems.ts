@@ -1,4 +1,4 @@
-import { Home, PersonStanding } from "lucide-react";
+import { Home, UserCog } from "lucide-react";
 
 export const sidebarItems = [
     {
@@ -7,8 +7,8 @@ export const sidebarItems = [
         icon: Home,
     },
     {
-        title: "Gestion des rôles et permissions",
+        title: "Gestion des rôles",
         url: "/manage-admins",
-        icon: PersonStanding,
+        icon: UserCog,
     },
 ];
