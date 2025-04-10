@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { sidebarItems } from "@/data/sidebarItems";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import useAuth from "@/hooks/useAuth";
+import { SidebarTrigger } from "@/components/ui/sidebar";
 
 const Header = () => {
     const [title, setTitle] = useState("");
@@ -22,6 +23,9 @@ const Header = () => {
     return (
         <header className="sticky top-0 bg-white w-full h-fit py-4 px-8 shadow-md">
             <div className="flex justify-between items-center">
+                <div className="min-[768px]:hidden">
+                    <SidebarTrigger />
+                </div>
                 <h1 className="hidden sm:block text-xl font-bold">{title}</h1>
                 <div className="flex items-center gap-3">
                     <Avatar className="w-10 h-10">

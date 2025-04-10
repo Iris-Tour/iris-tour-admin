@@ -3,7 +3,12 @@
 import * as React from "react";
 import { Slot } from "@radix-ui/react-slot";
 import { VariantProps, cva } from "class-variance-authority";
-import { ChevronLeft, ChevronRight, PanelLeftIcon } from "lucide-react";
+import {
+    ChevronLeft,
+    ChevronRight,
+    PanelLeft,
+    PanelLeftIcon,
+} from "lucide-react";
 
 import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
@@ -273,29 +278,47 @@ function SidebarTrigger({
     ...props
 }: React.ComponentProps<typeof Button>) {
     const { toggleSidebar } = useSidebar();
+    const { isMobile, state } = useSidebar();
 
     return (
         <div className="flex items-center justify-between group-data-[collapsible=icon]:justify-center gap-6 w-full">
             <div className="group-data-[collapsible=icon]:hidden bg-white/50 w-full h-[1px]"></div>
-            <Button
-                data-sidebar="trigger"
-                data-slot="sidebar-trigger"
-                size="icon"
-                className={cn("size-7 cursor-pointer", className)}
-                onClick={(event) => {
-                    onClick?.(event);
-                    toggleSidebar();
-                }}
-                {...props}
-            >
-                <div className="flex group-data-[collapsible=icon]:hidden items-center">
-                    <ChevronLeft /> Réduire
-                </div>
-                <div className=" hidden group-data-[collapsible=icon]:block">
-                    <ChevronRight />
-                </div>
-                <span className="sr-only">Toggle Sidebar</span>
-            </Button>
+            {isMobile ? (
+                <Button
+                    data-sidebar="trigger"
+                    variant="ghost"
+                    size="icon"
+                    className={cn("h-7 w-7", className)}
+                    onClick={(event) => {
+                        onClick?.(event);
+                        toggleSidebar();
+                    }}
+                    {...props}
+                >
+                    <PanelLeft />
+                    <span className="sr-only">Toggle Sidebar</span>
+                </Button>
+            ) : (
+                <Button
+                    data-sidebar="trigger"
+                    data-slot="sidebar-trigger"
+                    size="icon"
+                    className={cn("size-7 cursor-pointer", className)}
+                    onClick={(event) => {
+                        onClick?.(event);
+                        toggleSidebar();
+                    }}
+                    {...props}
+                >
+                    <div className="flex group-data-[collapsible=icon]:hidden items-center">
+                        <ChevronLeft /> Réduire
+                    </div>
+                    <div className=" hidden group-data-[collapsible=icon]:block">
+                        <ChevronRight />
+                    </div>
+                    <span className="sr-only">Toggle Sidebar</span>
+                </Button>
+            )}
         </div>
     );
 }
