@@ -86,9 +86,11 @@ export const changePassword = (
 ): Promise<ChangePasswordPromise> =>
     api(API_PREFIX, `/auth/reset-password?token=${token}`, "POST", data);
 
-// Get all roles
-export const apiGetAllRoles = (token: string): Promise<GetAllRolesPromise[]> =>
-    sessionApi(API_PREFIX, "/acl/roles", "GET", undefined, token);
+// Get all roles with their permissions
+export const apiGetAllRolesWithPermissions = (
+    token: string
+): Promise<GetAllRolesWithPermissionPromise> =>
+    sessionApi(API_PREFIX, "/acl/roles/permissions", "GET", undefined, token);
 
 // Get all permissions
 export const apiGetAllPermissions = (
@@ -99,6 +101,27 @@ export const apiGetAllPermissions = (
 // Create a new role with permissions
 export const apiStoreRoleWithPermissions = (
     token: string,
-    data: storeRoleWithPermissionsMutation
-): Promise<storeRoleWithPermissionsPromise> =>
+    data: StoreRoleWithPermissionsMutation
+): Promise<StoreRoleWithPermissionsPromise> =>
     sessionApi(API_PREFIX, "/acl/roles/permissions", "POST", data, token);
+
+// Update a role with its permissions
+export const apiUpdateRoleWithPermissions = (
+    token: string,
+    roleId: string,
+    data: UpdateRoleWithPermissionsMutation
+): Promise<UpdateRoleWithPermissionsPromise> =>
+    sessionApi(
+        API_PREFIX,
+        `/acl/roles/${roleId}/permissions`,
+        "PUT",
+        data,
+        token
+    );
+
+// Delete a role
+export const apiDeleteRole = (
+    token: string,
+    roleId: string
+): Promise<DeleteRolePromise> =>
+    sessionApi(API_PREFIX, `/acl/roles/${roleId}`, "DELETE", undefined, token);

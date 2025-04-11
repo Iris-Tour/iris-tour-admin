@@ -3,14 +3,18 @@ import { Button, buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { VariantProps } from "class-variance-authority";
 
-interface AddButtonProps
+interface IconLeftButtonProps
     extends React.ComponentPropsWithoutRef<typeof Button>,
         VariantProps<typeof buttonVariants> {
     className?: string;
     children?: ReactNode;
 }
 
-const AddButton: FC<AddButtonProps> = ({ className, children, ...props }) => {
+const IconLeftButton: FC<IconLeftButtonProps> = ({
+    className,
+    children,
+    ...props
+}) => {
     return (
         <Button
             className={cn(
@@ -24,4 +28,4 @@ const AddButton: FC<AddButtonProps> = ({ className, children, ...props }) => {
     );
 };
 
-export default AddButton;
+export default IconLeftButton;

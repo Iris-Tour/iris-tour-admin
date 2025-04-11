@@ -67,6 +67,10 @@
         "heading": "Liste des rôles",
         "subheading": "Un rôle donne accès à des menus et fonctionnalités prédéfinis afin qu'en fonction du rôle attribué, un administrateur puisse accéder aux besoins de l'utilisateur.",
         "addRole": "Créer un rôle",
+        "role-card": {
+            "update": "Modifier",
+            "delete": "Supprimer"
+        },
         "addRoleDialog": {
             "title": "Créer un rôle",
             "field1": {
@@ -85,8 +89,32 @@
                 "Permissions assigned successfully": "Le rôle et ses permissions ont été créés avec succès."
             }
         },
-        "role-card": {
-            "update": "Modifier"
+        "updateRoleDialog": {
+            "title": "Créer un rôle",
+            "field1": {
+                "title": "Nom",
+                "placeholder": "Nom du rôle"
+            },
+            "permissions": {
+                "title": "Permissions",
+                "description": "Veuillez définir les permissions accordées à ce rôle."
+            },
+            "cta": "Modifier",
+            "error-messages": {
+                "Password reset failed": "Token expiré. Veuillez faire une autre demande de réinitialisation de mot de passe."
+            },
+            "success-messages": {
+                "Permissions assigned successfully": "Le rôle et ses permissions ont été modifiés avec succès."
+            }
+        },
+        "deleteRoleDialog": {
+            "title": "Suppression",
+            "description": "Voulez-vous vraiment supprimer le rôle : <b>{{role}}</b> ?",
+            "cancel": "Annuler",
+            "delete": "Supprimer",
+            "success-messages": {
+                "Role deleted successfully": "Le rôle <b>{{role}}</b> a été supprimé avec succès."
+            }
         }
     }
 }

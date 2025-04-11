@@ -58,8 +58,20 @@ type ChangePasswordPromise = {
     message: string;
 };
 
-// Roles types
-type GetAllRolesPromise = {
+// Role & Permissions types
+type PermissionType = {
+    id: string;
+    slug: string;
+    title: string | null;
+    entityType: string;
+    entityId: string | null;
+    scope: string;
+    allowed: boolean;
+    createdAt: string;
+    updatedAt: string;
+};
+
+type RoleType = {
     id: string;
     slug: string;
     title: string | null;
@@ -71,7 +83,14 @@ type GetAllRolesPromise = {
     updatedAt: string;
 };
 
-// Permissions types
+type GetAllRolesWithPermissionPromise = {
+    message: string;
+    roles: Array<{
+        role: RoleType;
+        permissions: Array<PermissionType>;
+    }>;
+};
+
 type GetAllPermissionsPromise = {
     id: string;
     slug: string;
@@ -84,12 +103,27 @@ type GetAllPermissionsPromise = {
     updatedAt: string;
 };
 
-type storeRoleWithPermissionsMutation = {
+type GetPermissionsOfRolePromise = {
+    message: string;
+    permissions: Array<{
+        id: string;
+        slug: string;
+        title: string | null;
+        entityType: string;
+        entityId: string | null;
+        scope: string;
+        allowed: boolean;
+        createdAt: string;
+        updatedAt: string;
+    }>;
+};
+
+type StoreRoleWithPermissionsMutation = {
     role: string;
     permissions: Array<string>;
 };
 
-type storeRoleWithPermissionsPromise = {
+type StoreRoleWithPermissionsPromise = {
     message: string;
     role: {
         slug: string;
@@ -99,4 +133,18 @@ type storeRoleWithPermissionsPromise = {
         id: string;
     };
     permissions_not_found: Array<number>;
+};
+
+type UpdateRoleWithPermissionsMutation = {
+    role: string;
+    permissions: Array<string>;
+};
+
+type UpdateRoleWithPermissionsPromise = {
+    message: string;
+    permissions_not_found: Array<string>;
+};
+
+type DeleteRolePromise = {
+    message: "Role deleted successfully";
 };

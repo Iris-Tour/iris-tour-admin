@@ -2,7 +2,7 @@
 
 import { useTranslation } from "react-i18next";
 import RoleCard from "@/components/cards/RoleCard";
-import AddButton from "@/components/buttons/AddButton";
+import IconLeftButton from "@/components/buttons/IconLeftButton";
 import { PlusCircle } from "lucide-react";
 import {
     Dialog,
@@ -15,23 +15,25 @@ import {
 import AddRoleWithPermissionsForm from "@/components/forms/AddRoleWithPermissionsForm";
 import useAuth from "@/hooks/useAuth";
 import { useQuery } from "@tanstack/react-query";
-import { apiGetAllRoles } from "@/lib/api";
+import { apiGetAllRolesWithPermissions } from "@/lib/api";
 import { useEffect, useState } from "react";
 
 const RolesAndPermissionsPage = () => {
     const { t } = useTranslation();
     const { token } = useAuth();
 
-    const [roles, setRoles] = useState<GetAllRolesPromise[] | undefined>([]);
+    const [rolesWithPermissions, setRolesWithPermissions] = useState<
+        GetAllRolesWithPermissionPromise | undefined
+    >();
 
-    const { data: allRoles, isSuccess } = useQuery({
-        queryKey: ["get-all-roles"],
-        queryFn: () => apiGetAllRoles(token!),
+    const { data: allRolesWithPermissions, isSuccess } = useQuery({
+        queryKey: ["get-all-roles-with-permissions"],
+        queryFn: () => apiGetAllRolesWithPermissions(token!),
     });
 
     useEffect(() => {
-        setRoles(allRoles);
-    }, [isSuccess, allRoles]);
+        setRolesWithPermissions(allRolesWithPermissions);
+    }, [isSuccess, allRolesWithPermissions]);
 
     return (
         <div className="flex flex-col gap-7">
@@ -47,9 +49,9 @@ const RolesAndPermissionsPage = () => {
 
                 <Dialog>
                     <DialogTrigger className="cursor-pointer" asChild>
-                        <AddButton className="rounded-xl">
+                        <IconLeftButton className="rounded-xl">
                             <PlusCircle /> {t("roles-and-permissions.addRole")}
-                        </AddButton>
+                        </IconLeftButton>
                     </DialogTrigger>
                     <DialogContent>
                         <DialogHeader>
@@ -63,9 +65,14 @@ const RolesAndPermissionsPage = () => {
                 </Dialog>
             </div>
             <div className="flex flex-wrap gap-4">
-                {roles && roles.length > 0 ? (
-                    roles.map((role) => (
-                        <RoleCard key={role.id} role={role.slug} />
+                {rolesWithPermissions?.roles && rolesWithPermissions.roles.length > 0 ? (
+                    rolesWithPermissions.roles.map((role) => (
+                        <RoleCard
+                            key={role.role.id}
+                            role={role.role.slug}
+                            roleId={role.role.id}
+                            rolePermissions={role.permissions}
+                        />
                     ))
                 ) : (
                     <p>Aucun rôle trouvé</p>

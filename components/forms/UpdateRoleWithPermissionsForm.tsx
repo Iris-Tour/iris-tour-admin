@@ -18,8 +18,15 @@ import Input1 from "@/components/inputs/Input1";
 import IconLeftButton from "@/components/buttons/IconLeftButton";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { apiGetAllPermissions, apiStoreRoleWithPermissions } from "@/lib/api";
+import { apiGetAllPermissions, apiUpdateRoleWithPermissions } from "@/lib/api";
 import useAuth from "@/hooks/useAuth";
+import { FC } from "react";
+
+interface UpdateRoleWithPermissionsFormProps {
+    role: string | undefined;
+    roleId: string;
+    rolePermissionsIds: string[] | undefined;
+}
 
 const formSchema = z.object({
     role: z.string().min(2, {
@@ -30,7 +37,11 @@ const formSchema = z.object({
 
 type FormSchemaType = z.infer<typeof formSchema>;
 
-const AddRoleWithPermissionsForm = () => {
+const UpdateRoleWithPermissionsForm: FC<UpdateRoleWithPermissionsFormProps> = ({
+    role,
+    roleId,
+    rolePermissionsIds,
+}) => {
     const { t } = useTranslation();
 
     const { token } = useAuth();
@@ -45,14 +56,14 @@ const AddRoleWithPermissionsForm = () => {
     const form = useForm<FormSchemaType>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            role: "",
-            permissions: [],
+            role: role,
+            permissions: rolePermissionsIds,
         },
     });
 
-    const StoreRoleWithPermissionsMutation = useMutation({
-        mutationFn: (variables: { data: StoreRoleWithPermissionsMutation }) =>
-            apiStoreRoleWithPermissions(token!, variables.data),
+    const updateRoleWithPermissionsMutation = useMutation({
+        mutationFn: (variables: { data: UpdateRoleWithPermissionsMutation }) =>
+            apiUpdateRoleWithPermissions(token!, roleId, variables.data),
         onSuccess: () => {
             // Update roles list
             queryClient.invalidateQueries({
@@ -61,7 +72,7 @@ const AddRoleWithPermissionsForm = () => {
 
             toast.success(
                 t(
-                    "roles-and-permissions.addRoleDialog.success-messages.Permissions assigned successfully"
+                    "roles-and-permissions.updateRoleDialog.success-messages.Permissions assigned successfully"
                 )
             );
         },
@@ -71,7 +82,7 @@ const AddRoleWithPermissionsForm = () => {
             } else {
                 toast.error(
                     t(
-                        `roles-and-permissions.addRoleDialog.error-messages.${error.message}`
+                        `roles-and-permissions.updateRoleDialog.error-messages.${error.message}`
                     )
                 );
             }
@@ -79,7 +90,7 @@ const AddRoleWithPermissionsForm = () => {
     });
 
     function onSubmit(values: FormSchemaType) {
-        StoreRoleWithPermissionsMutation.mutate({ data: values });
+        updateRoleWithPermissionsMutation.mutate({ data: values });
     }
 
     return (
@@ -92,13 +103,13 @@ const AddRoleWithPermissionsForm = () => {
                         <FormItem>
                             <FormLabel className="text-base">
                                 {t(
-                                    "roles-and-permissions.addRoleDialog.field1.title"
+                                    "roles-and-permissions.updateRoleDialog.field1.title"
                                 )}
                             </FormLabel>
                             <FormControl>
                                 <Input1
                                     placeholder={t(
-                                        "roles-and-permissions.addRoleDialog.field1.placeholder"
+                                        "roles-and-permissions.updateRoleDialog.field1.placeholder"
                                     )}
                                     {...field}
                                 />
@@ -111,12 +122,12 @@ const AddRoleWithPermissionsForm = () => {
                     <div>
                         <h3 className="font-semibold text-lg">
                             {t(
-                                "roles-and-permissions.addRoleDialog.permissions.title"
+                                "roles-and-permissions.updateRoleDialog.permissions.title"
                             )}
                         </h3>
                         <p>
                             {t(
-                                "roles-and-permissions.addRoleDialog.permissions.description"
+                                "roles-and-permissions.updateRoleDialog.permissions.description"
                             )}
                         </p>
                     </div>
@@ -174,11 +185,11 @@ const AddRoleWithPermissionsForm = () => {
                     </div>
                 </div>
                 <IconLeftButton type="submit">
-                    {t("roles-and-permissions.addRoleDialog.cta")}
+                    {t("roles-and-permissions.updateRoleDialog.cta")}
                 </IconLeftButton>
             </form>
         </Form>
     );
 };
 
-export default AddRoleWithPermissionsForm;
+export default UpdateRoleWithPermissionsForm;
