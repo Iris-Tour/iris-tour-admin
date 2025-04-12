@@ -24,6 +24,11 @@ const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
 
     const router = useRouter();
 
+    const nonAuthPathnames = [
+        "/reset-password",
+        "/reset-password/change-password",
+    ];
+
     const {
         data: user,
         isLoading,
@@ -41,16 +46,21 @@ const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
     useEffect(() => {
         const storedToken = JSON.parse(localStorage.getItem("token") ?? "{}");
 
-        if (isError) {
-            router.push("/login");
-        } else {
-            if (storedToken.token) {
-                // Check if the user is logged in at the backend side.
-                if (user && pathname === "/login") {
-                    router.push("/dashboard");
-                }
-            } else {
+        const isNonAuthPath = nonAuthPathnames.some((path) => pathname.startsWith(path));
+
+        // Remove all paths that don't need auth
+        if (!isNonAuthPath) {
+            if (isError) {
                 router.push("/login");
+            } else {
+                if (storedToken.token) {
+                    // Check if the user is logged in at the backend side.
+                    if (user && pathname === "/login") {
+                        router.push("/dashboard");
+                    }
+                } else {
+                    router.push("/login");
+                }
             }
         }
     }, [user, router, pathname, isError]);
