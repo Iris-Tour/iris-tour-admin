@@ -20,6 +20,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { apiGetAllPermissions, apiStoreRoleWithPermissions } from "@/lib/api";
 import useAuth from "@/hooks/useAuth";
+import { DialogClose } from "@/components/ui/dialog";
 
 const formSchema = z.object({
     role: z.string().min(2, {
@@ -58,6 +59,8 @@ const AddRoleWithPermissionsForm = () => {
             queryClient.invalidateQueries({
                 queryKey: ["get-all-roles-with-permissions"],
             });
+
+            document.getElementById("dialog-close")?.click();
 
             toast.success(
                 t(
@@ -173,7 +176,11 @@ const AddRoleWithPermissionsForm = () => {
                         )}
                     </div>
                 </div>
-                <IconLeftButton type="submit">
+                <DialogClose id="dialog-close"></DialogClose>
+                <IconLeftButton
+                    type="submit"
+                    disabled={StoreRoleWithPermissionsMutation.isPending}
+                >
                     {t("roles-and-permissions.addRoleDialog.cta")}
                 </IconLeftButton>
             </form>

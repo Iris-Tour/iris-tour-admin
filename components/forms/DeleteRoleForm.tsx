@@ -61,7 +61,10 @@ const DeleteRoleForm: FC<DeleteRoleFormProps> = ({ role, roleId }) => {
                     </IconLeftButton>
                 </DialogClose>
 
-                <IconLeftButton onClick={onSubmit}>
+                <IconLeftButton
+                    onClick={onSubmit}
+                    disabled={deleteRoleMutation.isPending}
+                >
                     {t("roles-and-permissions.deleteRoleDialog.delete")}
                 </IconLeftButton>
             </div>

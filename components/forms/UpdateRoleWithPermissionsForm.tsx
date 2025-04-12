@@ -21,6 +21,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { apiGetAllPermissions, apiUpdateRoleWithPermissions } from "@/lib/api";
 import useAuth from "@/hooks/useAuth";
 import { FC } from "react";
+import { DialogClose } from "@/components/ui/dialog";
 
 interface UpdateRoleWithPermissionsFormProps {
     role: string | undefined;
@@ -65,6 +66,7 @@ const UpdateRoleWithPermissionsForm: FC<UpdateRoleWithPermissionsFormProps> = ({
         mutationFn: (variables: { data: UpdateRoleWithPermissionsMutation }) =>
             apiUpdateRoleWithPermissions(token!, roleId, variables.data),
         onSuccess: () => {
+            document.getElementById("dialog-close")?.click();
             // Update roles list
             queryClient.invalidateQueries({
                 queryKey: ["get-all-roles-with-permissions"],
@@ -184,7 +186,11 @@ const UpdateRoleWithPermissionsForm: FC<UpdateRoleWithPermissionsFormProps> = ({
                         )}
                     </div>
                 </div>
-                <IconLeftButton type="submit">
+                <DialogClose id="dialog-close"></DialogClose>
+                <IconLeftButton
+                    type="submit"
+                    disabled={updateRoleWithPermissionsMutation.isPending}
+                >
                     {t("roles-and-permissions.updateRoleDialog.cta")}
                 </IconLeftButton>
             </form>
