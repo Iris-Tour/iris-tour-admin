@@ -22,7 +22,9 @@ const DeleteRoleForm: FC<DeleteRoleFormProps> = ({ role, roleId }) => {
         mutationFn: (roleId: string) => apiDeleteRole(token!, roleId),
         onSuccess: () => {
             // Update roles list
-            queryClient.invalidateQueries({ queryKey: ["get-all-roles"] });
+            queryClient.invalidateQueries({
+                queryKey: ["get-all-roles-with-permissions"],
+            });
 
             toast.success(
                 <Trans
@@ -38,7 +40,7 @@ const DeleteRoleForm: FC<DeleteRoleFormProps> = ({ role, roleId }) => {
     });
 
     const onSubmit = () => {
-        deleteRoleMutation.mutate(roleId.toString());
+        deleteRoleMutation.mutate(roleId);
     };
 
     return (
@@ -59,7 +61,7 @@ const DeleteRoleForm: FC<DeleteRoleFormProps> = ({ role, roleId }) => {
                     </IconLeftButton>
                 </DialogClose>
 
-                <IconLeftButton onClick={() => onSubmit()}>
+                <IconLeftButton onClick={onSubmit}>
                     {t("roles-and-permissions.deleteRoleDialog.delete")}
                 </IconLeftButton>
             </div>

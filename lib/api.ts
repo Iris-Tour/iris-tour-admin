@@ -1,6 +1,5 @@
 import axios from "axios";
 import { getServerUrl } from "@/lib/utils";
-import useAuth from "@/hooks/useAuth";
 
 const serverUrl = getServerUrl();
 
@@ -21,7 +20,7 @@ export const sessionApi = async <T>(
                 "Content-Type": "application/json",
                 Authorization: `Bearer ${token}`,
             },
-            data: body || null,
+            data: body || undefined,
             withCredentials: true,
         });
 
