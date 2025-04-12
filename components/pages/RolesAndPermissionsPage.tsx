@@ -65,7 +65,8 @@ const RolesAndPermissionsPage = () => {
                 </Dialog>
             </div>
             <div className="flex flex-wrap gap-4">
-                {rolesWithPermissions?.roles && rolesWithPermissions.roles.length > 0 ? (
+                {rolesWithPermissions?.roles &&
+                rolesWithPermissions.roles.length > 0 ? (
                     rolesWithPermissions.roles.map((role) => (
                         <RoleCard
                             key={role.role.id}
