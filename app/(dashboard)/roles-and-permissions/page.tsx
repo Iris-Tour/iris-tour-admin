@@ -1,9 +1,11 @@
 import RolesAndPermissionsPage from "@/components/pages/RolesAndPermissionsPage";
 
-export default function ManageAdmin() {
+const RolesAndPermissions = () => {
     return (
         <div>
             <RolesAndPermissionsPage />
         </div>
     );
-}
+};
+
+export default RolesAndPermissions;

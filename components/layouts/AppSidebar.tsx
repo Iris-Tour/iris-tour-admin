@@ -62,12 +62,12 @@ export function AppSidebar() {
                                     >
                                         {index === activeLink ? (
                                             <button className="cursor-pointer">
-                                                <item.icon />
+                                                <item.icon className="stroke-white" />
                                                 <span>{item.title}</span>
                                             </button>
                                         ) : (
                                             <Link href={item.url}>
-                                                <item.icon />
+                                                <item.icon className="stroke-white" />
                                                 <span>{item.title}</span>
                                             </Link>
                                         )}
