@@ -3,10 +3,11 @@
 import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import { sidebarItems } from "@/data/sidebarItems";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+
 import useAuth from "@/hooks/useAuth";
 import { SidebarTrigger } from "@/components/ui/sidebar";
-import UserSkeleton from "../skeletons/Header/UserSkeleton";
+import UserSkeleton from "@/components/skeletons/Header/UserSkeleton";
+import UserAccount from "@/components/UserAccount";
 
 const Header = () => {
     const [title, setTitle] = useState("");
@@ -31,24 +32,7 @@ const Header = () => {
                 {!user ? (
                     <UserSkeleton />
                 ) : (
-                    <div className="flex items-center gap-3">
-                        <Avatar className="w-10 h-10">
-                            <AvatarFallback>{`${user?.user.firstname
-                                .charAt(0)
-                                .toUpperCase()} ${user?.user.lastname
-                                .charAt(0)
-                                .toUpperCase()}`}</AvatarFallback>
-                        </Avatar>
-
-                        <div className="flex flex-col">
-                            <span className="font-bold text-[18px] leading-5">
-                                {`${user?.user.firstname} ${user?.user.lastname}`}
-                            </span>
-                            <span className="text-sm text-gray-500">
-                                {user?.user.email}
-                            </span>
-                        </div>
-                    </div>
+                    <UserAccount user={user?.user}/>
                 )}
             </div>
         </header>

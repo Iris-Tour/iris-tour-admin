@@ -39,7 +39,10 @@ export function DataTable<TData, TValue>({
                         <TableRow key={headerGroup.id}>
                             {headerGroup.headers.map((header) => {
                                 return (
-                                    <TableHead key={header.id}>
+                                    <TableHead
+                                        key={header.id}
+                                        className="uppercase"
+                                    >
                                         {header.isPlaceholder
                                             ? null
                                             : flexRender(
@@ -76,7 +79,7 @@ export function DataTable<TData, TValue>({
                                 colSpan={columns.length}
                                 className="h-24 text-center"
                             >
-                                No results.
+                                Aucun résultat.
                             </TableCell>
                         </TableRow>
                     )}

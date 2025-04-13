@@ -119,7 +119,18 @@
         "admins-list": {
             "heading": "Liste des administrateurs",
             "subheading": "Retrouvez tous les comptes administrateurs et leurs rôles associés.",
-            "add-admin": "Ajouter un administrateur"
+            "add-admin": "Ajouter un administrateur",
+            "headers": {
+                "header_one": "ID No.",
+                "header_two": "Comptes",
+                "header_three": "Statut",
+                "header_four": "Actions"
+            },
+            "actions": {
+                "edit": "Modifier",
+                "suspend": "Bloquer",
+                "delete": "Supprimer"
+            }
         }
     }
 }

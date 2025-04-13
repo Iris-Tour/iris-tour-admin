@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import RoleCard from "@/components/cards/RoleCard";
 import IconLeftButton from "@/components/buttons/IconLeftButton";
@@ -19,8 +20,7 @@ import {
     apiGetAllAdminsWithRoles,
     apiGetAllRolesWithPermissions,
 } from "@/lib/api";
-import { useEffect, useState } from "react";
-import AdminWithRolesTable from "../tables/AdminsWithRolesTable";
+import AdminWithRolesTable from "@/components/tables/AdminsWithRolesTable";
 
 const RolesAndPermissionsPage = () => {
     const { t } = useTranslation();
