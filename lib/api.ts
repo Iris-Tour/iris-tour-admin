@@ -85,6 +85,12 @@ export const changePassword = (
 ): Promise<ChangePasswordPromise> =>
     api(API_PREFIX, `/auth/reset-password?token=${token}`, "POST", data);
 
+// Get all admins with their roles
+export const apiGetAllAdminsWithRoles = (
+    token: string
+): Promise<GetAllAdminsWithRolesPromise> =>
+    sessionApi(API_PREFIX, "/acl/users/roles", "GET", undefined, token);
+
 // Get all roles with their permissions
 export const apiGetAllRolesWithPermissions = (
     token: string

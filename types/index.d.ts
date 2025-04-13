@@ -58,6 +58,12 @@ type ChangePasswordPromise = {
     message: string;
 };
 
+// Admins
+type GetAllAdminsWithRolesPromise = {
+    message: string;
+    usersWithRoles: Array<{ user: UserData; roles: Array<RoleType> }>;
+};
+
 // Role & Permissions types
 type PermissionType = {
     id: string;

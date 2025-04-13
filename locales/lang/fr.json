@@ -115,6 +115,11 @@
             "success-messages": {
                 "Role deleted successfully": "Le rôle <b>{{role}}</b> a été supprimé avec succès."
             }
+        },
+        "admins-list": {
+            "heading": "Liste des administrateurs",
+            "subheading": "Retrouvez tous les comptes administrateurs et leurs rôles associés.",
+            "add-admin": "Ajouter un administrateur"
         }
     }
 }
