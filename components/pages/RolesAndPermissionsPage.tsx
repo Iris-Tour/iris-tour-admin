@@ -21,6 +21,7 @@ import {
     apiGetAllRolesWithPermissions,
 } from "@/lib/api";
 import AdminWithRolesTable from "@/components/tables/AdminsWithRolesTable";
+import SectionContainer from "@/components/containers/SectionContainer";
 
 const RolesAndPermissionsPage = () => {
     const { t } = useTranslation();
@@ -53,7 +54,7 @@ const RolesAndPermissionsPage = () => {
 
     return (
         <>
-            <section className="flex flex-col gap-7">
+            <SectionContainer>
                 <div className="flex justify-between">
                     <div className="flex flex-col">
                         <h2 className="font-bold text-xl">
@@ -99,8 +100,8 @@ const RolesAndPermissionsPage = () => {
                         <p>Aucun rôle trouvé</p>
                     )}
                 </div>
-            </section>
-            <section className="flex flex-col gap-7">
+            </SectionContainer>
+            <SectionContainer>
                 <div className="flex justify-between">
                     <div className="flex flex-col">
                         <h2 className="font-bold text-xl">
@@ -110,7 +111,7 @@ const RolesAndPermissionsPage = () => {
                             {t("roles-and-permissions.admins-list.subheading")}
                         </p>
                     </div>
-
+                    {/* 
                     <Dialog>
                         <DialogTrigger className="cursor-pointer" asChild>
                             <IconLeftButton className="rounded-xl">
@@ -131,12 +132,13 @@ const RolesAndPermissionsPage = () => {
                                 <AddRoleWithPermissionsForm />
                             </DialogHeader>
                         </DialogContent>
-                    </Dialog>
+                    </Dialog> */}
                 </div>
+
                 <AdminWithRolesTable
                     data={adminsWithRoles?.usersWithRoles ?? []}
                 />
-            </section>
+            </SectionContainer>
         </>
     );
 };

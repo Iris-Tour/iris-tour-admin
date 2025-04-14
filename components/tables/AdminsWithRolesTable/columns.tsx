@@ -22,13 +22,14 @@ export const columns: ColumnDef<AdminWithRoles>[] = [
         header: "ID No.",
     },
     {
-        id: "name",
+        id: "account",
         header: "Comptes",
         cell: ({ row }) => {
             const user = row.original.user;
             return <UserAccount user={user} />;
         },
     },
+    { id: "role", header: "Rôle" },
     {
         accessorKey: "user.status",
         header: "Statut",

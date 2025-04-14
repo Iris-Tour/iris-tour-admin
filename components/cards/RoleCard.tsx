@@ -36,7 +36,7 @@ const RoleCard: FC<RoleCardProps> = ({ role, roleId, rolePermissions }) => {
     }, [rolePermissions]);
 
     return (
-        <div className="flex bg-white w-fit gap-5 px-5 py-3 rounded-2xl">
+        <div className="flex border border-primary-color/15 bg-white w-fit gap-5 px-5 py-3 rounded-2xl shadow-lg">
             <h2 className="font-bold text-lg">{role}</h2>
             <Separator orientation="vertical" />
             <EllipsisPopover>
