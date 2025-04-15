@@ -120,11 +120,32 @@
             "heading": "Liste des administrateurs",
             "subheading": "Retrouvez tous les comptes administrateurs et leurs rôles associés.",
             "add-admin": "Ajouter un administrateur",
+            "add-admin-dialog": {
+                "title": "Créer un compte administrateur",
+                "field1": {
+                    "title": "Nom",
+                    "placeholder": "Entrez le nom"
+                },
+                "field2": {
+                    "title": "Prénom",
+                    "placeholder": "Entrez le prénom"
+                },
+                "field3": {
+                    "title": "Email",
+                    "placeholder": "Entrez l'email"
+                },
+                "field4": {
+                    "title": "Rôles",
+                    "placeholder": "Définissez les rôles à attribuer"
+                },
+                "cta": "Créer"
+            },
             "headers": {
-                "header_one": "ID No.",
-                "header_two": "Comptes",
-                "header_three": "Statut",
-                "header_four": "Actions"
+                "header1": "ID No.",
+                "header2": "Comptes",
+                "header3": "Rôle",
+                "header4": "Statut",
+                "header5": "Actions"
             },
             "actions": {
                 "edit": "Modifier",

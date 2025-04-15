@@ -22,6 +22,7 @@ import {
 } from "@/lib/api";
 import AdminWithRolesTable from "@/components/tables/AdminsWithRolesTable";
 import SectionContainer from "@/components/containers/SectionContainer";
+import AddAdminForm from "@/components/forms/admins-management/AddAdminForm";
 
 const RolesAndPermissionsPage = () => {
     const { t } = useTranslation();
@@ -111,7 +112,7 @@ const RolesAndPermissionsPage = () => {
                             {t("roles-and-permissions.admins-list.subheading")}
                         </p>
                     </div>
-                    {/* 
+
                     <Dialog>
                         <DialogTrigger className="cursor-pointer" asChild>
                             <IconLeftButton className="rounded-xl">
@@ -125,14 +126,14 @@ const RolesAndPermissionsPage = () => {
                             <DialogHeader>
                                 <DialogTitle>
                                     {t(
-                                        "roles-and-permissions.addRoleDialog.title"
+                                        "roles-and-permissions.admins-list.add-admin-dialog.title"
                                     )}
                                 </DialogTitle>
                                 <DialogDescription></DialogDescription>
-                                <AddRoleWithPermissionsForm />
+                                <AddAdminForm />
                             </DialogHeader>
                         </DialogContent>
-                    </Dialog> */}
+                    </Dialog>
                 </div>
 
                 <AdminWithRolesTable

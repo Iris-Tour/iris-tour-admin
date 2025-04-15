@@ -19,24 +19,47 @@ export type AdminWithRoles = { user: UserData; roles: Array<RoleType> };
 export const columns: ColumnDef<AdminWithRoles>[] = [
     {
         accessorKey: "user.id",
-        header: "ID No.",
+        header: () => {
+            return (
+                <Trans i18nKey="roles-and-permissions.admins-list.headers.header1" />
+            );
+        },
     },
     {
         id: "account",
-        header: "Comptes",
+        header: () => {
+            return (
+                <Trans i18nKey="roles-and-permissions.admins-list.headers.header2" />
+            );
+        },
         cell: ({ row }) => {
             const user = row.original.user;
             return <UserAccount user={user} />;
         },
     },
-    { id: "role", header: "Rôle" },
+    {
+        id: "role",
+        header: () => {
+            return (
+                <Trans i18nKey="roles-and-permissions.admins-list.headers.header3" />
+            );
+        },
+    },
     {
         accessorKey: "user.status",
-        header: "Statut",
+        header: () => {
+            return (
+                <Trans i18nKey="roles-and-permissions.admins-list.headers.header4" />
+            );
+        },
     },
     {
         id: "actions",
-        header: "Actions",
+        header: () => {
+            return (
+                <Trans i18nKey="roles-and-permissions.admins-list.headers.header5" />
+            );
+        },
         cell: ({ row }) => {
             const user = row.original.user;
             return (
