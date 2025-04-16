@@ -1,5 +1,5 @@
-import { BookSaved, Car, House2, Ticket } from "iconsax-react";
-import { Home, UserCog } from "lucide-react";
+import { BookSaved, Bus, Car, House2, Ticket } from "iconsax-react";
+import { MountainSnow, UserCog } from "lucide-react";
 
 export const sidebarItems = [
     {
@@ -13,8 +13,8 @@ export const sidebarItems = [
         icon: BookSaved,
     },
     {
-        title: "Excursions et Tours",
-        url: "/excursions-and-tours",
+        title: "Excursions",
+        url: "/excursions",
         icon: Car,
     },
     {
@@ -22,6 +22,12 @@ export const sidebarItems = [
         url: "/events",
         icon: Ticket,
     },
+    {
+        title: "Sites touristiques",
+        url: "/tourist-sites",
+        icon: MountainSnow,
+    },
+    { title: "Transports", url: "/transport", icon: Bus },
     {
         title: "Rôles & Permissions",
         url: "/roles-and-permissions",
