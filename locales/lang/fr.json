@@ -63,6 +63,16 @@
             }
         }
     },
+    "tours": {
+        "add-tour": "Créer une Excursion",
+        "export": "Exporter",
+        "print": "Imprimer",
+        "add-tour-dialog": {
+            "title": "Créer une Excursion",
+            "description": "Saisissez les informations de l'excursion",
+            "button": "Créer"
+        }
+    },
     "roles-and-permissions": {
         "heading": "Liste des rôles",
         "subheading": "Un rôle donne accès à des menus et fonctionnalités prédéfinis afin qu'en fonction du rôle attribué, un administrateur puisse accéder aux besoins de l'utilisateur.",

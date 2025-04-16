@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { Trans, useTranslation } from "react-i18next";
-import IconLeftButton from "@/components/buttons/IconLeftButton";
+import Button2 from "@/components/buttons/Button2";
 import { DialogClose } from "../ui/dialog";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { apiDeleteRole } from "@/lib/api";
@@ -56,17 +56,17 @@ const DeleteRoleForm: FC<DeleteRoleFormProps> = ({ role, roleId }) => {
             </div>
             <div className="flex items-center justify-end gap-3">
                 <DialogClose asChild>
-                    <IconLeftButton className="text-primary-color hover:text-white bg-white hover:bg-primary-color">
+                    <Button2 className="text-primary-color hover:text-white bg-white hover:bg-primary-color">
                         {t("roles-and-permissions.deleteRoleDialog.button1")}
-                    </IconLeftButton>
+                    </Button2>
                 </DialogClose>
 
-                <IconLeftButton
+                <Button2
                     onClick={onSubmit}
                     disabled={deleteRoleMutation.isPending}
                 >
                     {t("roles-and-permissions.deleteRoleDialog.button2")}
-                </IconLeftButton>
+                </Button2>
             </div>
         </div>
     );

@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/form";
 import { useTranslation } from "react-i18next";
 import Input1 from "@/components/inputs/Input1";
-import IconLeftButton from "@/components/buttons/IconLeftButton";
+import Button2 from "@/components/buttons/Button2";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { apiGetAllPermissions, apiUpdateRoleWithPermissions } from "@/lib/api";
@@ -187,12 +187,12 @@ const UpdateRoleWithPermissionsForm: FC<UpdateRoleWithPermissionsFormProps> = ({
                     </div>
                 </div>
                 <DialogClose id="dialog-close"></DialogClose>
-                <IconLeftButton
+                <Button2
                     type="submit"
                     disabled={updateRoleWithPermissionsMutation.isPending}
                 >
                     {t("roles-and-permissions.updateRoleDialog.cta")}
-                </IconLeftButton>
+                </Button2>
             </form>
         </Form>
     );

@@ -16,7 +16,7 @@ import { useTranslation } from "react-i18next";
 import useAuth from "@/hooks/useAuth";
 import Input1 from "@/components/inputs/Input1";
 import { DialogClose } from "@/components/ui/dialog";
-import IconLeftButton from "@/components/buttons/IconLeftButton";
+import Button2 from "@/components/buttons/Button2";
 
 const formSchema = z.object({
     lastname: z
@@ -120,14 +120,14 @@ const AddAdminForm = () => {
                     )}
                 />
                 <DialogClose id="dialog-close"></DialogClose>
-                <IconLeftButton
+                <Button2
                     type="submit"
                     // disabled={}
                 >
                     {t(
                         "roles-and-permissions.admins-list.add-admin-dialog.cta"
                     )}
-                </IconLeftButton>
+                </Button2>
             </form>
         </Form>
     );

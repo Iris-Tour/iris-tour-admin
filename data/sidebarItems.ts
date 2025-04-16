@@ -14,7 +14,7 @@ export const sidebarItems = [
     },
     {
         title: "Excursions",
-        url: "/excursions",
+        url: "/tours",
         icon: Car,
     },
     {

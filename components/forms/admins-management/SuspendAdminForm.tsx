@@ -1,4 +1,4 @@
-import IconLeftButton from "@/components/buttons/IconLeftButton";
+import Button2 from "@/components/buttons/Button2";
 import { DialogClose } from "@/components/ui/dialog";
 import { FC } from "react";
 import { Trans } from "react-i18next";
@@ -26,17 +26,17 @@ const SuspendAdminForm: FC<SuspendAdminFormProps> = ({
             </div>
             <div className="flex items-center justify-end gap-3">
                 <DialogClose asChild>
-                    <IconLeftButton className="text-primary-color hover:text-white bg-white hover:bg-primary-color">
+                    <Button2 className="text-primary-color hover:text-white bg-white hover:bg-primary-color">
                         <Trans i18nKey="roles-and-permissions.admins-list.suspend-admin-dialog.button1" />
-                    </IconLeftButton>
+                    </Button2>
                 </DialogClose>
 
-                <IconLeftButton
+                <Button2
                     onClick={onSubmit}
                     // disabled={deleteRoleMutation.isPending}
                 >
                     <Trans i18nKey="roles-and-permissions.admins-list.suspend-admin-dialog.button2" />
-                </IconLeftButton>
+                </Button2>
             </div>
         </div>
     );

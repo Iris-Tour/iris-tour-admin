@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import RoleCard from "@/components/cards/RoleCard";
-import IconLeftButton from "@/components/buttons/IconLeftButton";
+import Button2 from "@/components/buttons/Button2";
 import { PlusCircle } from "lucide-react";
 import {
     Dialog,
@@ -68,10 +68,10 @@ const RolesAndPermissionsPage = () => {
 
                     <Dialog>
                         <DialogTrigger className="cursor-pointer" asChild>
-                            <IconLeftButton className="rounded-xl">
+                            <Button2 className="rounded-xl">
                                 <PlusCircle />{" "}
                                 {t("roles-and-permissions.addRole")}
-                            </IconLeftButton>
+                            </Button2>
                         </DialogTrigger>
                         <DialogContent>
                             <DialogHeader>
@@ -115,12 +115,12 @@ const RolesAndPermissionsPage = () => {
 
                     <Dialog>
                         <DialogTrigger className="cursor-pointer" asChild>
-                            <IconLeftButton className="rounded-xl">
+                            <Button2 className="rounded-xl">
                                 <PlusCircle />{" "}
                                 {t(
                                     "roles-and-permissions.admins-list.add-admin"
                                 )}
-                            </IconLeftButton>
+                            </Button2>
                         </DialogTrigger>
                         <DialogContent>
                             <DialogHeader>
