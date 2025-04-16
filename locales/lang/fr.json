@@ -110,8 +110,8 @@
         "deleteRoleDialog": {
             "title": "Suppression",
             "description": "Voulez-vous vraiment supprimer le rôle : <b>{{role}}</b> ?",
-            "cancel": "Annuler",
-            "delete": "Supprimer",
+            "button1": "Annuler",
+            "button2": "Supprimer",
             "success-messages": {
                 "Role deleted successfully": "Le rôle <b>{{role}}</b> a été supprimé avec succès."
             }
@@ -151,6 +151,20 @@
                 "edit": "Modifier",
                 "suspend": "Bloquer",
                 "delete": "Supprimer"
+            },
+            "suspend-admin-dialog": {
+                "title": "Suspension de compte",
+                "description": "Voulez-vous vraiment suspendre le compte de l'administrateur : <b>{{adminName}}</b> ?",
+                "button1": "Annuler",
+                "button2": "Suspendre",
+                "success-messages": {}
+            },
+            "delete-admin-dialog": {
+                "title": "Suppression de compte",
+                "description": "Voulez-vous vraiment supprimer le compte de l'administrateur : <b>{{adminName}}</b> ?",
+                "button1": "Annuler",
+                "button2": "Supprimer",
+                "success-messages": {}
             }
         }
     }

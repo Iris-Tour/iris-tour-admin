@@ -13,6 +13,8 @@ import {
 import { Trans } from "react-i18next";
 import Button1 from "@/components/buttons/Button1";
 import { Edit2, Forbidden, Trash } from "iconsax-react";
+import SuspendAdminForm from "@/components/forms/admins-management/SuspendAdminForm";
+import DeleteAdminForm from "@/components/forms/admins-management/DeleteAdminForm";
 
 export type AdminWithRoles = { user: UserData; roles: Array<RoleType> };
 
@@ -87,22 +89,34 @@ export const columns: ColumnDef<AdminWithRoles>[] = [
                         </DialogTrigger>
                         <DialogContent>
                             <DialogHeader>
-                                <DialogTitle></DialogTitle>
+                                <DialogTitle>
+                                    <Trans i18nKey="roles-and-permissions.admins-list.suspend-admin-dialog.title" />
+                                </DialogTitle>
                                 <DialogDescription></DialogDescription>
+                                <SuspendAdminForm
+                                    adminName={`${user.firstname} ${user.lastname}`}
+                                    adminId={user.id.toString()}
+                                />
                             </DialogHeader>
                         </DialogContent>
                     </Dialog>
                     <Dialog>
                         <DialogTrigger className="text-red-500 hover:bg-red-500/10 px-2 py-2 rounded-md cursor-pointer transition">
                             <span className="sr-only">
-                                <Trans i18nKey="roles-and-permissions.admins-list.actions.suspend" />
+                                <Trans i18nKey="roles-and-permissions.admins-list.actions.delete" />
                             </span>
                             <Trash className="stroke-red-500 w-5 h-5" />
                         </DialogTrigger>
                         <DialogContent>
                             <DialogHeader>
-                                <DialogTitle></DialogTitle>
+                                <DialogTitle>
+                                    <Trans i18nKey="roles-and-permissions.admins-list.delete-admin-dialog.title" />
+                                </DialogTitle>
                                 <DialogDescription></DialogDescription>
+                                <DeleteAdminForm
+                                    adminName={`${user.firstname} ${user.lastname}`}
+                                    adminId={user.id.toString()}
+                                />
                             </DialogHeader>
                         </DialogContent>
                     </Dialog>

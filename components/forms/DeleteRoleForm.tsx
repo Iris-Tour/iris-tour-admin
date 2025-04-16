@@ -57,7 +57,7 @@ const DeleteRoleForm: FC<DeleteRoleFormProps> = ({ role, roleId }) => {
             <div className="flex items-center justify-end gap-3">
                 <DialogClose asChild>
                     <IconLeftButton className="text-primary-color hover:text-white bg-white hover:bg-primary-color">
-                        {t("roles-and-permissions.deleteRoleDialog.cancel")}
+                        {t("roles-and-permissions.deleteRoleDialog.button1")}
                     </IconLeftButton>
                 </DialogClose>
 
@@ -65,7 +65,7 @@ const DeleteRoleForm: FC<DeleteRoleFormProps> = ({ role, roleId }) => {
                     onClick={onSubmit}
                     disabled={deleteRoleMutation.isPending}
                 >
-                    {t("roles-and-permissions.deleteRoleDialog.delete")}
+                    {t("roles-and-permissions.deleteRoleDialog.button2")}
                 </IconLeftButton>
             </div>
         </div>
