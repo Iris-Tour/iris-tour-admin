@@ -74,7 +74,7 @@ const AddRoleWithPermissionsForm = () => {
             } else {
                 toast.error(
                     t(
-                        `roles-and-permissions.addRoleDialog.error-messages.${error.message}`
+                        `roles-and-permissions.addRoleDialog.error-messages.${error.error.code}`
                     )
                 );
             }

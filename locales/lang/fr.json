@@ -93,7 +93,7 @@
             },
             "cta": "Créer",
             "error-messages": {
-                "Password reset failed": "Token expiré. Veuillez faire une autre demande de réinitialisation de mot de passe."
+                "ROLE_ALREADY_EXISTS": "Ce nom de rôle existe déjà !"
             },
             "success-messages": {
                 "Permissions assigned successfully": "Le rôle et ses permissions ont été créés avec succès."
