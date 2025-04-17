@@ -11,15 +11,39 @@ import {
     DialogTrigger,
 } from "@/components/ui/dialog";
 import { Trans } from "react-i18next";
-import Button1 from "@/components/buttons/Button1";
 import { Edit2, Forbidden, Trash } from "iconsax-react";
 import SuspendAdminForm from "@/components/forms/admins-management/SuspendAdminForm";
 import DeleteAdminForm from "@/components/forms/admins-management/DeleteAdminForm";
 import { Row } from "@tanstack/react-table";
+import { Checkbox } from "@/components/ui/checkbox";
 
 export type AdminWithRoles = { user: UserData; roles: Array<RoleType> };
 
 export const columns: ColumnDef<AdminWithRoles>[] = [
+    {
+        id: "select",
+        header: ({ table }) => (
+            <Checkbox
+                checked={
+                    table.getIsAllPageRowsSelected() ||
+                    (table.getIsSomePageRowsSelected() && "indeterminate")
+                }
+                onCheckedChange={(value) =>
+                    table.toggleAllPageRowsSelected(!!value)
+                }
+                aria-label="Select all"
+            />
+        ),
+        cell: ({ row }) => (
+            <Checkbox
+                checked={row.getIsSelected()}
+                onCheckedChange={(value) => row.toggleSelected(!!value)}
+                aria-label="Select row"
+            />
+        ),
+        enableSorting: false,
+        enableHiding: false,
+    },
     {
         accessorKey: "user.id",
         header: () => {
