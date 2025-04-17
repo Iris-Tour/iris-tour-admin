@@ -15,6 +15,7 @@ import Button1 from "@/components/buttons/Button1";
 import { Edit2, Forbidden, Trash } from "iconsax-react";
 import SuspendAdminForm from "@/components/forms/admins-management/SuspendAdminForm";
 import DeleteAdminForm from "@/components/forms/admins-management/DeleteAdminForm";
+import { Row } from "@tanstack/react-table";
 
 export type AdminWithRoles = { user: UserData; roles: Array<RoleType> };
 
@@ -37,6 +38,15 @@ export const columns: ColumnDef<AdminWithRoles>[] = [
         cell: ({ row }) => {
             const user = row.original.user;
             return <UserAccount user={user} />;
+        },
+        filterFn: (row: Row<any>, columnId: string, filterValue: string) => {
+            const user = row.original.user;
+            const name =
+                `${user.firstname} ${user.lastname}`.toLowerCase() || "";
+            const email = user.email.toLowerCase() || "";
+            const value = filterValue.toLowerCase();
+
+            return name.includes(value) || email.includes(value);
         },
     },
     {
