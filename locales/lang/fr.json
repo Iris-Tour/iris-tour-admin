@@ -70,7 +70,12 @@
         "add-tour-dialog": {
             "title": "Créer une Excursion",
             "description": "Saisissez les informations de l'excursion",
-            "button": "Créer"
+            "field1": { "title": "Titre", "placeholder": "Entrez le titre" },
+            "field2": {
+                "title": "Description",
+                "placeholder": "Entrez la description"
+            },
+            "cta": "Créer"
         }
     },
     "roles-and-permissions": {

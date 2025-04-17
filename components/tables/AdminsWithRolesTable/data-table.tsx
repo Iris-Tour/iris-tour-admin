@@ -19,7 +19,7 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
-import { DataTablePagination } from "./DataTablePaginationProps";
+import { DataTablePagination } from "@/components/tables/DataTablePaginationProps";
 import SearchInput from "@/components/inputs/SearchInput";
 
 interface DataTableProps<TData, TValue> {

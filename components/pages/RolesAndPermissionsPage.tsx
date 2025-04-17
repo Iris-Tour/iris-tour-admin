@@ -130,7 +130,7 @@ const RolesAndPermissionsPage = () => {
                                     )}
                                 </DialogTitle>
                                 <DialogDescription></DialogDescription>
-                                <AddAdminForm />
+                                <AddAdminForm roles={rolesWithPermissions?.roles} />
                             </DialogHeader>
                         </DialogContent>
                     </Dialog>

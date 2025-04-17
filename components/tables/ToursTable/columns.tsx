@@ -16,7 +16,6 @@ import SuspendAdminForm from "@/components/forms/admins-management/SuspendAdminF
 import DeleteAdminForm from "@/components/forms/admins-management/DeleteAdminForm";
 import { Row } from "@tanstack/react-table";
 import { Checkbox } from "@/components/ui/checkbox";
-import SimpleChip from "@/components/chips/SimpleChip";
 
 export type AdminWithRoles = { user: UserData; roles: Array<RoleType> };
 
@@ -46,57 +45,10 @@ export const columns: ColumnDef<AdminWithRoles>[] = [
         enableHiding: false,
     },
     {
-        accessorKey: "user.id",
+        accessorKey: "tour.id",
         header: () => {
             return (
                 <Trans i18nKey="roles-and-permissions.admins-list.headers.header1" />
-            );
-        },
-    },
-    {
-        id: "account",
-        header: () => {
-            return (
-                <Trans i18nKey="roles-and-permissions.admins-list.headers.header2" />
-            );
-        },
-        cell: ({ row }) => {
-            const user = row.original.user;
-            return <UserAccount user={user} />;
-        },
-        filterFn: (row: Row<any>, columnId: string, filterValue: string) => {
-            const user = row.original.user;
-            const name =
-                `${user.firstname} ${user.lastname}`.toLowerCase() || "";
-            const email = user.email.toLowerCase() || "";
-            const value = filterValue.toLowerCase();
-
-            return name.includes(value) || email.includes(value);
-        },
-    },
-    {
-        id: "role",
-        header: () => {
-            return (
-                <Trans i18nKey="roles-and-permissions.admins-list.headers.header3" />
-            );
-        },
-        cell: ({ row }) => {
-            const roles = row.original.roles;
-            return (
-                <div className="flex gap-2">
-                    {roles.map((role, index) => (
-                        <SimpleChip key={index}>{role.slug}</SimpleChip>
-                    ))}
-                </div>
-            );
-        },
-    },
-    {
-        accessorKey: "user.status",
-        header: () => {
-            return (
-                <Trans i18nKey="roles-and-permissions.admins-list.headers.header4" />
             );
         },
     },
