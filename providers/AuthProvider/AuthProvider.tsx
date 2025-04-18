@@ -1,10 +1,11 @@
 "use client";
 
-import { FC, ReactNode, useEffect, useState } from "react";
+import { FC, ReactNode, useEffect, useState, useTransition } from "react";
 import { AuthContext } from "./AuthContext";
 import { QueryClient, useQuery } from "@tanstack/react-query";
 import { currentUser } from "@/lib/api";
 import { usePathname, useRouter } from "next/navigation";
+import Loading from "@/app/loading";
 
 interface AuthProviderProps {
     children: ReactNode;
@@ -23,6 +24,8 @@ const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
     const pathname = usePathname();
 
     const router = useRouter();
+
+    const [isPending, setTransition] = useTransition();
 
     const nonAuthPathnames = [
         "/reset-password",
@@ -43,23 +46,29 @@ const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
 
     const isAuthenticated = !!user && !!token;
 
+    const redirectTo = (url: string) => {
+        setTransition(() => router.push(url));
+    };
+
     useEffect(() => {
         const storedToken = JSON.parse(localStorage.getItem("token") ?? "{}");
 
-        const isNonAuthPath = nonAuthPathnames.some((path) => pathname.startsWith(path));
+        const isNonAuthPath = nonAuthPathnames.some((path) =>
+            pathname.startsWith(path)
+        );
 
         // Remove all paths that don't need auth
         if (!isNonAuthPath) {
             if (isError) {
-                router.push("/login");
+                redirectTo("/login");
             } else {
                 if (storedToken.token) {
                     // Check if the user is logged in at the backend side.
                     if (user && pathname === "/login") {
-                        router.push("/dashboard");
+                        redirectTo("/dashboard");
                     }
-                } else {
-                    router.push("/login");
+                } else if (pathname !== "/login") {
+                    redirectTo("/login");
                 }
             }
         }
@@ -69,21 +78,21 @@ const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
         localStorage.setItem("token", JSON.stringify(tokenData));
         setToken(tokenData.token);
         queryClient.setQueryData(["current-user"], userData);
-        router.push("/dashboard");
+        redirectTo("/dashboard");
     };
 
     const logout = () => {
         localStorage.removeItem("token");
         setToken(undefined);
         queryClient.removeQueries({ queryKey: ["current-user"] });
-        router.push("/login");
+        redirectTo("/login");
     };
 
     return (
         <AuthContext.Provider
             value={{ user, token, isAuthenticated, login, logout }}
         >
-            {children}
+            {isPending ? <Loading /> : children}
         </AuthContext.Provider>
     );
 };

@@ -69,6 +69,9 @@ export const apiLogin = (
 ): Promise<{ user: UserData; token: TokenData }> =>
     api(API_PREFIX, "/auth/login", "POST", data);
 
+export const apiLogout = (token: string): Promise<any> =>
+    sessionApi(API_PREFIX, "/auth/logout", "POST", undefined, token);
+
 export const currentUser = (
     data: GetCurrentUser
 ): Promise<{ user: UserData }> =>

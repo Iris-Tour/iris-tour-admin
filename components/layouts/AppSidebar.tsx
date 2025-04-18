@@ -19,6 +19,8 @@ import { usePathname } from "next/navigation";
 import useAuth from "@/hooks/useAuth";
 import { LogOutIcon } from "lucide-react";
 import Link from "next/link";
+import { useQuery } from "@tanstack/react-query";
+import { apiLogout } from "@/lib/api";
 
 export function AppSidebar() {
     const { logout } = useAuth();
@@ -30,6 +32,17 @@ export function AppSidebar() {
             (item, index) => item.url == pathname && setActiveLink(index)
         );
     }, [pathname]);
+
+    const logoutQuery = useQuery({
+        queryKey: ["logout"],
+        queryFn: () => apiLogout,
+        enabled: false,
+    });
+
+    const handleLogout = () => {
+        logout();
+        logoutQuery.refetch();
+    };
 
     return (
         <Sidebar collapsible="icon" className="bg-primary-color">
@@ -86,7 +99,7 @@ export function AppSidebar() {
                     >
                         <button
                             className="cursor-pointer"
-                            onClick={() => logout()}
+                            onClick={handleLogout}
                         >
                             <LogOutIcon />
                             <span>Déconnexion</span>
