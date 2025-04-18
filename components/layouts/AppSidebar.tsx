@@ -19,11 +19,11 @@ import { usePathname } from "next/navigation";
 import useAuth from "@/hooks/useAuth";
 import { LogOutIcon } from "lucide-react";
 import Link from "next/link";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { apiLogout } from "@/lib/api";
 
 export function AppSidebar() {
-    const { logout } = useAuth();
+    const { token, logout } = useAuth();
     const [activeLink, setActiveLink] = useState(-1);
     const pathname = usePathname();
 
@@ -33,15 +33,15 @@ export function AppSidebar() {
         );
     }, [pathname]);
 
-    const logoutQuery = useQuery({
-        queryKey: ["logout"],
-        queryFn: () => apiLogout,
-        enabled: false,
+    const logoutMutation = useMutation({
+        mutationFn: apiLogout,
+        onSuccess: () => {},
+        onError: () => {},
     });
 
     const handleLogout = () => {
         logout();
-        logoutQuery.refetch();
+        logoutMutation.mutate(token!);
     };
 
     return (

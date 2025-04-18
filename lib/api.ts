@@ -70,7 +70,7 @@ export const apiLogin = (
     api(API_PREFIX, "/auth/login", "POST", data);
 
 export const apiLogout = (token: string): Promise<any> =>
-    sessionApi(API_PREFIX, "/auth/logout", "POST", undefined, token);
+    sessionApi(API_PREFIX, "/auth/logout", "POST", {}, token);
 
 export const currentUser = (
     data: GetCurrentUser
