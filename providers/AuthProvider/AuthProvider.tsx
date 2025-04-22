@@ -61,7 +61,7 @@ const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
         );
 
         if (!isNonAuthPath) {
-            if (isError) {
+            if (isError && pathname !== "/login") {
                 redirectTo("/login");
             } else {
                 if (storedToken.token) {
@@ -93,7 +93,7 @@ const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
         <AuthContext.Provider
             value={{ user, token, isAuthenticated, login, logout }}
         >
-            {isPending || isLoading || !isClient ? <Loading /> : children}
+            {isPending || isLoading ? <Loading /> : children}
         </AuthContext.Provider>
     );
 };
