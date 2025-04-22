@@ -151,7 +151,7 @@ const AddAdminForm: FC<AddAdminFormProps> = ({ roles }) => {
                     name="roles"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel>
+                            <FormLabel className="text-base">
                                 {t(
                                     "roles-and-permissions.admins-list.add-admin-dialog.field4.title"
                                 )}
@@ -228,7 +228,7 @@ const AddAdminForm: FC<AddAdminFormProps> = ({ roles }) => {
                                         </Button3>
                                     </FormControl>
                                 </PopoverTrigger>
-                                <PopoverContent className="w-full p-0">
+                                <PopoverContent className="w-(--radix-popper-anchor-width) p-0">
                                     <Command className="w-full">
                                         <CommandInput placeholder="Rechercher un rôle..." />
                                         <CommandList>

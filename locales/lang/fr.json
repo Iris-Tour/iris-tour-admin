@@ -75,6 +75,10 @@
                 "title": "Description",
                 "placeholder": "Entrez la description"
             },
+            "field3": {
+                "title": "Date et heure de départ",
+                "placeholder": "Date et heure de départ"
+            },
             "cta": "Créer"
         }
     },

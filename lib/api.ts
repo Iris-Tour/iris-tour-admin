@@ -133,3 +133,29 @@ export const apiDeleteRole = (
     roleId: string
 ): Promise<DeleteRolePromise> =>
     sessionApi(API_PREFIX, `/acl/roles/${roleId}`, "DELETE", undefined, token);
+
+// Get all tours
+export const apiGetAllTours = (token: string): Promise<GetAllToursPromise[]> =>
+    sessionApi(API_PREFIX, `/tours`, "GET", undefined, token);
+
+// Create a trou
+export const apiStoreTour = (
+    token: string,
+    data: StoreTourMutation
+): Promise<StoreTourPromise> =>
+    sessionApi(API_PREFIX, "/tours", "POST", data, token);
+
+// Update a tour
+export const apiUpdateTour = (
+    token: string,
+    tourId: string,
+    data: UpdateTourMutation
+): Promise<UpdateTourPromise> =>
+    sessionApi(API_PREFIX, `/tours/${tourId}`, "PUT", data, token);
+
+// Delete a tour
+export const apiDeleteTour = (
+    token: string,
+    tourId: string
+): Promise<DeleteTourPromise> =>
+    sessionApi(API_PREFIX, `/tours/${tourId}`, "DELETE", undefined, token);

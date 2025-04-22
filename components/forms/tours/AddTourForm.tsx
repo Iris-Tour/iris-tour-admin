@@ -17,12 +17,33 @@ import useAuth from "@/hooks/useAuth";
 import Input1 from "@/components/inputs/Input1";
 import { DialogClose } from "@/components/ui/dialog";
 import Button2 from "@/components/buttons/Button2";
+import {
+    Popover,
+    PopoverContent,
+    PopoverTrigger,
+} from "@/components/ui/popover";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import { CalendarIcon } from "lucide-react";
+import { format } from "date-fns";
+import { Calendar } from "@/components/ui/calendar";
+import { TimePicker } from "@/components/inputs/time-picker/time-picker";
+import { fr } from "date-fns/locale";
+import Button3 from "@/components/buttons/Button3";
+import DateTimePicker from "@/components/inputs/DateTimePicker";
 
 const formSchema = z.object({
     title: z
         .string()
         .min(2, { message: "Le titre doit contenir au moins 2 caractères." }),
     description: z.string().min(1, { message: "Une description est requise." }),
+    departureDateTime: z
+        .string()
+        .min(1, { message: "Date et heure de départ requises." })
+        .refine((val) => {
+            const date = new Date(val);
+            return date;
+        }),
 });
 
 type FormSchemaType = z.infer<typeof formSchema>;
@@ -37,6 +58,7 @@ const AddTourForm = () => {
         defaultValues: {
             title: "",
             description: "",
+            departureDateTime: "",
         },
     });
 
@@ -87,13 +109,37 @@ const AddTourForm = () => {
                         </FormItem>
                     )}
                 />
-                <DialogClose id="dialog-close"></DialogClose>
-                <Button2
-                    type="submit"
-                    // disabled={}
-                >
-                    {t("tours.add-tour-dialog.cta")}
-                </Button2>
+                <FormField
+                    control={form.control}
+                    name="departureDateTime"
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel className="text-base">
+                                {t("tours.add-tour-dialog.field3.title")}
+                            </FormLabel>
+                            <DateTimePicker
+                                date={field.value.toString()}
+                                onSelect={(selectedDate: Date | undefined) =>
+                                    field.onChange(
+                                        selectedDate
+                                            ? selectedDate.toISOString()
+                                            : ""
+                                    )
+                                }
+                            />
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
+                <div>
+                    <DialogClose id="dialog-close"></DialogClose>
+                    <Button2
+                        type="submit"
+                        // disabled={}
+                    >
+                        {t("tours.add-tour-dialog.cta")}
+                    </Button2>
+                </div>
             </form>
         </Form>
     );
