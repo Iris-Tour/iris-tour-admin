@@ -30,7 +30,7 @@ const DeleteRoleForm: FC<DeleteRoleFormProps> = ({ role, roleId }) => {
                 <Trans
                     i18nKey="roles-and-permissions.deleteRoleDialog.success-messages.Role deleted successfully"
                     values={{ role: role }}
-                    components={{ b: <b className="text-primary-color" /> }}
+                    components={{ b: <b className="text-primary" /> }}
                 />
             );
         },
@@ -50,13 +50,13 @@ const DeleteRoleForm: FC<DeleteRoleFormProps> = ({ role, roleId }) => {
                     <Trans
                         i18nKey="roles-and-permissions.deleteRoleDialog.description"
                         values={{ role: role }}
-                        components={{ b: <b className="text-primary-color" /> }}
+                        components={{ b: <b className="text-primary" /> }}
                     />
                 </p>
             </div>
             <div className="flex items-center justify-end gap-3">
                 <DialogClose asChild>
-                    <Button2 className="text-primary-color hover:text-white bg-white hover:bg-primary-color">
+                    <Button2 className="text-primary hover:text-white bg-white hover:bg-primary">
                         {t("roles-and-permissions.deleteRoleDialog.button1")}
                     </Button2>
                 </DialogClose>

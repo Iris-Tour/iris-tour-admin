@@ -159,7 +159,7 @@ const AddRoleWithPermissionsForm = () => {
                                                                           )
                                                                       );
                                                             }}
-                                                            className="data-[state=checked]:border-primary-color data-[state=checked]:bg-primary-color w-6 h-6 cursor-pointer"
+                                                            className="data-[state=checked]:border-primary data-[state=checked]:bg-primary w-6 h-6 cursor-pointer"
                                                         />
                                                     </FormControl>
                                                     <FormLabel className="text-base cursor-pointer">

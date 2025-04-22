@@ -28,10 +28,10 @@ const StatsCard: FC<StatsCardProps> = ({
 }) => {
     return (
         <div className="relative flex items-center bg-white w-full gap-3 px-5 py-3 rounded-3xl">
-            <div className="absolute top-2 right-2 text-primary-color border-[2px] border-primary-color p-2 rotate-45 rounded-full">
+            <div className="absolute top-2 right-2 text-primary border-[2px] border-primary p-2 rotate-45 rounded-full">
                 <ArrowUpIcon className="h-4 w-4 stroke-3" />
             </div>
-            <div className="flex justify-center items-center text-secondary-color-2 bg-primary-color p-9 rounded-2xl">
+            <div className="flex justify-center items-center text-secondary-2 bg-primary p-9 rounded-2xl">
                 <Icon />
             </div>
             <div>

@@ -14,7 +14,7 @@ const Button3: FC<Button3Props> = ({ className, children, ...props }) => {
     return (
         <Button
             className={cn(
-                "font-semibold text-black hover:text-primary-color text-[clamp(14px,_2vw,_16px)] border-[1px] border-gray-300 bg-transparent hover:bg-white cursor-pointer",
+                "font-semibold text-black hover:text-primary text-[clamp(14px,_2vw,_16px)] border-[1px] border-gray-300 bg-transparent hover:bg-white cursor-pointer",
                 className
             )}
             {...props}

@@ -15,11 +15,10 @@ const queryClient = new QueryClient();
 
 const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
     const [token, setToken] = useState<string | undefined>(undefined);
+    const [isClient, setIsClient] = useState(false);
 
     const pathname = usePathname();
-
     const router = useRouter();
-
     const [isPending, setTransition] = useTransition();
 
     const nonAuthPathnames = [
@@ -27,11 +26,19 @@ const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
         "/reset-password/change-password",
     ];
 
+    // Safely access localStorage after hydration
+    useEffect(() => {
+        setIsClient(true);
+        const storedToken = JSON.parse(localStorage.getItem("token") ?? "{}");
+        if (storedToken.token) {
+            setToken(storedToken.token);
+        }
+    }, []);
+
     const {
         data: user,
         isLoading,
         isError,
-        refetch,
     } = useQuery({
         queryKey: ["current-user"],
         queryFn: () => currentUser({ token }),
@@ -46,19 +53,18 @@ const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
     };
 
     useEffect(() => {
-        const storedToken = JSON.parse(localStorage.getItem("token") ?? "{}");
+        if (!isClient) return;
 
+        const storedToken = JSON.parse(localStorage.getItem("token") ?? "{}");
         const isNonAuthPath = nonAuthPathnames.some((path) =>
             pathname.startsWith(path)
         );
 
-        // Remove all paths that don't need auth
         if (!isNonAuthPath) {
             if (isError) {
                 redirectTo("/login");
             } else {
                 if (storedToken.token) {
-                    // Check if the user is logged in at the backend side.
                     if (user && pathname === "/login") {
                         redirectTo("/dashboard");
                     }
@@ -67,7 +73,7 @@ const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
                 }
             }
         }
-    }, [user, router, pathname, isError]);
+    }, [user, router, pathname, isError, isClient]);
 
     const login = (userData: UserData, tokenData: TokenData) => {
         localStorage.setItem("token", JSON.stringify(tokenData));
@@ -87,7 +93,7 @@ const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
         <AuthContext.Provider
             value={{ user, token, isAuthenticated, login, logout }}
         >
-            {isPending || isLoading ? <Loading /> : children}
+            {isPending || isLoading || !isClient ? <Loading /> : children}
         </AuthContext.Provider>
     );
 };

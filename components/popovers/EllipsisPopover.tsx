@@ -20,7 +20,7 @@ const EllipsisPopover: FC<EllipsisPopoverProps> = ({
 }) => {
     return (
         <Popover>
-            <PopoverTrigger className="text-primary-color hover:bg-primary-color/10 p-1 rounded-md cursor-pointer transition">
+            <PopoverTrigger className="text-primary hover:bg-primary/10 p-1 rounded-md cursor-pointer transition">
                 {ellipsisOrientation === "horizontal" ? (
                     <Ellipsis className="w-4 h-4" />
                 ) : (
@@ -29,7 +29,7 @@ const EllipsisPopover: FC<EllipsisPopoverProps> = ({
             </PopoverTrigger>
             <PopoverContent
                 className={cn(
-                    "flex flex-col border-primary-color w-fit gap-2 shadow-lg",
+                    "flex flex-col border-primary w-fit gap-2 shadow-lg",
                     className
                 )}
             >

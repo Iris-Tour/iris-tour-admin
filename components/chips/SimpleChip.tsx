@@ -5,7 +5,7 @@ interface SimpleChipProps {
 }
 const SimpleChip: FC<SimpleChipProps> = ({ children }) => {
     return (
-        <span className="text-white bg-primary-color px-3 py-1 rounded-lg">
+        <span className="text-white bg-primary px-3 py-1 rounded-lg">
             {children}
         </span>
     );

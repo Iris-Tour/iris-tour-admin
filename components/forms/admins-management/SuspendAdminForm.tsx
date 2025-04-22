@@ -20,13 +20,13 @@ const SuspendAdminForm: FC<SuspendAdminFormProps> = ({
                     <Trans
                         i18nKey="roles-and-permissions.admins-list.suspend-admin-dialog.description"
                         values={{ adminName: adminName }}
-                        components={{ b: <b className="text-primary-color" /> }}
+                        components={{ b: <b className="text-primary" /> }}
                     />
                 </p>
             </div>
             <div className="flex items-center justify-end gap-3">
                 <DialogClose asChild>
-                    <Button2 className="text-primary-color hover:text-white bg-white hover:bg-primary-color">
+                    <Button2 className="text-primary hover:text-white bg-white hover:bg-primary">
                         <Trans i18nKey="roles-and-permissions.admins-list.suspend-admin-dialog.button1" />
                     </Button2>
                 </DialogClose>

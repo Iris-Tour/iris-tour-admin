@@ -87,7 +87,7 @@ const ResetPasswordForm = () => {
                         )}
                     />
                     <Link
-                        className="self-end underline text-secondary-color-2"
+                        className="self-end underline text-secondary-2"
                         href="/login"
                     >
                         {t("reset-password.change-password-form.loginLink")}

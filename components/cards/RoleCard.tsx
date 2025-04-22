@@ -36,12 +36,12 @@ const RoleCard: FC<RoleCardProps> = ({ role, roleId, rolePermissions }) => {
     }, [rolePermissions]);
 
     return (
-        <div className="flex border border-primary-color/15 bg-white w-fit gap-5 px-5 py-3 rounded-2xl shadow-lg">
+        <div className="flex border border-primary/15 bg-white w-fit gap-5 px-5 py-3 rounded-2xl shadow-lg">
             <h2 className="font-bold text-lg">{role}</h2>
             <Separator orientation="vertical" />
             <EllipsisPopover>
                 <Dialog>
-                    <DialogTrigger className="text-primary-color hover:bg-primary-color/5 px-3 py-1 rounded-md cursor-pointer transition">
+                    <DialogTrigger className="text-primary hover:bg-primary/5 px-3 py-1 rounded-md cursor-pointer transition">
                         {t("roles-and-permissions.role-card.update")}
                     </DialogTrigger>
                     <DialogContent>

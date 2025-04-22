@@ -112,11 +112,11 @@ export const columns: ColumnDef<AdminWithRoles>[] = [
             return (
                 <div className="flex items-center gap-3">
                     <Dialog>
-                        <DialogTrigger className="text-primary-color hover:bg-primary-color/10 px-2 py-2 rounded-md cursor-pointer transition">
+                        <DialogTrigger className="text-primary hover:bg-primary/10 px-2 py-2 rounded-md cursor-pointer transition">
                             <span className="sr-only">
                                 <Trans i18nKey="roles-and-permissions.admins-list.actions.edit" />
                             </span>
-                            <Edit2 className="stroke-primary-color w-5 h-5" />
+                            <Edit2 className="stroke-primary w-5 h-5" />
                         </DialogTrigger>
                         <DialogContent>
                             <DialogHeader>
@@ -126,11 +126,11 @@ export const columns: ColumnDef<AdminWithRoles>[] = [
                         </DialogContent>
                     </Dialog>
                     <Dialog>
-                        <DialogTrigger className="text-secondary-color hover:bg-secondary-color/10 px-2 py-2 rounded-md cursor-pointer transition">
+                        <DialogTrigger className="text-secondary hover:bg-secondary/10 px-2 py-2 rounded-md cursor-pointer transition">
                             <span className="sr-only">
                                 <Trans i18nKey="roles-and-permissions.admins-list.actions.suspend" />
                             </span>
-                            <Forbidden className="stroke-secondary-color w-5 h-5" />
+                            <Forbidden className="stroke-secondary w-5 h-5" />
                         </DialogTrigger>
                         <DialogContent>
                             <DialogHeader>

@@ -45,11 +45,11 @@ export function AppSidebar() {
     };
 
     return (
-        <Sidebar collapsible="icon" className="bg-primary-color">
+        <Sidebar collapsible="icon" className="bg-primary">
             <SidebarHeader className="flex flex-col items-center gap-3">
                 <div className="font-bold text-[clamp(24px,_8vw,_57px)] group-data-[collapsible=icon]:text-lg">
                     <span className="text-white">Lo</span>
-                    <span className="text-secondary-color">go</span>
+                    <span className="text-secondary">go</span>
                 </div>
                 <SidebarTrigger className="text-white/75 bg-transparent hover:bg-transparent px-3 mr-8 group-data-[collapsible=icon]:mr-0" />
             </SidebarHeader>
