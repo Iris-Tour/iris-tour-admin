@@ -3,7 +3,7 @@ import RolesAndPermissionsPage from "@/components/pages/RolesAndPermissionsPage"
 
 const RolesAndPermissions = () => {
     return (
-        <PageContainer className="flex flex-col items-center gap-5">
+        <PageContainer>
             <RolesAndPermissionsPage />
         </PageContainer>
     );

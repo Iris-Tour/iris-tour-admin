@@ -14,12 +14,7 @@ interface AuthProviderProps {
 const queryClient = new QueryClient();
 
 const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
-    const [token, setToken] = useState<string | undefined>(() => {
-        return typeof window !== "undefined"
-            ? JSON.parse(localStorage.getItem("token") ?? "{}").token ??
-                  undefined
-            : undefined;
-    });
+    const [token, setToken] = useState<string | undefined>(undefined);
 
     const pathname = usePathname();
 
@@ -92,7 +87,7 @@ const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
         <AuthContext.Provider
             value={{ user, token, isAuthenticated, login, logout }}
         >
-            {isPending ? <Loading /> : children}
+            {isPending || isLoading ? <Loading /> : children}
         </AuthContext.Provider>
     );
 };
