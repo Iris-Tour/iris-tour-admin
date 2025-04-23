@@ -1,6 +1,5 @@
 "use client";
 
-import UserAccount from "@/components/UserAccount";
 import { ColumnDef } from "@tanstack/react-table";
 import {
     Dialog,
@@ -11,15 +10,22 @@ import {
     DialogTrigger,
 } from "@/components/ui/dialog";
 import { Trans } from "react-i18next";
-import { Edit2, Forbidden, Trash } from "iconsax-react";
+import {
+    Calendar,
+    Edit2,
+    Eye,
+    Forbidden,
+    Location,
+    Trash,
+} from "iconsax-react";
 import SuspendAdminForm from "@/components/forms/admins-management/SuspendAdminForm";
 import DeleteAdminForm from "@/components/forms/admins-management/DeleteAdminForm";
 import { Row } from "@tanstack/react-table";
 import { Checkbox } from "@/components/ui/checkbox";
+import { format } from "date-fns";
+import { fr } from "date-fns/locale";
 
-export type AdminWithRoles = { user: UserData; roles: Array<RoleType> };
-
-export const columns: ColumnDef<AdminWithRoles>[] = [
+export const columns: ColumnDef<ToursType>[] = [
     {
         id: "select",
         header: ({ table }) => (
@@ -45,75 +51,137 @@ export const columns: ColumnDef<AdminWithRoles>[] = [
         enableHiding: false,
     },
     {
-        accessorKey: "tour.id",
-        header: () => {
+        accessorKey: "title",
+        header: "Nom",
+        cell: ({ row }) => {
+            const tour = row.original;
+
+            return <span className="font-semibold">{tour.title}</span>;
+        },
+    },
+    {
+        accessorKey: "description",
+        header: "Description",
+        cell: ({ row }) => {
+            const tour = row.original;
+
             return (
-                <Trans i18nKey="roles-and-permissions.admins-list.headers.header1" />
+                <div className="truncate max-w-[250px]">
+                    <span className="text-foreground">{tour.description}</span>
+                </div>
             );
         },
     },
     {
-        id: "actions",
+        id: "journey",
         header: () => {
             return (
-                <Trans i18nKey="roles-and-permissions.admins-list.headers.header5" />
+                <div className="flex items-center gap-1">
+                    Itinéraire
+                    <Location className="w-4 h-4 stroke-accent-foreground" />
+                </div>
             );
         },
         cell: ({ row }) => {
-            const user = row.original.user;
+            const tour = row.original;
+
+            return (
+                <div className="font-semibold text-primary">
+                    <span>{tour.departurePoint}</span>
+                    {" - "}
+                    <span>{tour.arrivalPoint}</span>
+                </div>
+            );
+        },
+    },
+    {
+        accessorKey: "excursionPrice",
+        header: "Prix",
+        cell: ({ row }) => {
+            const tour = row.original;
+
+            return <span className="font-bold">{tour.excursionPrice}</span>;
+        },
+    },
+    {
+        accessorKey: "departureDateTime",
+        header: () => {
+            return (
+                <div className="flex items-center gap-1">
+                    Départ
+                    <Calendar className="w-4 h-4 stroke-accent-foreground" />
+                </div>
+            );
+        },
+        cell: ({ row }) => {
+            const tour = row.original;
+
+            return (
+                <div className="flex flex-col text-foreground">
+                    <span>
+                        {format(
+                            new Date(tour.departureDateTime),
+                            "E dd MMMM yyyy",
+                            { locale: fr }
+                        )}
+                    </span>
+                    <span>
+                        {format(new Date(tour.departureDateTime), "HH:mm", {
+                            locale: fr,
+                        })}
+                    </span>
+                </div>
+            );
+        },
+    },
+    {
+        accessorKey: "status",
+        header: "Statut",
+    },
+    {
+        id: "actions",
+        header: "Actions",
+        cell: ({ row }) => {
+            const tour = row.original;
             return (
                 <div className="flex items-center gap-3">
                     <Dialog>
                         <DialogTrigger className="text-primary hover:bg-primary/10 px-2 py-2 rounded-md cursor-pointer transition">
                             <span className="sr-only">
-                                <Trans i18nKey="roles-and-permissions.admins-list.actions.edit" />
+                                Modifier l'excursion
                             </span>
                             <Edit2 className="stroke-primary w-5 h-5" />
                         </DialogTrigger>
                         <DialogContent>
                             <DialogHeader>
-                                <DialogTitle></DialogTitle>
+                                <DialogTitle>Modifier l'excursion</DialogTitle>
                                 <DialogDescription></DialogDescription>
-                            </DialogHeader>
-                        </DialogContent>
-                    </Dialog>
-                    <Dialog>
-                        <DialogTrigger className="text-secondary hover:bg-secondary/10 px-2 py-2 rounded-md cursor-pointer transition">
-                            <span className="sr-only">
-                                <Trans i18nKey="roles-and-permissions.admins-list.actions.suspend" />
-                            </span>
-                            <Forbidden className="stroke-secondary w-5 h-5" />
-                        </DialogTrigger>
-                        <DialogContent>
-                            <DialogHeader>
-                                <DialogTitle>
-                                    <Trans i18nKey="roles-and-permissions.admins-list.suspend-admin-dialog.title" />
-                                </DialogTitle>
-                                <DialogDescription></DialogDescription>
-                                <SuspendAdminForm
-                                    adminName={`${user.firstname} ${user.lastname}`}
-                                    adminId={user.id.toString()}
-                                />
                             </DialogHeader>
                         </DialogContent>
                     </Dialog>
                     <Dialog>
                         <DialogTrigger className="text-red-500 hover:bg-red-500/10 px-2 py-2 rounded-md cursor-pointer transition">
                             <span className="sr-only">
-                                <Trans i18nKey="roles-and-permissions.admins-list.actions.delete" />
+                                Supprimer l'excursion
                             </span>
                             <Trash className="stroke-red-500 w-5 h-5" />
                         </DialogTrigger>
                         <DialogContent>
                             <DialogHeader>
-                                <DialogTitle>
-                                    <Trans i18nKey="roles-and-permissions.admins-list.delete-admin-dialog.title" />
-                                </DialogTitle>
+                                <DialogTitle>Supprimer l'excursion</DialogTitle>
                                 <DialogDescription></DialogDescription>
-                                <DeleteAdminForm
-                                    adminName={`${user.firstname} ${user.lastname}`}
-                                    adminId={user.id.toString()}
-                                />
+                            </DialogHeader>
+                        </DialogContent>
+                    </Dialog>
+                    <Dialog>
+                        <DialogTrigger className="text-secondary hover:bg-secondary/10 px-2 py-2 rounded-md cursor-pointer transition">
+                            <span className="sr-only">Détails</span>
+                            <Eye className="stroke-secondary w-5 h-5" />
+                        </DialogTrigger>
+                        <DialogContent>
+                            <DialogHeader>
+                                <DialogTitle>Détails</DialogTitle>
+                                <DialogDescription></DialogDescription>
                             </DialogHeader>
                         </DialogContent>
                     </Dialog>

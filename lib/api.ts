@@ -135,7 +135,7 @@ export const apiDeleteRole = (
     sessionApi(API_PREFIX, `/acl/roles/${roleId}`, "DELETE", undefined, token);
 
 // Get all tours
-export const apiGetAllTours = (token: string): Promise<GetAllToursPromise[]> =>
+export const apiGetAllTours = (token: string): Promise<GetAllToursPromise> =>
     sessionApi(API_PREFIX, `/tours`, "GET", undefined, token);
 
 // Create a trou

@@ -65,7 +65,7 @@ export function DataTable<TData, TValue>({
                         className="max-w-sm"
                     />
                 </div>
-                <Table>
+                <Table className="text-[clamp(14px,_2vw,_16px)]">
                     <TableHeader>
                         {table.getHeaderGroups().map((headerGroup) => (
                             <TableRow

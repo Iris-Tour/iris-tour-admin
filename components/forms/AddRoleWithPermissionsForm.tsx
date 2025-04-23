@@ -51,7 +51,7 @@ const AddRoleWithPermissionsForm = () => {
         },
     });
 
-    const StoreRoleWithPermissionsMutation = useMutation({
+    const storeRoleWithPermissionsMutation = useMutation({
         mutationFn: (variables: { data: StoreRoleWithPermissionsMutation }) =>
             apiStoreRoleWithPermissions(token!, variables.data),
         onSuccess: () => {
@@ -82,7 +82,7 @@ const AddRoleWithPermissionsForm = () => {
     });
 
     function onSubmit(values: FormSchemaType) {
-        StoreRoleWithPermissionsMutation.mutate({ data: values });
+        storeRoleWithPermissionsMutation.mutate({ data: values });
     }
 
     return (
@@ -179,7 +179,7 @@ const AddRoleWithPermissionsForm = () => {
                 <DialogClose id="dialog-close"></DialogClose>
                 <Button2
                     type="submit"
-                    disabled={StoreRoleWithPermissionsMutation.isPending}
+                    disabled={storeRoleWithPermissionsMutation.isPending}
                 >
                     {t("roles-and-permissions.addRoleDialog.cta")}
                 </Button2>

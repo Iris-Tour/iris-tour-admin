@@ -1,9 +1,9 @@
 import React, { FC } from "react";
-import { DataTable } from "@/components/tables/AdminsWithRolesTable/data-table";
-import { AdminWithRoles, columns } from "./columns";
+import { DataTable } from "./data-table";
+import { columns } from "./columns";
 
 interface Props {
-    data: AdminWithRoles[];
+    data: ToursType[];
 }
 
 const Table: FC<Props> = ({ data }) => {

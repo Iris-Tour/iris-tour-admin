@@ -156,35 +156,39 @@ type DeleteRolePromise = {
 };
 
 // Tours types
-type GetAllToursPromise = {
+type ToursType = {
     id: number;
-    title: "Randonnée en montagne";
-    description: "Une randonnée tranquille dans les montagnes du Jura.";
-    duration: "03:00:00";
-    difficulty: "easy";
-    totalDistance: "8.50";
-    excursionPrice: "25.00";
-    departureDate: "2025-04-20";
-    departureTime: "08:30:00";
-    departurePoint: "Parking des Rousses";
-    arrivalPoint: "Sommet de la Dôle";
-    mainImages: [];
-    maxParticipants: 15;
-    requiredEquipment: "Chaussures de randonnée";
-    assignedGuide: "guide_001";
-    recommendedLevel: "Débutant";
-    createdAt: "2025-04-17T14:16:25.959+00:00";
-    updatedAt: "2025-04-17T14:16:25.959+00:00";
-};
+    title: string;
+    description: string;
+    duration: string;
+    difficulty: string;
+    totalDistance: string;
+    excursionPrice: string;
+    departureDateTime: string;
+    departurePoint: string;
+    arrivalPoint: string;
+    mainImages: Array<{
+        order: number;
+        path: string;
+    }>;
+    maxParticipants: number;
+    requiredEquipment: string;
+    assignedGuide: string;
+    recommendedLevel: string;
+    createdAt: string;
+    updatedAt: string;
+}
+
+type GetAllToursPromise = Array<ToursType>;
 
 type StoreTourMutation = {
-    title: "Randonnée en montagne";
-    description: "Une randonnée tranquille dans les montagnes du Jura.";
+    title: string;
+    description: string;
     duration: "03:00";
-    difficulty: "easy";
+    difficulty: string;
     totalDistance: 8.5;
     excursionPrice: 25;
-    departureDate: "2025-04-20";
+    departureDate: string;
     departureTime: "08:30";
     departurePoint: "Parking des Rousses";
     arrivalPoint: "Sommet de la Dôle";
@@ -195,13 +199,13 @@ type StoreTourMutation = {
 };
 
 type StoreTourPromise = {
-    title: "Randonnée en montagne";
-    description: "Une randonnée tranquille dans les montagnes du Jura.";
+    title: string;
+    description: string;
     duration: "03:00";
-    difficulty: "easy";
+    difficulty: string;
     totalDistance: 8.5;
     excursionPrice: 25;
-    departureDate: "2025-04-20";
+    departureDate: string;
     departureTime: "08:30";
     departurePoint: "Parking des Rousses";
     arrivalPoint: "Sommet de la Dôle";
@@ -212,13 +216,13 @@ type StoreTourPromise = {
 };
 
 type UpdateTourMutation = {
-    title: "Randonnée en montagne";
-    description: "Une randonnée tranquille dans les montagnes du Jura.";
+    title: string;
+    description: string;
     duration: "03:00";
-    difficulty: "easy";
+    difficulty: string;
     totalDistance: 8.5;
     excursionPrice: 25;
-    departureDate: "2025-04-20";
+    departureDate: string;
     departureTime: "08:30";
     departurePoint: "Parking des Rousses";
     arrivalPoint: "Sommet de la Dôle";
@@ -229,13 +233,13 @@ type UpdateTourMutation = {
 };
 
 type UpdateTourPromise = {
-    title: "Randonnée en montagne";
-    description: "Une randonnée tranquille dans les montagnes du Jura.";
+    title: string;
+    description: string;
     duration: "03:00";
-    difficulty: "easy";
+    difficulty: string;
     totalDistance: 8.5;
     excursionPrice: 25;
-    departureDate: "2025-04-20";
+    departureDate: string;
     departureTime: "08:30";
     departurePoint: "Parking des Rousses";
     arrivalPoint: "Sommet de la Dôle";
@@ -246,13 +250,13 @@ type UpdateTourPromise = {
 };
 
 type DeleteTourPromise = {
-    title: "Randonnée en montagne";
-    description: "Une randonnée tranquille dans les montagnes du Jura.";
+    title: string;
+    description: string;
     duration: "03:00";
-    difficulty: "easy";
+    difficulty: string;
     totalDistance: 8.5;
     excursionPrice: 25;
-    departureDate: "2025-04-20";
+    departureDate: string;
     departureTime: "08:30";
     departurePoint: "Parking des Rousses";
     arrivalPoint: "Sommet de la Dôle";

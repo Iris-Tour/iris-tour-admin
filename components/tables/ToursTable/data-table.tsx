@@ -54,18 +54,18 @@ export function DataTable<TData, TValue>({
                         placeholder="Rechercher par nom ou email..."
                         value={
                             (table
-                                .getColumn("account")
+                                .getColumn("title")
                                 ?.getFilterValue() as string) ?? ""
                         }
                         onChange={(event) =>
                             table
-                                .getColumn("account")
+                                .getColumn("title")
                                 ?.setFilterValue(event.target.value)
                         }
                         className="max-w-sm"
                     />
                 </div>
-                <Table>
+                <Table className="text-[clamp(14px,_2vw,_16px)]">
                     <TableHeader>
                         {table.getHeaderGroups().map((headerGroup) => (
                             <TableRow

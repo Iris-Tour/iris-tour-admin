@@ -15,17 +15,13 @@ import { TimePicker } from "./time-picker/time-picker";
 import { cn } from "@/lib/utils";
 import { useTranslation } from "react-i18next";
 
-interface DateTimePicker {
+interface DatePicker {
     date?: string;
     onSelect: (selectedDate: Date | undefined) => void;
     placeholder?: string;
 }
 
-const DateTimePicker: FC<DateTimePicker> = ({
-    date = "",
-    onSelect,
-    placeholder,
-}) => {
+const DatePicker: FC<DatePicker> = ({ date = "", onSelect, placeholder }) => {
     const { t } = useTranslation();
     return (
         <Popover>
@@ -40,7 +36,7 @@ const DateTimePicker: FC<DateTimePicker> = ({
                 >
                     <CalendarIcon className="ml-2 mr-2 h-4 w-4" />
                     {date ? (
-                        format(date, "dd MMMM yyyy 'à' HH'h' mm", {
+                        format(date, "dd MMMM yyyy", {
                             locale: fr,
                         })
                     ) : (
@@ -71,10 +67,9 @@ const DateTimePicker: FC<DateTimePicker> = ({
                     locale={fr}
                     initialFocus
                 />
-                <TimePicker date={new Date(date)} setDate={onSelect} />
             </PopoverContent>
         </Popover>
     );
 };
 
-export default DateTimePicker;
+export default DatePicker;
