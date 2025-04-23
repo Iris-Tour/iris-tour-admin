@@ -29,7 +29,7 @@ const DateTimePicker: FC<DateTimePicker> = ({
     const { t } = useTranslation();
     return (
         <Popover>
-            <PopoverTrigger className="w-full py-6" asChild>
+            <PopoverTrigger className="text-[clamp(14px,_2vw,_16px)] bg-white w-full py-6" asChild>
                 <Button3
                     type="button"
                     variant={"outline"}

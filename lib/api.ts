@@ -138,7 +138,7 @@ export const apiDeleteRole = (
 export const apiGetAllTours = (token: string): Promise<GetAllToursPromise> =>
     sessionApi(API_PREFIX, `/tours`, "GET", undefined, token);
 
-// Create a trou
+// Create a tour
 export const apiStoreTour = (
     token: string,
     data: StoreTourMutation

@@ -156,112 +156,69 @@ type DeleteRolePromise = {
 };
 
 // Tours types
-type ToursType = {
+type TourType = {
     id: number;
     title: string;
     description: string;
     duration: string;
-    difficulty: string;
-    totalDistance: string;
-    excursionPrice: string;
+    difficulty: number;
+    totalDistance: number;
+    excursionPrice: number;
     departureDateTime: string;
     departurePoint: string;
+    arrivalDateTime: string;
     arrivalPoint: string;
-    mainImages: Array<{
-        order: number;
-        path: string;
-    }>;
+    mainImages: (File | undefined)[];
     maxParticipants: number;
     requiredEquipment: string;
     assignedGuide: string;
-    recommendedLevel: string;
+    status: number;
     createdAt: string;
     updatedAt: string;
-}
+};
 
-type GetAllToursPromise = Array<ToursType>;
+type GetAllToursPromise = Array<TourType>;
 
 type StoreTourMutation = {
     title: string;
     description: string;
-    duration: "03:00";
-    difficulty: string;
-    totalDistance: 8.5;
-    excursionPrice: 25;
-    departureDate: string;
-    departureTime: "08:30";
-    departurePoint: "Parking des Rousses";
-    arrivalPoint: "Sommet de la Dôle";
-    maxParticipants: 15;
-    requiredEquipment: "Chaussures de randonnée";
-    assignedGuide: "guide_001";
-    recommendedLevel: "Débutant";
+    difficulty: number;
+    totalDistance: number;
+    excursionPrice: number;
+    departureDateTime: string;
+    departurePoint: string;
+    arrivalDateTime: string;
+    arrivalPoint: string;
+    maxParticipants: number;
+    requiredEquipment: string;
+    assignedGuide: string;
+    status: number;
 };
 
 type StoreTourPromise = {
-    title: string;
-    description: string;
-    duration: "03:00";
-    difficulty: string;
-    totalDistance: 8.5;
-    excursionPrice: 25;
-    departureDate: string;
-    departureTime: "08:30";
-    departurePoint: "Parking des Rousses";
-    arrivalPoint: "Sommet de la Dôle";
-    maxParticipants: 15;
-    requiredEquipment: "Chaussures de randonnée";
-    assignedGuide: "guide_001";
-    recommendedLevel: "Débutant";
+    message: string;
 };
 
 type UpdateTourMutation = {
     title: string;
     description: string;
-    duration: "03:00";
-    difficulty: string;
-    totalDistance: 8.5;
-    excursionPrice: 25;
-    departureDate: string;
-    departureTime: "08:30";
-    departurePoint: "Parking des Rousses";
-    arrivalPoint: "Sommet de la Dôle";
-    maxParticipants: 15;
-    requiredEquipment: "Chaussures de randonnée";
-    assignedGuide: "guide_001";
-    recommendedLevel: "Débutant";
+    difficulty: number;
+    totalDistance: number;
+    excursionPrice: number;
+    departureDateTime: string;
+    departurePoint: string;
+    arrivalDateTime: string;
+    arrivalPoint: string;
+    maxParticipants: number;
+    requiredEquipment: string;
+    assignedGuide: string;
+    status: number;
 };
 
 type UpdateTourPromise = {
-    title: string;
-    description: string;
-    duration: "03:00";
-    difficulty: string;
-    totalDistance: 8.5;
-    excursionPrice: 25;
-    departureDate: string;
-    departureTime: "08:30";
-    departurePoint: "Parking des Rousses";
-    arrivalPoint: "Sommet de la Dôle";
-    maxParticipants: 15;
-    requiredEquipment: "Chaussures de randonnée";
-    assignedGuide: "guide_001";
-    recommendedLevel: "Débutant";
+    message: string;
 };
 
 type DeleteTourPromise = {
-    title: string;
-    description: string;
-    duration: "03:00";
-    difficulty: string;
-    totalDistance: 8.5;
-    excursionPrice: 25;
-    departureDate: string;
-    departureTime: "08:30";
-    departurePoint: "Parking des Rousses";
-    arrivalPoint: "Sommet de la Dôle";
-    maxParticipants: 15;
-    requiredEquipment: "Chaussures de randonnée";
-    assignedGuide: "guide_001";
-    recommendedLevel: "Débutant";
+    message: string;
 };

@@ -21,7 +21,7 @@ export default async function RootLayout({
         <SidebarProvider defaultOpen={defaultOpen}>
             <AppSidebar />
             <SidebarInset>
-                <main className="flex flex-col bg-[#f1f1f1] w-full h-full">
+                <main className="flex flex-col bg-background w-full h-full">
                     <Header />
                     <div className="w-full h-full pt-7 pb-24 px-7">
                         {children}

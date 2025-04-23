@@ -25,66 +25,42 @@ import NumericInput from "@/components/inputs/NumericInput";
 import Textarea1 from "@/components/inputs/Textarea1";
 import { FileUpload } from "@/components/inputs/FileUpload";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { apiStoreTour } from "@/lib/api";
-import { storeTourSchema } from "@/utils/schemas/store-tour-schema";
+import { apiUpdateTour } from "@/lib/api";
+import { FC } from "react";
+import { updateTourSchema } from "@/utils/schemas/update-tour-schema";
 
-const formSchema = storeTourSchema;
+interface UpdateTourFormProps {
+    tour: TourType;
+}
 
-type FormSchemaType = z.infer<typeof formSchema>;
+const formSchema = updateTourSchema;
 
-const AddTourForm = () => {
+const UpdateTourForm: FC<UpdateTourFormProps> = ({ tour }) => {
     const { t } = useTranslation();
-
     const { token } = useAuth();
-
     const queryClient = useQueryClient();
 
-    const form = useForm<FormSchemaType>({
+    const form = useForm({
         resolver: zodResolver(formSchema),
-        defaultValues: {
-            title: "",
-            description: "",
-            departurePoint: "",
-            arrivalPoint: "",
-            departureDateTime: "",
-            arrivalDateTime: "",
-            difficulty: 0,
-            excursionPrice: undefined,
-            totalDistance: undefined,
-            maxParticipants: undefined,
-            assignedGuide: "",
-            requiredEquipment: "",
-            mainImages: undefined,
-            status: 0,
-        },
+        defaultValues: { ...tour },
     });
 
-    const storeTourMutation = useMutation({
-        mutationFn: (variables: { data: StoreTourMutation }) =>
-            apiStoreTour(token!, variables.data),
+    const updateTourMutation = useMutation({
+        mutationFn: (data: any) =>
+            apiUpdateTour(token!, tour.id.toString(), data),
         onSuccess: () => {
-            // Update tours list
-            queryClient.invalidateQueries({
-                queryKey: ["get-all-tours"],
-            });
-
+            queryClient.invalidateQueries({ queryKey: ["get-all-tours"] });
             document.getElementById("dialog-close")?.click();
-
-            toast.success("Excursion créée avec succès.");
+            toast.success("Excursion mise à jour avec succès.");
         },
-        onError: (error: any) => {
-            if (typeof error === "string") {
-                toast.error(t(`general-errors.${error}`));
-            } else {
-                console.log(error);
-                toast.error("Une erreur est survenue");
-            }
+        onError: (error) => {
+            console.log(error);
+            toast.error("Une erreur est survenue");
         },
     });
 
-    function onSubmit(values: FormSchemaType) {
-        console.log(values);
-        storeTourMutation.mutate({ data: values });
+    function onSubmit(values: any) {
+        updateTourMutation.mutate(values);
     }
 
     return (
@@ -353,7 +329,6 @@ const AddTourForm = () => {
                                                     floatValue ?? undefined
                                                 ); // send clean number
                                             }}
-                                            min={1}
                                         />
                                     </FormControl>
                                     <FormMessage />
@@ -417,4 +392,4 @@ const AddTourForm = () => {
     );
 };
 
-export default AddTourForm;
+export default UpdateTourForm;

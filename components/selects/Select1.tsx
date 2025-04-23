@@ -25,7 +25,7 @@ interface Select1Props extends NativeSelectProps {
 const Select1: FC<Select1Props> = ({ options, placeholder, ...props }) => {
     return (
         <Select {...props}>
-            <SelectTrigger className="text-base w-full px-5 py-6 cursor-pointer">
+            <SelectTrigger className="text-base bg-white w-full px-5 py-6 cursor-pointer">
                 <SelectValue placeholder={placeholder || "Sélectionner..."} />
             </SelectTrigger>
             <SelectContent>

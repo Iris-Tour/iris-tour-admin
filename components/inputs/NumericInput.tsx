@@ -2,8 +2,9 @@
 
 import { NumericFormat, NumericFormatProps } from "react-number-format";
 import { Input } from "@/components/ui/input";
-import type { InputProps } from "@/components/ui/input";
-import type { ReactNode, ComponentType } from "react";
+import type { InputHTMLAttributes, ReactNode, ComponentType } from "react";
+
+type InputProps = InputHTMLAttributes<HTMLInputElement>;
 
 interface InputAffix {
     inputSuffix?: string | ReactNode;
@@ -27,18 +28,20 @@ const NumberInput = ({
     return (
         <div className="relative flex items-center">
             {inputPrefix && (
-                <span className="absolute left-3 text-sm text-muted-foreground">
+                <span className="absolute left-3 text-[clamp(14px,_2vw,_16px)] text-muted-foreground">
                     {inputPrefix}
                 </span>
             )}
             <Input
                 {...props}
-                className={`pl-${inputPrefix ? "7" : "3"} pr-${
-                    inputSuffix ? "7" : "3"
+                className={`text-[clamp(14px,_2vw,_16px)] py-6 px-5 ${
+                    inputPrefix && "pl-14 pr-5"
+                } ${inputSuffix && "pl-5 pr-14"} ${
+                    inputPrefix && inputSuffix && "px-14"
                 } ${className}`}
             />
             {inputSuffix && (
-                <span className="absolute right-3 text-sm text-muted-foreground">
+                <span className="absolute right-3 text-[clamp(14px,_2vw,_16px)] text-muted-foreground">
                     {inputSuffix}
                 </span>
             )}
@@ -70,6 +73,7 @@ const NumericInput = ({
             inputPrefix={inputPrefix}
             inputSuffix={inputSuffix}
             onValueChange={onValueChange}
+            className="bg-white"
             {...rest}
         />
     );

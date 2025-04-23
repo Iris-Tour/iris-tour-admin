@@ -11,7 +11,6 @@ import { FC } from "react";
 import { format } from "date-fns";
 import { fr } from "date-fns/locale";
 import { Calendar } from "../ui/calendar";
-import { TimePicker } from "./time-picker/time-picker";
 import { cn } from "@/lib/utils";
 import { useTranslation } from "react-i18next";
 
@@ -25,7 +24,7 @@ const DatePicker: FC<DatePicker> = ({ date = "", onSelect, placeholder }) => {
     const { t } = useTranslation();
     return (
         <Popover>
-            <PopoverTrigger className="w-full py-6" asChild>
+            <PopoverTrigger className="text-[clamp(14px,_2vw,_16px)] bg-white w-full py-6" asChild>
                 <Button3
                     type="button"
                     variant={"outline"}
@@ -50,7 +49,7 @@ const DatePicker: FC<DatePicker> = ({ date = "", onSelect, placeholder }) => {
                 sideOffset={8}
                 avoidCollisions={true}
                 asChild={false}
-                className="flex flex-col items-center w-fit"
+                className="flex flex-col items-center text-[clamp(14px,_2vw,_16px)] w-fit"
             >
                 <Calendar
                     mode="single"

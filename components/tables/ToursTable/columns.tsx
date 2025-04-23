@@ -24,8 +24,11 @@ import { Row } from "@tanstack/react-table";
 import { Checkbox } from "@/components/ui/checkbox";
 import { format } from "date-fns";
 import { fr } from "date-fns/locale";
+import UpdateTourForm from "@/components/forms/tours/UpdateTourForm";
+import DeleteTourForm from "@/components/forms/tours/DeleteTourForm";
+import SimpleChip from "@/components/chips/SimpleChip";
 
-export const columns: ColumnDef<ToursType>[] = [
+export const columns: ColumnDef<TourType>[] = [
     {
         id: "select",
         header: ({ table }) => (
@@ -99,8 +102,12 @@ export const columns: ColumnDef<ToursType>[] = [
         header: "Prix",
         cell: ({ row }) => {
             const tour = row.original;
+            const formattedPrice = new Intl.NumberFormat("fr-FR", {
+                style: "currency",
+                currency: "XOF",
+            }).format(tour.excursionPrice);
 
-            return <span className="font-bold">{tour.excursionPrice}</span>;
+            return <span className="font-bold">{formattedPrice}</span>;
         },
     },
     {
@@ -135,8 +142,29 @@ export const columns: ColumnDef<ToursType>[] = [
         },
     },
     {
-        accessorKey: "status",
+        accessorKey: "statut",
         header: "Statut",
+        cell: ({ row }) => {
+            const tour = row.original;
+
+            return (
+                <SimpleChip
+                    className={`${
+                        tour.status === 0
+                            ? "bg-background text-foreground"
+                            : tour.status === 1
+                            ? "bg-green-600/70"
+                            : tour.status === 2 && "bg-destructive/60"
+                    }`}
+                >
+                    {tour.status === 0
+                        ? "Pas encore commencée"
+                        : tour.status === 1
+                        ? "En cours"
+                        : tour.status === 2 && "Terminée"}
+                </SimpleChip>
+            );
+        },
     },
     {
         id: "actions",
@@ -152,10 +180,11 @@ export const columns: ColumnDef<ToursType>[] = [
                             </span>
                             <Edit2 className="stroke-primary w-5 h-5" />
                         </DialogTrigger>
-                        <DialogContent>
+                        <DialogContent className="sm:max-w-3xl">
                             <DialogHeader>
                                 <DialogTitle>Modifier l'excursion</DialogTitle>
                                 <DialogDescription></DialogDescription>
+                                <UpdateTourForm tour={tour} />
                             </DialogHeader>
                         </DialogContent>
                     </Dialog>
@@ -170,6 +199,7 @@ export const columns: ColumnDef<ToursType>[] = [
                             <DialogHeader>
                                 <DialogTitle>Supprimer l'excursion</DialogTitle>
                                 <DialogDescription></DialogDescription>
+                                <DeleteTourForm tour={tour} />
                             </DialogHeader>
                         </DialogContent>
                     </Dialog>

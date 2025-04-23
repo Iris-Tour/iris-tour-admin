@@ -84,6 +84,15 @@
                 "placeholder": "Date d'arrivée"
             },
             "cta": "Créer"
+        },
+        "delete-tour-dialog": {
+            "title": "Suppression",
+            "description": "Voulez-vous vraiment supprimer l'excursion : <b>{{tour}}</b> ?",
+            "button1": "Annuler",
+            "button2": "Supprimer",
+            "success-messages": {
+                "Tour deleted successfully": "L'excursion <b>{{tour}}</b> a été supprimée avec succès."
+            }
         }
     },
     "roles-and-permissions": {
