@@ -27,6 +27,9 @@ import { fr } from "date-fns/locale";
 import UpdateTourForm from "@/components/forms/tours/UpdateTourForm";
 import DeleteTourForm from "@/components/forms/tours/DeleteTourForm";
 import SimpleChip from "@/components/chips/SimpleChip";
+import DetailsForm from "@/components/forms/tours/DetailsForm";
+import { statuses } from "@/constants/statuses";
+import TourStatusChip from "@/components/chips/TourStatusChip";
 
 export const columns: ColumnDef<TourType>[] = [
     {
@@ -133,7 +136,7 @@ export const columns: ColumnDef<TourType>[] = [
                         )}
                     </span>
                     <span>
-                        {format(new Date(tour.departureDateTime), "HH:mm", {
+                        {format(new Date(tour.departureDateTime), "HH'h' mm", {
                             locale: fr,
                         })}
                     </span>
@@ -142,28 +145,12 @@ export const columns: ColumnDef<TourType>[] = [
         },
     },
     {
-        accessorKey: "statut",
+        id: "status",
         header: "Statut",
         cell: ({ row }) => {
             const tour = row.original;
 
-            return (
-                <SimpleChip
-                    className={`${
-                        tour.status === 0
-                            ? "bg-background text-foreground"
-                            : tour.status === 1
-                            ? "bg-green-600/70"
-                            : tour.status === 2 && "bg-destructive/60"
-                    }`}
-                >
-                    {tour.status === 0
-                        ? "Pas encore commencée"
-                        : tour.status === 1
-                        ? "En cours"
-                        : tour.status === 2 && "Terminée"}
-                </SimpleChip>
-            );
+            return <TourStatusChip tour={tour} />;
         },
     },
     {
@@ -210,8 +197,11 @@ export const columns: ColumnDef<TourType>[] = [
                         </DialogTrigger>
                         <DialogContent>
                             <DialogHeader>
-                                <DialogTitle>Détails</DialogTitle>
+                                <DialogTitle className="flex items-center gap-10">
+                                    Détails <TourStatusChip tour={tour} />
+                                </DialogTitle>
                                 <DialogDescription></DialogDescription>
+                                <DetailsForm tour={tour} />
                             </DialogHeader>
                         </DialogContent>
                     </Dialog>

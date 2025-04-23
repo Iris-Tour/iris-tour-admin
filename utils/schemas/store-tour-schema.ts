@@ -16,7 +16,7 @@ export const storeTourSchema = z.object({
         .transform((val) => format(new Date(val), "yyyy-MM-dd HH:mm:ss")),
     arrivalDateTime: z
         .string()
-        .min(1, { message: "Date d'arrivée requise." })
+        .min(1, { message: "Date de retour requise." })
         .refine((val) => {
             const date = new Date(val);
             return date;

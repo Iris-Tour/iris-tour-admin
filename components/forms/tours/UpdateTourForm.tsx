@@ -60,6 +60,7 @@ const UpdateTourForm: FC<UpdateTourFormProps> = ({ tour }) => {
     });
 
     function onSubmit(values: any) {
+        console.log(values);
         updateTourMutation.mutate(values);
     }
 
@@ -136,11 +137,11 @@ const UpdateTourForm: FC<UpdateTourFormProps> = ({ tour }) => {
                             render={({ field }) => (
                                 <FormItem>
                                     <FormLabel className="text-base">
-                                        Lieu d'arrivée
+                                        Destination
                                     </FormLabel>
                                     <FormControl>
                                         <Input1
-                                            placeholder="Lieu d'arrivée"
+                                            placeholder="Destination"
                                             {...field}
                                         />
                                     </FormControl>

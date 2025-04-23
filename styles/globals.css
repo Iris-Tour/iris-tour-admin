@@ -61,7 +61,7 @@ body {
 
 :root {
     --radius: 0.625rem;
-    --background: #f1f1f1;
+    --background: #fafafa;
     --foreground: #303835;
     --card: oklch(1 0 0);
     --card-foreground: oklch(0.141 0.005 285.823);

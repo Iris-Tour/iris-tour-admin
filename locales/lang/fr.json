@@ -80,8 +80,8 @@
                 "placeholder": "Date et heure de départ"
             },
             "field4": {
-                "title": "Date d'arrivée",
-                "placeholder": "Date d'arrivée"
+                "title": "Date de retour",
+                "placeholder": "Date de retour"
             },
             "cta": "Créer"
         },

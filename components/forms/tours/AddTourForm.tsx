@@ -83,7 +83,6 @@ const AddTourForm = () => {
     });
 
     function onSubmit(values: FormSchemaType) {
-        console.log(values);
         storeTourMutation.mutate({ data: values });
     }
 
@@ -160,11 +159,11 @@ const AddTourForm = () => {
                             render={({ field }) => (
                                 <FormItem>
                                     <FormLabel className="text-base">
-                                        Lieu d'arrivée
+                                        Destination
                                     </FormLabel>
                                     <FormControl>
                                         <Input1
-                                            placeholder="Lieu d'arrivée"
+                                            placeholder="Destination"
                                             {...field}
                                         />
                                     </FormControl>
