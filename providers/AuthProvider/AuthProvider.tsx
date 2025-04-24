@@ -5,7 +5,7 @@ import { AuthContext } from "./AuthContext";
 import { QueryClient, useQuery } from "@tanstack/react-query";
 import { currentUser } from "@/lib/api";
 import { usePathname, useRouter } from "next/navigation";
-// import Loading from "@/app/loading";
+import Loading from "@/app/loading";
 
 interface AuthProviderProps {
     children: ReactNode;
@@ -93,8 +93,7 @@ const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
         <AuthContext.Provider
             value={{ user, token, isAuthenticated, login, logout }}
         >
-            {/* {isPending || isLoading ? <Loading /> : children} */}
-            {isPending || isLoading ? <div>Loading...</div> : children}
+            {isPending || isLoading ? <Loading /> : children}
         </AuthContext.Provider>
     );
 };
