@@ -52,8 +52,8 @@ const ButtonsSection = () => {
                                         }
                                     />
                                 </DialogDescription>
-                                <AddTourForm />
                             </DialogHeader>
+                            <AddTourForm />
                         </DialogContent>
                     </Dialog>
                 </div>

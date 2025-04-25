@@ -26,15 +26,14 @@ const SharedForm: FC<SharedFormProps> = ({
 }) => {
     return (
         <Form {...form}>
-            <form
-                onSubmit={form.handleSubmit(onSubmit)}
-                className={cn("space-y-6", className)}
-            >
-                {children}
-                <DialogClose id="dialog-close"></DialogClose>
-                <Button2 type="submit" disabled={mutation.isPending}>
-                    {mutation.isPending ? <SpinningCircle /> : ctaText}
-                </Button2>
+            <form onSubmit={form.handleSubmit(onSubmit)}>
+                <div className={cn("flex flex-col gap-5", className)}>
+                    {children}
+                    <DialogClose id="dialog-close"></DialogClose>
+                    <Button2 type="submit" disabled={mutation.isPending}>
+                        {mutation.isPending ? <SpinningCircle /> : ctaText}
+                    </Button2>
+                </div>
             </form>
         </Form>
     );

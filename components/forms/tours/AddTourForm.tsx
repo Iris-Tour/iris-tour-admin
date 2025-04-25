@@ -291,7 +291,6 @@ const AddTourForm = () => {
                                                     floatValue ?? undefined
                                                 ); // send clean number
                                             }}
-                                            min={1}
                                         />
                                     </FormControl>
                                     <FormMessage />

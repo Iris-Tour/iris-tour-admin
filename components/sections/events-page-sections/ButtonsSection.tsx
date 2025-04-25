@@ -38,7 +38,7 @@ const ButtonsSection = () => {
                                 <Trans i18nKey={"events.add-event"} />
                             </Button2>
                         </DialogTrigger>
-                        <DialogContent className="sm:max-w-3xl">
+                        <DialogContent className="sm:max-w-xl">
                             <DialogHeader>
                                 <DialogTitle>
                                     <Trans
@@ -54,8 +54,8 @@ const ButtonsSection = () => {
                                         }
                                     />
                                 </DialogDescription>
-                                <AddEventForm />
                             </DialogHeader>
+                            <AddEventForm />
                         </DialogContent>
                     </Dialog>
                 </div>
