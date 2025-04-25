@@ -155,7 +155,20 @@ type DeleteRolePromise = {
     message: "Role deleted successfully";
 };
 
-// Tours types
+//-------- Admins Types
+type StoreAdminMutation = {
+    firstname: string;
+    lastname: string;
+    email: string;
+    roles: Array<number>;
+};
+
+type StoreAdminPromise = {
+    message: string;
+};
+//-------- End Admins Types
+
+//-------- Tours types
 type TourType = {
     id: number;
     title: string;
@@ -222,3 +235,4 @@ type UpdateTourPromise = {
 type DeleteTourPromise = {
     message: string;
 };
+//-------- End Tours types

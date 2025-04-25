@@ -213,7 +213,20 @@
                     "title": "Rôles",
                     "placeholder": "Définissez les rôles à attribuer"
                 },
-                "cta": "Créer"
+                "cta": "Créer",
+                "error-messages": {
+                    "E_VALIDATION_ERROR": {
+                        "title": "Error",
+                        "email": {
+                            "database": {
+                                "unique": "Cette adresse email est déjà utilisée."
+                            }
+                        }
+                    }
+                },
+                "success-messages": {
+                    "Permissions assigned successfully": "Le rôle et ses permissions ont été modifiés avec succès."
+                }
             },
             "headers": {
                 "header1": "ID No.",

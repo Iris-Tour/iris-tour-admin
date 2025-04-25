@@ -37,6 +37,9 @@ import {
 } from "@/components/ui/command";
 import Button3 from "@/components/buttons/Button3";
 import SimpleChip from "@/components/chips/SimpleChip";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { apiStoreAdmin } from "@/lib/api";
+import SpinningCircle from "@/components/spinners/SpinningCircle";
 
 interface AddAdminFormProps {
     roles?: {
@@ -53,7 +56,11 @@ const formSchema = z.object({
         .string()
         .min(2, { message: "Le prénom doit contenir au moins 2 caractères." }),
     email: z.string().email({ message: "Ce champ est requis." }),
-    roles: z.array(z.string()),
+    roles: z
+        .array(z.number().int().positive("ID de rôle invalide"))
+        .refine((roles) => roles.length > 0, {
+            message: "Veuillez sélectionner au moins un rôle.",
+        }),
 });
 
 type FormSchemaType = z.infer<typeof formSchema>;
@@ -62,6 +69,8 @@ const AddAdminForm: FC<AddAdminFormProps> = ({ roles }) => {
     const { t } = useTranslation();
 
     const { token } = useAuth();
+
+    const queryClient = useQueryClient();
 
     const form = useForm<FormSchemaType>({
         resolver: zodResolver(formSchema),
@@ -73,8 +82,34 @@ const AddAdminForm: FC<AddAdminFormProps> = ({ roles }) => {
         },
     });
 
+    const storeAdminMutation = useMutation({
+        mutationFn: (variables: { data: StoreAdminMutation }) =>
+            apiStoreAdmin(token!, variables.data),
+        onSuccess: () => {
+            // Update roles list
+            queryClient.invalidateQueries({
+                queryKey: ["get-all-admins-with-roles"],
+            });
+
+            document.getElementById("dialog-close")?.click();
+
+            toast.success("Administrateur créé avec succès.");
+        },
+        onError: (error: any) => {
+            const code = error?.error?.code;
+            const field = error?.error?.messages[0].field;
+            const rule = error?.error?.messages[0].rule;
+
+            toast.error(
+                t(
+                    `roles-and-permissions.admins-list.add-admin-dialog.error-messages.${code}.${field}.${rule}`
+                )
+            );
+        },
+    });
+
     function onSubmit(values: FormSchemaType) {
-        console.log(values);
+        storeAdminMutation.mutate({ data: values });
     }
 
     return (
@@ -156,47 +191,53 @@ const AddAdminForm: FC<AddAdminFormProps> = ({ roles }) => {
                                     "roles-and-permissions.admins-list.add-admin-dialog.field4.title"
                                 )}
                             </FormLabel>
-                            <Popover>
-                                <PopoverTrigger asChild>
-                                    <FormControl>
-                                        <Button3
-                                            role="combobox"
-                                            className={cn(
-                                                "py-6 justify-between text-base",
-                                                !field.value?.length &&
-                                                    "text-muted-foreground"
-                                            )}
-                                        >
-                                            <span className="flex items-center w-full gap-2 px-2">
-                                                {field.value?.length > 0
-                                                    ? field.value.map(
-                                                          (
-                                                              selectedRole,
-                                                              index
-                                                          ) => (
-                                                              <SimpleChip
-                                                                  key={index}
-                                                              >
-                                                                  {
-                                                                      roles?.find(
-                                                                          (
-                                                                              role
-                                                                          ) =>
-                                                                              role
-                                                                                  .role
-                                                                                  .id ===
-                                                                              selectedRole
-                                                                      )?.role
-                                                                          .slug
-                                                                  }
-                                                              </SimpleChip>
+                            <FormControl>
+                                <Popover>
+                                    <PopoverTrigger asChild>
+                                        <FormControl>
+                                            <Button3
+                                                role="combobox"
+                                                className={cn(
+                                                    "py-6 justify-between text-base",
+                                                    !field.value?.length &&
+                                                        "text-muted-foreground"
+                                                )}
+                                            >
+                                                <span className="flex items-center w-full gap-2 px-2">
+                                                    {field.value?.length > 0
+                                                        ? field.value.map(
+                                                              (
+                                                                  selectedRole,
+                                                                  index
+                                                              ) => (
+                                                                  <SimpleChip
+                                                                      key={
+                                                                          index
+                                                                      }
+                                                                  >
+                                                                      {
+                                                                          roles?.find(
+                                                                              (
+                                                                                  role
+                                                                              ) =>
+                                                                                  Number(
+                                                                                      role
+                                                                                          .role
+                                                                                          .id
+                                                                                  ) ===
+                                                                                  selectedRole
+                                                                          )
+                                                                              ?.role
+                                                                              .slug
+                                                                      }
+                                                                  </SimpleChip>
+                                                              )
                                                           )
-                                                      )
-                                                    : t(
-                                                          "roles-and-permissions.admins-list.add-admin-dialog.field4.placeholder"
-                                                      )}
-                                            </span>
-                                            {/* <Input1
+                                                        : t(
+                                                              "roles-and-permissions.admins-list.add-admin-dialog.field4.placeholder"
+                                                          )}
+                                                </span>
+                                                {/* <Input1
                                                 className="border-none w-full p-0 shadow-none cursor-pointer focus-visible:ring-0 select-none"
                                                 placeholder="Sélectionnez les rôles"
                                                 value={
@@ -224,76 +265,90 @@ const AddAdminForm: FC<AddAdminFormProps> = ({ roles }) => {
                                                 }
                                                 readOnly
                                             /> */}
-                                            <ChevronsUpDown className="ml-2 h-3 w-3 shrink-0" />
-                                        </Button3>
-                                    </FormControl>
-                                </PopoverTrigger>
-                                <PopoverContent className="w-(--radix-popper-anchor-width) p-0">
-                                    <Command className="w-full">
-                                        <CommandInput placeholder="Rechercher un rôle..." />
-                                        <CommandList>
-                                            <CommandEmpty>
-                                                Aucun rôle trouvé.
-                                            </CommandEmpty>
-                                            <CommandGroup>
-                                                {roles?.map((role) => (
-                                                    <CommandItem
-                                                        value={role.role.slug}
-                                                        key={role.role.id.toString()}
-                                                        onSelect={() => {
-                                                            const currentRoles =
-                                                                field.value ||
-                                                                [];
-                                                            const isSelected =
-                                                                currentRoles.some(
-                                                                    (r) =>
-                                                                        r ===
-                                                                        role
-                                                                            .role
-                                                                            .id
-                                                                );
+                                                <ChevronsUpDown className="ml-2 h-3 w-3 shrink-0" />
+                                            </Button3>
+                                        </FormControl>
+                                    </PopoverTrigger>
+                                    <PopoverContent className="p-0">
+                                        <Command className="w-full">
+                                            <CommandInput placeholder="Rechercher un rôle..." />
+                                            <CommandList>
+                                                <CommandEmpty>
+                                                    Aucun rôle trouvé.
+                                                </CommandEmpty>
+                                                <CommandGroup>
+                                                    {roles?.map((role) => (
+                                                        <CommandItem
+                                                            value={
+                                                                role.role.slug
+                                                            }
+                                                            key={role.role.id.toString()}
+                                                            onSelect={() => {
+                                                                const currentRoles =
+                                                                    field.value ||
+                                                                    [];
+                                                                const isSelected =
+                                                                    currentRoles.some(
+                                                                        (r) =>
+                                                                            r ===
+                                                                            Number(
+                                                                                role
+                                                                                    .role
+                                                                                    .id
+                                                                            )
+                                                                    );
 
-                                                            form.setValue(
-                                                                "roles",
-                                                                isSelected
-                                                                    ? currentRoles.filter(
-                                                                          (r) =>
-                                                                              r !==
-                                                                              role
-                                                                                  .role
-                                                                                  .id
-                                                                      )
-                                                                    : [
-                                                                          ...currentRoles,
-                                                                          role
-                                                                              .role
-                                                                              .id,
-                                                                      ]
-                                                            );
-                                                        }}
-                                                    >
-                                                        {role.role.slug}
-                                                        <Check
-                                                            className={cn(
-                                                                "ml-auto",
-                                                                field.value?.some(
-                                                                    (r) =>
-                                                                        r ===
-                                                                        role
-                                                                            .role
-                                                                            .id
-                                                                )
-                                                                    ? "opacity-100"
-                                                                    : "opacity-0"
-                                                            )}
-                                                        />
-                                                    </CommandItem>
-                                                ))}
-                                            </CommandGroup>
-                                        </CommandList>
-                                    </Command>
-                                </PopoverContent>
-                            </Popover>
+                                                                form.setValue(
+                                                                    "roles",
+                                                                    isSelected
+                                                                        ? currentRoles.filter(
+                                                                              (
+                                                                                  r
+                                                                              ) =>
+                                                                                  r !==
+                                                                                  Number(
+                                                                                      role
+                                                                                          .role
+                                                                                          .id
+                                                                                  )
+                                                                          )
+                                                                        : [
+                                                                              ...currentRoles,
+                                                                              Number(
+                                                                                  role
+                                                                                      .role
+                                                                                      .id
+                                                                              ),
+                                                                          ]
+                                                                );
+                                                            }}
+                                                        >
+                                                            {role.role.slug}
+                                                            <Check
+                                                                className={cn(
+                                                                    "ml-auto",
+                                                                    field.value?.some(
+                                                                        (r) =>
+                                                                            r ===
+                                                                            Number(
+                                                                                role
+                                                                                    .role
+                                                                                    .id
+                                                                            )
+                                                                    )
+                                                                        ? "opacity-100"
+                                                                        : "opacity-0"
+                                                                )}
+                                                            />
+                                                        </CommandItem>
+                                                    ))}
+                                                </CommandGroup>
+                                            </CommandList>
+                                        </Command>
+                                    </PopoverContent>
+                                </Popover>
+                            </FormControl>
+                            <FormMessage />
                         </FormItem>
                     )}
                 />
@@ -301,10 +356,15 @@ const AddAdminForm: FC<AddAdminFormProps> = ({ roles }) => {
                 <DialogClose id="dialog-close"></DialogClose>
                 <Button2
                     type="submit"
-                    // disabled={}
+                    disabled={storeAdminMutation.isPending}
+                    className="group"
                 >
-                    {t(
-                        "roles-and-permissions.admins-list.add-admin-dialog.cta"
+                    {storeAdminMutation.isPending ? (
+                        <SpinningCircle />
+                    ) : (
+                        t(
+                            "roles-and-permissions.admins-list.add-admin-dialog.cta"
+                        )
                     )}
                 </Button2>
             </form>
