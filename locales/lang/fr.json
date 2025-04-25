@@ -245,7 +245,13 @@
                 "description": "Voulez-vous vraiment suspendre le compte de l'administrateur : <b>{{adminName}}</b> ?",
                 "button1": "Annuler",
                 "button2": "Suspendre",
-                "success-messages": {}
+                "error-messages": {
+                    "is not admin": "Ce compte n'est pas administrateur."
+                },
+                "success-messages": {
+                    "Admin blocked successfully": "Administrateur <b>{{adminName}}</b> bloqué avec succès.",
+                    "Admin unblocked successfully": "Administrateur <b>{{adminName}}</b> débloqué avec succès."
+                }
             },
             "delete-admin-dialog": {
                 "title": "Suppression de compte",

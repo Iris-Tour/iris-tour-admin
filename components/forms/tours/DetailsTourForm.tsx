@@ -1,5 +1,5 @@
 import SimpleChip from "@/components/chips/SimpleChip";
-import TourStatusChip from "@/components/chips/TourStatusChip";
+import ToursStatusChip from "@/components/chips/ToursStatusChip";
 import { difficulties } from "@/constants/difficulties";
 import { format } from "date-fns";
 import { fr } from "date-fns/locale";

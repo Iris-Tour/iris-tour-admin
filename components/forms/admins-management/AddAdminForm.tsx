@@ -23,9 +23,7 @@ import {
     PopoverContent,
     PopoverTrigger,
 } from "@/components/ui/popover";
-import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { Input } from "@/components/ui/input";
 import { Check, ChevronsUpDown } from "lucide-react";
 import {
     Command,
@@ -86,7 +84,7 @@ const AddAdminForm: FC<AddAdminFormProps> = ({ roles }) => {
         mutationFn: (variables: { data: StoreAdminMutation }) =>
             apiStoreAdmin(token!, variables.data),
         onSuccess: () => {
-            // Update roles list
+            // Update admins list
             queryClient.invalidateQueries({
                 queryKey: ["get-all-admins-with-roles"],
             });
@@ -354,11 +352,7 @@ const AddAdminForm: FC<AddAdminFormProps> = ({ roles }) => {
                 />
 
                 <DialogClose id="dialog-close"></DialogClose>
-                <Button2
-                    type="submit"
-                    disabled={storeAdminMutation.isPending}
-                    className="group"
-                >
+                <Button2 type="submit" disabled={storeAdminMutation.isPending}>
                     {storeAdminMutation.isPending ? (
                         <SpinningCircle />
                     ) : (

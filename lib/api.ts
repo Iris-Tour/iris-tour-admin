@@ -142,6 +142,18 @@ export const apiStoreAdmin = (
 ): Promise<StoreAdminPromise> =>
     sessionApi(API_PREFIX, "/admins/create-admin", "POST", data, token);
 
+export const apiSuspendAdmin = (
+    token: string,
+    adminId: string
+): Promise<SuspendAdminPromise> =>
+    sessionApi(
+        API_PREFIX,
+        `/admins/block/${adminId}`,
+        "POST",
+        undefined,
+        token
+    );
+
 //-------------- END ADMINS
 
 //-------------- TOURS

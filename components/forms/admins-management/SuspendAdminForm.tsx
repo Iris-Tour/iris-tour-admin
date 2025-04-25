@@ -1,7 +1,12 @@
 import Button2 from "@/components/buttons/Button2";
+import SpinningCircle from "@/components/spinners/SpinningCircle";
 import { DialogClose } from "@/components/ui/dialog";
+import useAuth from "@/hooks/useAuth";
+import { apiSuspendAdmin } from "@/lib/api";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { FC } from "react";
-import { Trans } from "react-i18next";
+import { Trans, useTranslation } from "react-i18next";
+import { toast } from "sonner";
 
 interface SuspendAdminFormProps {
     adminName: string;
@@ -12,7 +17,41 @@ const SuspendAdminForm: FC<SuspendAdminFormProps> = ({
     adminName,
     adminId,
 }) => {
-    const onSubmit = () => {};
+    const { token } = useAuth();
+
+    const queryClient = useQueryClient();
+
+    const suspendAdminMutation = useMutation({
+        mutationFn: () => apiSuspendAdmin(token!, adminId),
+        onSuccess: (data: any) => {
+            // Update admins list
+            queryClient.invalidateQueries({
+                queryKey: ["get-all-admins-with-roles"],
+            });
+
+            document.getElementById("dialog-close")?.click();
+
+            toast.success(
+                <Trans
+                    i18nKey={`roles-and-permissions.admins-list.suspend-admin-dialog.success-messages.${data.message}`}
+                    values={{ adminName: adminName }}
+                    components={{ b: <b className="text-primary" /> }}
+                />
+            );
+        },
+        onError: (error: any) => {
+            toast.error(
+                <Trans
+                    i18nKey={`roles-and-permissions.admins-list.suspend-admin-dialog.error-messages.${error.message}`}
+                />
+            );
+        },
+    });
+
+    const onSubmit = () => {
+        suspendAdminMutation.mutate();
+    };
+
     return (
         <div className="flex flex-col gap-5">
             <div>
@@ -31,11 +70,16 @@ const SuspendAdminForm: FC<SuspendAdminFormProps> = ({
                     </Button2>
                 </DialogClose>
 
+                <DialogClose id="dialog-close"></DialogClose>
                 <Button2
                     onClick={onSubmit}
-                    // disabled={deleteRoleMutation.isPending}
+                    disabled={suspendAdminMutation.isPending}
                 >
-                    <Trans i18nKey="roles-and-permissions.admins-list.suspend-admin-dialog.button2" />
+                    {suspendAdminMutation.isPending ? (
+                        <SpinningCircle />
+                    ) : (
+                        <Trans i18nKey="roles-and-permissions.admins-list.suspend-admin-dialog.button2" />
+                    )}
                 </Button2>
             </div>
         </div>

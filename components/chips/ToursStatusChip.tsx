@@ -6,7 +6,7 @@ interface ToursStatusChipProps {
     tour: TourType;
 }
 
-const TourStatusChip: FC<ToursStatusChipProps> = ({ tour }) => {
+const ToursStatusChip: FC<ToursStatusChipProps> = ({ tour }) => {
     return (
         <SimpleChip
             className={`${
@@ -22,4 +22,4 @@ const TourStatusChip: FC<ToursStatusChipProps> = ({ tour }) => {
     );
 };
 
-export default TourStatusChip;
+export default ToursStatusChip;

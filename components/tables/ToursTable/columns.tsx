@@ -29,7 +29,7 @@ import DeleteTourForm from "@/components/forms/tours/DeleteTourForm";
 import SimpleChip from "@/components/chips/SimpleChip";
 import DetailsTourForm from "@/components/forms/tours/DetailsTourForm";
 import { statuses } from "@/constants/statuses";
-import TourStatusChip from "@/components/chips/TourStatusChip";
+import ToursStatusChip from "@/components/chips/ToursStatusChip";
 
 export const columns: ColumnDef<TourType>[] = [
     {
@@ -150,7 +150,7 @@ export const columns: ColumnDef<TourType>[] = [
         cell: ({ row }) => {
             const tour = row.original;
 
-            return <TourStatusChip tour={tour} />;
+            return <ToursStatusChip tour={tour} />;
         },
     },
     {
@@ -198,7 +198,7 @@ export const columns: ColumnDef<TourType>[] = [
                         <DialogContent>
                             <DialogHeader>
                                 <DialogTitle className="flex items-center gap-10">
-                                    Détails <TourStatusChip tour={tour} />
+                                    Détails <ToursStatusChip tour={tour} />
                                 </DialogTitle>
                                 <DialogDescription></DialogDescription>
                                 <DetailsTourForm tour={tour} />

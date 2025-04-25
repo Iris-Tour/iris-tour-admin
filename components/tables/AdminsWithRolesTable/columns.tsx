@@ -17,6 +17,7 @@ import DeleteAdminForm from "@/components/forms/admins-management/DeleteAdminFor
 import { Row } from "@tanstack/react-table";
 import { Checkbox } from "@/components/ui/checkbox";
 import SimpleChip from "@/components/chips/SimpleChip";
+import AdminsStatusChip from "@/components/chips/AdminsStatusChip";
 
 export type AdminWithRoles = { user: UserData; roles: Array<RoleType> };
 
@@ -93,11 +94,16 @@ export const columns: ColumnDef<AdminWithRoles>[] = [
         },
     },
     {
-        accessorKey: "user.status",
+        id: "admin-status",
         header: () => {
             return (
                 <Trans i18nKey="roles-and-permissions.admins-list.headers.header4" />
             );
+        },
+        cell: ({ row }) => {
+            const admin = row.original.user;
+
+            return <AdminsStatusChip admin={admin} />;
         },
     },
     {
