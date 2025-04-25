@@ -1,5 +1,5 @@
-import ButtonsSection from "@/components/sections/ToursPageSections/ButtonsSection";
-import ToursListSection from "@/components/sections/ToursPageSections/ToursListSection";
+import ButtonsSection from "@/components/sections/tours-page-sections/ButtonsSection";
+import ToursListSection from "@/components/sections/tours-page-sections/ToursListSection";
 
 const ToursPage = () => {
     return (

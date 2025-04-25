@@ -27,7 +27,7 @@ import { fr } from "date-fns/locale";
 import UpdateTourForm from "@/components/forms/tours/UpdateTourForm";
 import DeleteTourForm from "@/components/forms/tours/DeleteTourForm";
 import SimpleChip from "@/components/chips/SimpleChip";
-import DetailsForm from "@/components/forms/tours/DetailsForm";
+import DetailsTourForm from "@/components/forms/tours/DetailsTourForm";
 import { statuses } from "@/constants/statuses";
 import TourStatusChip from "@/components/chips/TourStatusChip";
 
@@ -201,7 +201,7 @@ export const columns: ColumnDef<TourType>[] = [
                                     Détails <TourStatusChip tour={tour} />
                                 </DialogTitle>
                                 <DialogDescription></DialogDescription>
-                                <DetailsForm tour={tour} />
+                                <DetailsTourForm tour={tour} />
                             </DialogHeader>
                         </DialogContent>
                     </Dialog>

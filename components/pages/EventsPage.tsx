@@ -1,7 +1,11 @@
-const EventsPage = () => {
-  return (
-    <div>EventsPage</div>
-  )
-}
+import ButtonsSection from "@/components/sections/events-page-sections/ButtonsSection";
 
-export default EventsPage
+const EventsPage = () => {
+    return (
+        <>
+            <ButtonsSection />
+        </>
+    );
+};
+
+export default EventsPage;

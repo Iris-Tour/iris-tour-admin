@@ -5,11 +5,11 @@ import { format } from "date-fns";
 import { fr } from "date-fns/locale";
 import { FC } from "react";
 
-interface DetailsFormProps {
+interface DetailsTourFormProps {
     tour: TourType;
 }
 
-const DetailsForm: FC<DetailsFormProps> = ({ tour }) => {
+const DetailsTourForm: FC<DetailsTourFormProps> = ({ tour }) => {
     const formattedPrice = new Intl.NumberFormat("fr-FR", {
         style: "currency",
         currency: "XOF",
@@ -119,4 +119,4 @@ const DetailsForm: FC<DetailsFormProps> = ({ tour }) => {
     );
 };
 
-export default DetailsForm;
+export default DetailsTourForm;

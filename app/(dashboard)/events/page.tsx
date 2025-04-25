@@ -1,10 +1,11 @@
+import PageContainer from "@/components/containers/PageContainer";
 import EventsPage from "@/components/pages/EventsPage";
 
 const Events = () => {
     return (
-        <div>
+        <PageContainer>
             <EventsPage />
-        </div>
+        </PageContainer>
     );
 };
 

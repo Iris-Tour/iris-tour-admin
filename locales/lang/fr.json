@@ -76,7 +76,7 @@
                 "placeholder": "Entrez la description"
             },
             "field3": {
-                "title": "Date et heure de départ",
+                "title": "Date & heure de départ",
                 "placeholder": "Date et heure de départ"
             },
             "field4": {
@@ -93,6 +93,49 @@
             "success-messages": {
                 "Tour deleted successfully": "L'excursion <b>{{tour}}</b> a été supprimée avec succès."
             }
+        }
+    },
+    "events": {
+        "add-event": "Créer un Événement",
+        "export": "Exporter",
+        "print": "Imprimer",
+        "add-event-dialog": {
+            "title": "Créer un Événement",
+            "description": "Saisissez les informations de l'événement",
+            "field1": { "title": "Nom", "placeholder": "Entrez le nom" },
+            "field2": {
+                "title": "Description",
+                "placeholder": "Entrez la description"
+            },
+            "field3": {
+                "title": "Date & heure de début",
+                "placeholder": "Date et heure de début"
+            },
+            "field4": {
+                "title": "Date & heure de fin",
+                "placeholder": "Date et heure de fin"
+            },
+            "field5": {
+                "title": "Lieu",
+                "placeholder": "Entrez le lieu"
+            },
+            "field6": {
+                "title": "Catégorie",
+                "placeholder": "Entrez la catégorie"
+            },
+            "field7": {
+                "title": "Organisateur",
+                "placeholder": "Entrez le nom de l'organisateur"
+            },
+            "field8": {
+                "title": "Prix du ticket",
+                "placeholder": "Entrez le prix du ticket"
+            },
+            "field9": {
+                "title": "Capacité maximum",
+                "placeholder": "Entrez le nombre maximum de tickets"
+            },
+            "cta": "Créer"
         }
     },
     "roles-and-permissions": {
