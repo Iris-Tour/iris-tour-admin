@@ -3,7 +3,7 @@
 import Button2 from "@/components/buttons/Button2";
 import Button3 from "@/components/buttons/Button3";
 import SectionContainer from "@/components/containers/SectionContainer";
-import AddTourForm from "@/components/forms/tours/AddTourForm";
+import AddEventForm from "@/components/forms/events/AddEventForm";
 import {
     Dialog,
     DialogContent,
@@ -22,11 +22,11 @@ const ButtonsSection = () => {
             <div className="flex items-center justify-between">
                 <div className="flex gap-4">
                     <Button3>
-                        <Trans i18nKey={"tours.export"} />
+                        <Trans i18nKey={"events.export"} />
                         <DocumentUpload className="stroke-black" />
                     </Button3>
                     <Button3>
-                        <Trans i18nKey={"tours.print"} />
+                        <Trans i18nKey={"events.print"} />
                         <Printer className="stroke-black" />
                     </Button3>
                 </div>
@@ -35,24 +35,26 @@ const ButtonsSection = () => {
                         <DialogTrigger className="cursor-pointer" asChild>
                             <Button2>
                                 <PlusCircle />
-                                <Trans i18nKey={"tours.add-tour"} />
+                                <Trans i18nKey={"events.add-event"} />
                             </Button2>
                         </DialogTrigger>
                         <DialogContent className="sm:max-w-3xl">
                             <DialogHeader>
                                 <DialogTitle>
                                     <Trans
-                                        i18nKey={"tours.add-tour-dialog.title"}
+                                        i18nKey={
+                                            "events.add-event-dialog.title"
+                                        }
                                     />
                                 </DialogTitle>
                                 <DialogDescription className="text-base">
                                     <Trans
                                         i18nKey={
-                                            "tours.add-tour-dialog.description"
+                                            "events.add-event-dialog.description"
                                         }
                                     />
                                 </DialogDescription>
-                                <AddTourForm />
+                                <AddEventForm />
                             </DialogHeader>
                         </DialogContent>
                     </Dialog>

@@ -26,7 +26,7 @@ import Textarea1 from "@/components/inputs/Textarea1";
 import { FileUpload } from "@/components/inputs/FileUpload";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { apiStoreTour } from "@/lib/api";
-import { storeTourSchema } from "@/utils/schemas/store-tour-schema";
+import { storeTourSchema } from "@/utils/schemas/tours/store-tour-schema";
 
 const formSchema = storeTourSchema;
 

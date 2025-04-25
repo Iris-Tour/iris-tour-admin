@@ -27,7 +27,7 @@ import { FileUpload } from "@/components/inputs/FileUpload";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { apiUpdateTour } from "@/lib/api";
 import { FC } from "react";
-import { updateTourSchema } from "@/utils/schemas/update-tour-schema";
+import { updateTourSchema } from "@/utils/schemas/tours/update-tour-schema";
 
 interface UpdateTourFormProps {
     tour: TourType;

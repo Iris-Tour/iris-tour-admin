@@ -183,3 +183,12 @@ export const apiDeleteTour = (
 ): Promise<DeleteTourPromise> =>
     sessionApi(API_PREFIX, `/tours/${tourId}`, "DELETE", undefined, token);
 //------------- END TOURS
+
+//------------- EVENTS
+// Create an event
+export const apiStoreEvent = (
+    token: string,
+    data: StoreEventMutation
+): Promise<StoreEventPromise> =>
+    sessionApi(API_PREFIX, "/events", "POST", data, token);
+//------------- END EVENTS
