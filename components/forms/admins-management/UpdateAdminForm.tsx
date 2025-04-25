@@ -57,9 +57,9 @@ const UpdateAdminForm: FC<UpdateAdminFormProps> = ({
     const form = useForm<UpdateAdminSchemaType>({
         resolver: zodResolver(updateAdminSchema),
         defaultValues: {
-            lastname: "",
-            firstname: "",
-            email: "",
+            lastname: admin.lastname,
+            firstname: admin.firstname,
+            email: admin.email,
             roles:
                 adminRoles.length > 0
                     ? adminRoles.map((role) => Number(role.id))
