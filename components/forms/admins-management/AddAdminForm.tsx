@@ -40,10 +40,7 @@ import { apiStoreAdmin } from "@/lib/api";
 import SpinningCircle from "@/components/spinners/SpinningCircle";
 
 interface AddAdminFormProps {
-    roles?: {
-        role: RoleType;
-        permissions: Array<PermissionType>;
-    }[];
+    roles?: Array<RolesWithPermissions>;
 }
 
 const formSchema = z.object({
@@ -91,7 +88,9 @@ const AddAdminForm: FC<AddAdminFormProps> = ({ roles }) => {
 
             document.getElementById("dialog-close")?.click();
 
-            toast.success("Administrateur créé avec succès.");
+            toast.success(
+                "roles-and-permissions.admins-list.add-admin-dialog.success-messages.Admin created successfully"
+            );
         },
         onError: (error: any) => {
             const code = error?.error?.code;
@@ -113,243 +112,222 @@ const AddAdminForm: FC<AddAdminFormProps> = ({ roles }) => {
     return (
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-                <FormField
-                    control={form.control}
-                    name="lastname"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormLabel className="text-base">
-                                {t(
-                                    "roles-and-permissions.admins-list.add-admin-dialog.field1.title"
-                                )}
-                            </FormLabel>
-                            <FormControl>
-                                <Input1
-                                    placeholder={t(
-                                        "roles-and-permissions.admins-list.add-admin-dialog.field1.placeholder"
+                <div className="grid grid-cols-1 gap-5">
+                    <FormField
+                        control={form.control}
+                        name="lastname"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel className="text-base">
+                                    {t(
+                                        "roles-and-permissions.admins-list.add-admin-dialog.field1.title"
                                     )}
-                                    {...field}
-                                />
-                            </FormControl>
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                />
-                <FormField
-                    control={form.control}
-                    name="firstname"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormLabel className="text-base">
-                                {t(
-                                    "roles-and-permissions.admins-list.add-admin-dialog.field2.title"
-                                )}
-                            </FormLabel>
-                            <FormControl>
-                                <Input1
-                                    placeholder={t(
-                                        "roles-and-permissions.admins-list.add-admin-dialog.field2.placeholder"
+                                </FormLabel>
+                                <FormControl>
+                                    <Input1
+                                        placeholder={t(
+                                            "roles-and-permissions.admins-list.add-admin-dialog.field1.placeholder"
+                                        )}
+                                        {...field}
+                                    />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+                    <FormField
+                        control={form.control}
+                        name="firstname"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel className="text-base">
+                                    {t(
+                                        "roles-and-permissions.admins-list.add-admin-dialog.field2.title"
                                     )}
-                                    {...field}
-                                />
-                            </FormControl>
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                />
-                <FormField
-                    control={form.control}
-                    name="email"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormLabel className="text-base">
-                                {t(
-                                    "roles-and-permissions.admins-list.add-admin-dialog.field3.title"
-                                )}
-                            </FormLabel>
-                            <FormControl>
-                                <Input1
-                                    placeholder={t(
-                                        "roles-and-permissions.admins-list.add-admin-dialog.field3.placeholder"
+                                </FormLabel>
+                                <FormControl>
+                                    <Input1
+                                        placeholder={t(
+                                            "roles-and-permissions.admins-list.add-admin-dialog.field2.placeholder"
+                                        )}
+                                        {...field}
+                                    />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+                    <FormField
+                        control={form.control}
+                        name="email"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel className="text-base">
+                                    {t(
+                                        "roles-and-permissions.admins-list.add-admin-dialog.field3.title"
                                     )}
-                                    {...field}
-                                />
-                            </FormControl>
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                />
-                <FormField
-                    control={form.control}
-                    name="roles"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormLabel className="text-base">
-                                {t(
-                                    "roles-and-permissions.admins-list.add-admin-dialog.field4.title"
-                                )}
-                            </FormLabel>
-                            <FormControl>
-                                <Popover>
-                                    <PopoverTrigger asChild>
-                                        <FormControl>
-                                            <Button3
-                                                role="combobox"
-                                                className={cn(
-                                                    "py-6 justify-between text-base",
-                                                    !field.value?.length &&
-                                                        "text-muted-foreground"
-                                                )}
-                                            >
-                                                <span className="flex items-center w-full gap-2 px-2">
-                                                    {field.value?.length > 0
-                                                        ? field.value.map(
-                                                              (
-                                                                  selectedRole,
-                                                                  index
-                                                              ) => (
-                                                                  <SimpleChip
-                                                                      key={
-                                                                          index
-                                                                      }
-                                                                  >
-                                                                      {
-                                                                          roles?.find(
-                                                                              (
-                                                                                  role
-                                                                              ) =>
-                                                                                  Number(
-                                                                                      role
-                                                                                          .role
-                                                                                          .id
-                                                                                  ) ===
-                                                                                  selectedRole
-                                                                          )
-                                                                              ?.role
-                                                                              .slug
-                                                                      }
-                                                                  </SimpleChip>
-                                                              )
-                                                          )
-                                                        : t(
-                                                              "roles-and-permissions.admins-list.add-admin-dialog.field4.placeholder"
-                                                          )}
-                                                </span>
-                                                {/* <Input1
-                                                className="border-none w-full p-0 shadow-none cursor-pointer focus-visible:ring-0 select-none"
-                                                placeholder="Sélectionnez les rôles"
-                                                value={
-                                                    field.value?.length
-                                                        ? field.value
-                                                              .map(
+                                </FormLabel>
+                                <FormControl>
+                                    <Input1
+                                        placeholder={t(
+                                            "roles-and-permissions.admins-list.add-admin-dialog.field3.placeholder"
+                                        )}
+                                        {...field}
+                                    />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+                    <FormField
+                        control={form.control}
+                        name="roles"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel className="text-base">
+                                    {t(
+                                        "roles-and-permissions.admins-list.add-admin-dialog.field4.title"
+                                    )}
+                                </FormLabel>
+                                <FormControl>
+                                    <Popover>
+                                        <PopoverTrigger asChild>
+                                            <FormControl>
+                                                <Button3
+                                                    role="combobox"
+                                                    className={cn(
+                                                        "py-6 justify-between text-base",
+                                                        !field.value?.length &&
+                                                            "text-muted-foreground"
+                                                    )}
+                                                >
+                                                    <span className="flex items-center w-full gap-2 px-2">
+                                                        {field.value?.length > 0
+                                                            ? field.value.map(
                                                                   (
-                                                                      selectedRole
-                                                                  ) =>
-                                                                      roles?.find(
-                                                                          (
-                                                                              role
-                                                                          ) =>
-                                                                              role
-                                                                                  .role
-                                                                                  .id ===
-                                                                              selectedRole
-                                                                      )?.role
-                                                                          .slug
+                                                                      selectedRole,
+                                                                      index
+                                                                  ) => (
+                                                                      <SimpleChip
+                                                                          key={
+                                                                              index
+                                                                          }
+                                                                      >
+                                                                          {
+                                                                              roles?.find(
+                                                                                  (
+                                                                                      role
+                                                                                  ) =>
+                                                                                      Number(
+                                                                                          role
+                                                                                              .role
+                                                                                              .id
+                                                                                      ) ===
+                                                                                      selectedRole
+                                                                              )
+                                                                                  ?.role
+                                                                                  .slug
+                                                                          }
+                                                                      </SimpleChip>
+                                                                  )
                                                               )
-                                                              .join(", ")
-                                                        : t(
-                                                              "roles-and-permissions.admins-list.add-admin-dialog.field4.placeholder"
-                                                          )
-                                                }
-                                                readOnly
-                                            /> */}
-                                                <ChevronsUpDown className="ml-2 h-3 w-3 shrink-0" />
-                                            </Button3>
-                                        </FormControl>
-                                    </PopoverTrigger>
-                                    <PopoverContent className="p-0">
-                                        <Command className="w-full">
-                                            <CommandInput placeholder="Rechercher un rôle..." />
-                                            <CommandList>
-                                                <CommandEmpty>
-                                                    Aucun rôle trouvé.
-                                                </CommandEmpty>
-                                                <CommandGroup>
-                                                    {roles?.map((role) => (
-                                                        <CommandItem
-                                                            value={
-                                                                role.role.slug
-                                                            }
-                                                            key={role.role.id.toString()}
-                                                            onSelect={() => {
-                                                                const currentRoles =
-                                                                    field.value ||
-                                                                    [];
-                                                                const isSelected =
-                                                                    currentRoles.some(
-                                                                        (r) =>
-                                                                            r ===
-                                                                            Number(
-                                                                                role
-                                                                                    .role
-                                                                                    .id
-                                                                            )
-                                                                    );
+                                                            : t(
+                                                                  "roles-and-permissions.admins-list.add-admin-dialog.field4.placeholder"
+                                                              )}
+                                                    </span>
+                                                    <ChevronsUpDown className="ml-2 h-3 w-3 shrink-0" />
+                                                </Button3>
+                                            </FormControl>
+                                        </PopoverTrigger>
+                                        <PopoverContent className="p-0">
+                                            <Command className="w-full">
+                                                <CommandInput placeholder="Rechercher un rôle..." />
+                                                <CommandList>
+                                                    <CommandEmpty>
+                                                        Aucun rôle trouvé.
+                                                    </CommandEmpty>
+                                                    <CommandGroup>
+                                                        {roles?.map((role) => (
+                                                            <CommandItem
+                                                                value={
+                                                                    role.role
+                                                                        .slug
+                                                                }
+                                                                key={role.role.id.toString()}
+                                                                onSelect={() => {
+                                                                    const currentRoles =
+                                                                        field.value ||
+                                                                        [];
+                                                                    const isSelected =
+                                                                        currentRoles.some(
+                                                                            (
+                                                                                r
+                                                                            ) =>
+                                                                                r ===
+                                                                                Number(
+                                                                                    role
+                                                                                        .role
+                                                                                        .id
+                                                                                )
+                                                                        );
 
-                                                                form.setValue(
-                                                                    "roles",
-                                                                    isSelected
-                                                                        ? currentRoles.filter(
-                                                                              (
-                                                                                  r
-                                                                              ) =>
-                                                                                  r !==
+                                                                    form.setValue(
+                                                                        "roles",
+                                                                        isSelected
+                                                                            ? currentRoles.filter(
+                                                                                  (
+                                                                                      r
+                                                                                  ) =>
+                                                                                      r !==
+                                                                                      Number(
+                                                                                          role
+                                                                                              .role
+                                                                                              .id
+                                                                                      )
+                                                                              )
+                                                                            : [
+                                                                                  ...currentRoles,
                                                                                   Number(
                                                                                       role
                                                                                           .role
                                                                                           .id
-                                                                                  )
-                                                                          )
-                                                                        : [
-                                                                              ...currentRoles,
-                                                                              Number(
-                                                                                  role
-                                                                                      .role
-                                                                                      .id
-                                                                              ),
-                                                                          ]
-                                                                );
-                                                            }}
-                                                        >
-                                                            {role.role.slug}
-                                                            <Check
-                                                                className={cn(
-                                                                    "ml-auto",
-                                                                    field.value?.some(
-                                                                        (r) =>
-                                                                            r ===
-                                                                            Number(
-                                                                                role
-                                                                                    .role
-                                                                                    .id
-                                                                            )
-                                                                    )
-                                                                        ? "opacity-100"
-                                                                        : "opacity-0"
-                                                                )}
-                                                            />
-                                                        </CommandItem>
-                                                    ))}
-                                                </CommandGroup>
-                                            </CommandList>
-                                        </Command>
-                                    </PopoverContent>
-                                </Popover>
-                            </FormControl>
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                />
+                                                                                  ),
+                                                                              ]
+                                                                    );
+                                                                }}
+                                                            >
+                                                                {role.role.slug}
+                                                                <Check
+                                                                    className={cn(
+                                                                        "ml-auto",
+                                                                        field.value?.some(
+                                                                            (
+                                                                                r
+                                                                            ) =>
+                                                                                r ===
+                                                                                Number(
+                                                                                    role
+                                                                                        .role
+                                                                                        .id
+                                                                                )
+                                                                        )
+                                                                            ? "opacity-100"
+                                                                            : "opacity-0"
+                                                                    )}
+                                                                />
+                                                            </CommandItem>
+                                                        ))}
+                                                    </CommandGroup>
+                                                </CommandList>
+                                            </Command>
+                                        </PopoverContent>
+                                    </Popover>
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+                </div>
 
                 <DialogClose id="dialog-close"></DialogClose>
                 <Button2 type="submit" disabled={storeAdminMutation.isPending}>

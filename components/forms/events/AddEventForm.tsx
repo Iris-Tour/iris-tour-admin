@@ -100,6 +100,7 @@ const AddEventForm = () => {
     function onSubmit(values: StoreEventSchemaType) {
         storeEventMutation.mutate({ data: values });
     }
+    
     return (
         <SharedForm
             form={form}

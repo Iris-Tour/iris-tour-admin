@@ -18,6 +18,10 @@ import { Row } from "@tanstack/react-table";
 import { Checkbox } from "@/components/ui/checkbox";
 import SimpleChip from "@/components/chips/SimpleChip";
 import AdminsStatusChip from "@/components/chips/AdminsStatusChip";
+import UpdateAdminForm from "@/components/forms/admins-management/UpdateAdminForm";
+import { useQuery } from "@tanstack/react-query";
+import { apiGetAllRoles } from "@/lib/api";
+import useAuth from "@/hooks/useAuth";
 
 export const columns: ColumnDef<AdminWithRoles>[] = [
     {
@@ -45,7 +49,7 @@ export const columns: ColumnDef<AdminWithRoles>[] = [
         enableHiding: false,
     },
     {
-        accessorKey: "admin.id",
+        accessorKey: "user.id",
         header: () => {
             return (
                 <Trans i18nKey="roles-and-permissions.admins-list.headers.header1" />
@@ -113,6 +117,15 @@ export const columns: ColumnDef<AdminWithRoles>[] = [
         },
         cell: ({ row }) => {
             const admin = row.original.user;
+            const roles = row.original.roles;
+
+            const { token } = useAuth();
+
+            const allRoles = useQuery({
+                queryKey: ["get-all-roles"],
+                queryFn: () => apiGetAllRoles(token!),
+            });
+
             return (
                 <div className="flex items-center gap-3">
                     <Dialog>
@@ -124,9 +137,16 @@ export const columns: ColumnDef<AdminWithRoles>[] = [
                         </DialogTrigger>
                         <DialogContent>
                             <DialogHeader>
-                                <DialogTitle></DialogTitle>
+                                <DialogTitle>
+                                    <Trans i18nKey="roles-and-permissions.admins-list.update-admin-dialog.title" />
+                                </DialogTitle>
                                 <DialogDescription></DialogDescription>
                             </DialogHeader>
+                            <UpdateAdminForm
+                                admin={admin}
+                                adminRoles={roles}
+                                allRoles={allRoles.data?.roles ?? []}
+                            />
                         </DialogContent>
                     </Dialog>
                     <Dialog>

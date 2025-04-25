@@ -250,7 +250,40 @@
                     }
                 },
                 "success-messages": {
-                    "Permissions assigned successfully": "Le rôle et ses permissions ont été modifiés avec succès."
+                    "Admin created successfully": "Administrateur créé avec succès."
+                }
+            },
+            "update-admin-dialog": {
+                "title": "Modifier un compte administrateur",
+                "field1": {
+                    "title": "Nom",
+                    "placeholder": "Entrez le nom"
+                },
+                "field2": {
+                    "title": "Prénom",
+                    "placeholder": "Entrez le prénom"
+                },
+                "field3": {
+                    "title": "Email",
+                    "placeholder": "Entrez l'email"
+                },
+                "field4": {
+                    "title": "Rôles",
+                    "placeholder": "Définissez les rôles à attribuer"
+                },
+                "cta": "Modifier",
+                "error-messages": {
+                    "E_VALIDATION_ERROR": {
+                        "title": "Error",
+                        "email": {
+                            "database": {
+                                "unique": "Cette adresse email est déjà utilisée."
+                            }
+                        }
+                    }
+                },
+                "success-messages": {
+                    "Admin updated successfully": "Administrateur mis à jour avec succès."
                 }
             },
             "headers": {

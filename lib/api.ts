@@ -88,6 +88,10 @@ export const changePassword = (
 ): Promise<ChangePasswordPromise> =>
     api(API_PREFIX, `/auth/reset-password?token=${token}`, "POST", data);
 
+// Get all roles
+export const apiGetAllRoles = (token: string): Promise<GetAllRolesPromise> =>
+    sessionApi(API_PREFIX, "/acl/roles", "GET", undefined, token);
+
 // Get all roles with their permissions
 export const apiGetAllRolesWithPermissions = (
     token: string
@@ -141,6 +145,13 @@ export const apiStoreAdmin = (
     data: StoreAdminMutation
 ): Promise<StoreAdminPromise> =>
     sessionApi(API_PREFIX, "/admins/create-admin", "POST", data, token);
+
+export const apiUpdateAdmin = (
+    token: string,
+    adminId: string,
+    data: UpdateAdminMutation
+): Promise<UpdateAdminPromise> =>
+    sessionApi(API_PREFIX, `/admins/admins/${adminId}`, "PUT", data, token);
 
 export const apiSuspendAdmin = (
     token: string,
