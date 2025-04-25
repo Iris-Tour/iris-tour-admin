@@ -11,15 +11,13 @@ import {
     DialogTrigger,
 } from "@/components/ui/dialog";
 import { Trans } from "react-i18next";
-import { Edit2, Forbidden, LockSlash, Trash, Unlock } from "iconsax-react";
+import { Edit2, LockSlash, Trash, Unlock } from "iconsax-react";
 import SuspendAdminForm from "@/components/forms/admins-management/SuspendAdminForm";
 import DeleteAdminForm from "@/components/forms/admins-management/DeleteAdminForm";
 import { Row } from "@tanstack/react-table";
 import { Checkbox } from "@/components/ui/checkbox";
 import SimpleChip from "@/components/chips/SimpleChip";
 import AdminsStatusChip from "@/components/chips/AdminsStatusChip";
-
-export type AdminWithRoles = { user: UserData; roles: Array<RoleType> };
 
 export const columns: ColumnDef<AdminWithRoles>[] = [
     {
@@ -47,7 +45,7 @@ export const columns: ColumnDef<AdminWithRoles>[] = [
         enableHiding: false,
     },
     {
-        accessorKey: "user.id",
+        accessorKey: "admin.id",
         header: () => {
             return (
                 <Trans i18nKey="roles-and-permissions.admins-list.headers.header1" />
@@ -62,14 +60,14 @@ export const columns: ColumnDef<AdminWithRoles>[] = [
             );
         },
         cell: ({ row }) => {
-            const user = row.original.user;
-            return <UserAccount user={user} />;
+            const admin = row.original.user;
+            return <UserAccount user={admin} />;
         },
         filterFn: (row: Row<any>, columnId: string, filterValue: string) => {
-            const user = row.original.user;
+            const admin = row.original.admin;
             const name =
-                `${user.firstname} ${user.lastname}`.toLowerCase() || "";
-            const email = user.email.toLowerCase() || "";
+                `${admin.firstname} ${admin.lastname}`.toLowerCase() || "";
+            const email = admin.email.toLowerCase() || "";
             const value = filterValue.toLowerCase();
 
             return name.includes(value) || email.includes(value);
@@ -114,7 +112,7 @@ export const columns: ColumnDef<AdminWithRoles>[] = [
             );
         },
         cell: ({ row }) => {
-            const user = row.original.user;
+            const admin = row.original.user;
             return (
                 <div className="flex items-center gap-3">
                     <Dialog>
@@ -134,7 +132,7 @@ export const columns: ColumnDef<AdminWithRoles>[] = [
                     <Dialog>
                         <DialogTrigger
                             className={`${
-                                user.isActive
+                                admin.isActive
                                     ? "text-secondary hover:bg-secondary/10"
                                     : "text-green-600 hover:bg-green-600/10"
                             } px-2 py-2 rounded-md cursor-pointer transition`}
@@ -142,7 +140,7 @@ export const columns: ColumnDef<AdminWithRoles>[] = [
                             <span className="sr-only">
                                 <Trans i18nKey="roles-and-permissions.admins-list.actions.suspend" />
                             </span>
-                            {user.isActive ? (
+                            {admin.isActive ? (
                                 <LockSlash className="stroke-secondary w-5 h-5" />
                             ) : (
                                 <Unlock className="stroke-green-600 w-5 h-5" />
@@ -151,14 +149,14 @@ export const columns: ColumnDef<AdminWithRoles>[] = [
                         <DialogContent>
                             <DialogHeader>
                                 <DialogTitle>
-                                    {user.isActive ? (
+                                    {admin.isActive ? (
                                         <Trans i18nKey="roles-and-permissions.admins-list.suspend-admin-dialog.title1" />
                                     ) : (
                                         <Trans i18nKey="roles-and-permissions.admins-list.suspend-admin-dialog.title2" />
                                     )}
                                 </DialogTitle>
                                 <DialogDescription></DialogDescription>
-                                <SuspendAdminForm admin={user} />
+                                <SuspendAdminForm admin={admin} />
                             </DialogHeader>
                         </DialogContent>
                     </Dialog>
@@ -176,8 +174,8 @@ export const columns: ColumnDef<AdminWithRoles>[] = [
                                 </DialogTitle>
                                 <DialogDescription></DialogDescription>
                                 <DeleteAdminForm
-                                    adminName={`${user.firstname} ${user.lastname}`}
-                                    adminId={user.id.toString()}
+                                    adminName={`${admin.firstname} ${admin.lastname}`}
+                                    adminId={admin.id.toString()}
                                 />
                             </DialogHeader>
                         </DialogContent>

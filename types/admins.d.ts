@@ -1,3 +1,10 @@
+type AdminWithRoles = { user: UserData; roles: Array<RoleType> };
+
+type GetAllAdminsWithRolesPromise = {
+    message: string;
+    usersWithRoles: Array<AdminWithRoles>;
+};
+
 type StoreAdminMutation = {
     firstname: string;
     lastname: string;
