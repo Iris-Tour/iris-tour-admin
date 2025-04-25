@@ -165,6 +165,18 @@ export const apiSuspendAdmin = (
         token
     );
 
+export const apiDeleteAdmin = (
+    token: string,
+    adminId: string
+): Promise<DeleteAdminPromise> =>
+    sessionApi(
+        API_PREFIX,
+        `/admins/delete/${adminId}`,
+        "DELETE",
+        undefined,
+        token
+    );
+
 //-------------- END ADMINS
 
 //-------------- TOURS

@@ -319,7 +319,9 @@
                 "description": "Voulez-vous vraiment supprimer le compte de l'administrateur : <b>{{adminName}}</b> ?",
                 "button1": "Annuler",
                 "button2": "Supprimer",
-                "success-messages": {}
+                "success-messages": {
+                    "Admin deleted successfully": "Administrateur <b>{{adminName}}</b> supprimé avec succès."
+                }
             }
         }
     }

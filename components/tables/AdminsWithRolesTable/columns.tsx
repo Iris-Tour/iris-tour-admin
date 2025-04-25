@@ -193,10 +193,7 @@ export const columns: ColumnDef<AdminWithRoles>[] = [
                                     <Trans i18nKey="roles-and-permissions.admins-list.delete-admin-dialog.title" />
                                 </DialogTitle>
                                 <DialogDescription></DialogDescription>
-                                <DeleteAdminForm
-                                    adminName={`${admin.firstname} ${admin.lastname}`}
-                                    adminId={admin.id.toString()}
-                                />
+                                <DeleteAdminForm admin={admin} />
                             </DialogHeader>
                         </DialogContent>
                     </Dialog>

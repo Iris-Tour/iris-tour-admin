@@ -30,3 +30,7 @@ type UpdateAdminPromise = {
 type SuspendAdminPromise = {
     message: string;
 };
+
+type DeleteAdminPromise = {
+    message: string;
+};
