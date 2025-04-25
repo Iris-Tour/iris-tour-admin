@@ -241,10 +241,13 @@
                 "delete": "Supprimer"
             },
             "suspend-admin-dialog": {
-                "title": "Suspension de compte",
-                "description": "Voulez-vous vraiment suspendre le compte de l'administrateur : <b>{{adminName}}</b> ?",
+                "title1": "Suspension de compte",
+                "title2": "Déblocage de compte",
+                "description1": "Voulez-vous vraiment suspendre le compte de l'administrateur : <b>{{adminName}}</b> ?",
+                "description2": "Voulez-vous débloquer le compte de l'administrateur : <b>{{adminName}}</b> ?",
                 "button1": "Annuler",
                 "button2": "Suspendre",
+                "unblock": "Débloquer",
                 "error-messages": {
                     "is not admin": "Ce compte n'est pas administrateur."
                 },

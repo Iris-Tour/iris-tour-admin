@@ -5,24 +5,22 @@ import useAuth from "@/hooks/useAuth";
 import { apiSuspendAdmin } from "@/lib/api";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { FC } from "react";
-import { Trans, useTranslation } from "react-i18next";
+import { Trans } from "react-i18next";
 import { toast } from "sonner";
 
 interface SuspendAdminFormProps {
-    adminName: string;
-    adminId: string;
+    admin: UserData;
 }
 
-const SuspendAdminForm: FC<SuspendAdminFormProps> = ({
-    adminName,
-    adminId,
-}) => {
+const SuspendAdminForm: FC<SuspendAdminFormProps> = ({ admin }) => {
     const { token } = useAuth();
 
     const queryClient = useQueryClient();
 
+    const adminName = `${admin.firstname} ${admin.lastname}`;
+
     const suspendAdminMutation = useMutation({
-        mutationFn: () => apiSuspendAdmin(token!, adminId),
+        mutationFn: () => apiSuspendAdmin(token!, admin.id.toString()),
         onSuccess: (data: any) => {
             // Update admins list
             queryClient.invalidateQueries({
@@ -56,11 +54,19 @@ const SuspendAdminForm: FC<SuspendAdminFormProps> = ({
         <div className="flex flex-col gap-5">
             <div>
                 <p>
-                    <Trans
-                        i18nKey="roles-and-permissions.admins-list.suspend-admin-dialog.description"
-                        values={{ adminName: adminName }}
-                        components={{ b: <b className="text-primary" /> }}
-                    />
+                    {admin.isActive ? (
+                        <Trans
+                            i18nKey="roles-and-permissions.admins-list.suspend-admin-dialog.description1"
+                            values={{ adminName: adminName }}
+                            components={{ b: <b className="text-primary" /> }}
+                        />
+                    ) : (
+                        <Trans
+                            i18nKey="roles-and-permissions.admins-list.suspend-admin-dialog.description2"
+                            values={{ adminName: adminName }}
+                            components={{ b: <b className="text-primary" /> }}
+                        />
+                    )}
                 </p>
             </div>
             <div className="flex items-center justify-end gap-3">
@@ -77,8 +83,10 @@ const SuspendAdminForm: FC<SuspendAdminFormProps> = ({
                 >
                     {suspendAdminMutation.isPending ? (
                         <SpinningCircle />
-                    ) : (
+                    ) : admin.isActive ? (
                         <Trans i18nKey="roles-and-permissions.admins-list.suspend-admin-dialog.button2" />
+                    ) : (
+                        <Trans i18nKey="roles-and-permissions.admins-list.suspend-admin-dialog.unblock" />
                     )}
                 </Button2>
             </div>
