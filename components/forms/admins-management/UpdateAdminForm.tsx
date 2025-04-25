@@ -79,7 +79,9 @@ const UpdateAdminForm: FC<UpdateAdminFormProps> = ({
             document.getElementById("dialog-close")?.click();
 
             toast.success(
-                "roles-and-permissions.admins-list.update-admin-dialog.success-messages.Admin updated successfully"
+                t(
+                    "roles-and-permissions.admins-list.update-admin-dialog.success-messages.Admin updated successfully"
+                )
             );
         },
         onError: (error: any) => {
@@ -90,8 +92,11 @@ const UpdateAdminForm: FC<UpdateAdminFormProps> = ({
             if (typeof error === "string") {
                 toast.error(t(`general-errors.${error}`));
             } else {
+                console.log(error);
                 toast.error(
-                    `roles-and-permissions.admins-list.update-admin-dialog.error-messages.${code}.${field}.${rule}`
+                    t(
+                        `roles-and-permissions.admins-list.update-admin-dialog.error-messages.${code}.${field}.${rule}`
+                    )
                 );
             }
         },

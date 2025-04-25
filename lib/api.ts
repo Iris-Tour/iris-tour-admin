@@ -151,7 +151,7 @@ export const apiUpdateAdmin = (
     adminId: string,
     data: UpdateAdminMutation
 ): Promise<UpdateAdminPromise> =>
-    sessionApi(API_PREFIX, `/admins/admins/${adminId}`, "PUT", data, token);
+    sessionApi(API_PREFIX, `/admins/${adminId}`, "PUT", data, token);
 
 export const apiSuspendAdmin = (
     token: string,
