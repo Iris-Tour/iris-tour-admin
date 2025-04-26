@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import { DataTable } from "./data-table";
-import { AdminWithRoles, columns } from "./columns";
+import { columns } from "./columns";
 
 interface Props {
     data: AdminWithRoles[];
