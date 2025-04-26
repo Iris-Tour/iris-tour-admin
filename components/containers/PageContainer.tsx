@@ -8,7 +8,12 @@ interface PageContainerProps {
 
 const PageContainer: FC<PageContainerProps> = ({ children, className }) => {
     return (
-        <div className={cn("flex flex-col items-center gap-5", className)}>
+        <div
+            className={cn(
+                "container flex flex-col items-center mx-auto gap-5",
+                className
+            )}
+        >
             {children}
         </div>
     );

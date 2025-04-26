@@ -11,7 +11,12 @@ const SectionContainer: FC<SectionContainerProps> = ({
     className,
 }) => {
     return (
-        <section className={cn("container flex flex-col bg-white gap-7 p-5 rounded-xl", className)}>
+        <section
+            className={cn(
+                "flex flex-col bg-white w-full gap-7 p-5 rounded-xl",
+                className
+            )}
+        >
             {children}
         </section>
     );
