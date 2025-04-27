@@ -17,7 +17,10 @@ const Table: FC<Props> = ({ data }) => {
         queryFn: () => apiGetAllRoles(token!),
     });
 
-    const allRoles = allRolesQuery?.data?.roles ?? [];
+    const allRoles = useMemo(
+        () => allRolesQuery?.data?.roles ?? [],
+        [allRolesQuery?.data?.roles]
+    );
 
     const columns = useMemo(() => getColumns(allRoles), [allRoles]);
 
