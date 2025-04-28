@@ -7,7 +7,7 @@ import { apiGetAllTours } from "@/lib/api";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 
-const ToursListSection = () => {
+const ToursTableSection = () => {
     const { token } = useAuth();
 
     const [allTours, setAllTours] = useState<GetAllToursPromise | undefined>(
@@ -30,4 +30,4 @@ const ToursListSection = () => {
     );
 };
 
-export default ToursListSection;
+export default ToursTableSection;

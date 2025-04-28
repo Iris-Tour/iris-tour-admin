@@ -1,11 +1,11 @@
 import ButtonsSection from "@/components/sections/tours-page-sections/ButtonsSection";
-import ToursListSection from "@/components/sections/tours-page-sections/ToursListSection";
+import ToursTableSection from "@/components/sections/tours-page-sections/ToursTableSection";
 
 const ToursPage = () => {
     return (
         <>
             <ButtonsSection />
-            <ToursListSection />
+            <ToursTableSection />
         </>
     );
 };

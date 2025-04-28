@@ -208,6 +208,8 @@ export const apiDeleteTour = (
 //------------- END TOURS
 
 //------------- EVENTS
+// Get all events
+export const apiGetAllEvents = (token: string): Promise<GetAllEventsPromise> => sessionApi(API_PREFIX, "/events", "GET", undefined, token);
 // Create an event
 export const apiStoreEvent = (
     token: string,

@@ -24,8 +24,9 @@ import UpdateTourForm from "@/components/forms/tours/UpdateTourForm";
 import DeleteTourForm from "@/components/forms/tours/DeleteTourForm";
 import DetailsTourForm from "@/components/forms/tours/DetailsTourForm";
 import ToursStatusChip from "@/components/chips/ToursStatusChip";
+import EventsStatusChip from "@/components/chips/EventsStatusChip";
 
-export const columns: ColumnDef<TourType>[] = [
+export const columns: ColumnDef<EventType>[] = [
     {
         id: "select",
         header: ({ table }) => (
@@ -51,64 +52,62 @@ export const columns: ColumnDef<TourType>[] = [
         enableHiding: false,
     },
     {
-        accessorKey: "title",
+        accessorKey: "name",
         header: "Nom",
         cell: ({ row }) => {
-            const tour = row.original;
+            const event = row.original;
 
-            return <span className="font-semibold">{tour.title}</span>;
+            return <span className="font-semibold">{event.name}</span>;
         },
     },
     {
         accessorKey: "description",
         header: "Description",
         cell: ({ row }) => {
-            const tour = row.original;
+            const event = row.original;
 
             return (
                 <div className="truncate max-w-[250px]">
-                    <span className="text-foreground">{tour.description}</span>
+                    <span className="text-foreground">{event.description}</span>
                 </div>
             );
         },
     },
     {
-        id: "journey",
+        id: "location",
         header: () => {
             return (
                 <div className="flex items-center gap-1">
-                    Itinéraire
+                    Lieu
                     <Location className="w-4 h-4 stroke-accent-foreground" />
                 </div>
             );
         },
         cell: ({ row }) => {
-            const tour = row.original;
+            const event = row.original;
 
             return (
                 <div className="font-semibold text-primary">
-                    <span>{tour.departurePoint}</span>
-                    {" - "}
-                    <span>{tour.arrivalPoint}</span>
+                    <span>{event.location}</span>
                 </div>
             );
         },
     },
     {
-        accessorKey: "excursionPrice",
+        accessorKey: "ticketPrice",
         header: "Prix",
         cell: ({ row }) => {
-            const tour = row.original;
+            const event = row.original;
             const formattedPrice = new Intl.NumberFormat("fr-FR", {
                 style: "currency",
                 currency: "XOF",
-            }).format(tour.excursionPrice);
+            }).format(event.ticketPrice);
 
             return <span className="font-bold">{formattedPrice}</span>;
         },
     },
     {
-        accessorKey: "departureDateTime",
+        accessorKey: "startDateTime",
         header: () => {
             return (
                 <div className="flex items-center gap-1">
@@ -118,19 +117,19 @@ export const columns: ColumnDef<TourType>[] = [
             );
         },
         cell: ({ row }) => {
-            const tour = row.original;
+            const event = row.original;
 
             return (
                 <div className="flex flex-col text-foreground">
                     <span>
                         {format(
-                            new Date(tour.departureDateTime),
+                            new Date(event.startDateTime),
                             "E dd MMMM yyyy",
                             { locale: fr }
                         )}
                     </span>
                     <span>
-                        {format(new Date(tour.departureDateTime), "HH'h' mm", {
+                        {format(new Date(event.startDateTime), "HH'h' mm", {
                             locale: fr,
                         })}
                     </span>
@@ -142,45 +141,45 @@ export const columns: ColumnDef<TourType>[] = [
         id: "status",
         header: "Statut",
         cell: ({ row }) => {
-            const tour = row.original;
+            const event = row.original;
 
-            return <ToursStatusChip tour={tour} />;
+            return <EventsStatusChip event={event} />;
         },
     },
     {
         id: "actions",
         header: "Actions",
         cell: ({ row }) => {
-            const tour = row.original;
+            const event = row.original;
             return (
                 <div className="flex items-center gap-3">
                     <Dialog>
                         <DialogTrigger className="text-primary hover:bg-primary/10 px-2 py-2 rounded-md cursor-pointer transition">
                             <span className="sr-only">
-                                Modifier l'excursion
+                                Modifier l'événement
                             </span>
                             <Edit2 className="stroke-primary w-5 h-5" />
                         </DialogTrigger>
                         <DialogContent className="sm:max-w-3xl">
                             <DialogHeader>
-                                <DialogTitle>Modifier l'excursion</DialogTitle>
+                                <DialogTitle>Modifier l'événement</DialogTitle>
                                 <DialogDescription></DialogDescription>
-                                <UpdateTourForm tour={tour} />
+                                {/* <UpdateTourForm event={event} /> */}
                             </DialogHeader>
                         </DialogContent>
                     </Dialog>
                     <Dialog>
                         <DialogTrigger className="text-red-500 hover:bg-red-500/10 px-2 py-2 rounded-md cursor-pointer transition">
                             <span className="sr-only">
-                                Supprimer l'excursion
+                                Supprimer l'événement
                             </span>
                             <Trash className="stroke-red-500 w-5 h-5" />
                         </DialogTrigger>
                         <DialogContent>
                             <DialogHeader>
-                                <DialogTitle>Supprimer l'excursion</DialogTitle>
+                                <DialogTitle>Supprimer l'événement</DialogTitle>
                                 <DialogDescription></DialogDescription>
-                                <DeleteTourForm tour={tour} />
+                                {/* <DeleteTourForm event={event} /> */}
                             </DialogHeader>
                         </DialogContent>
                     </Dialog>
@@ -192,10 +191,10 @@ export const columns: ColumnDef<TourType>[] = [
                         <DialogContent>
                             <DialogHeader>
                                 <DialogTitle className="flex items-center gap-10">
-                                    Détails <ToursStatusChip tour={tour} />
+                                    Détails <EventsStatusChip event={event} />
                                 </DialogTitle>
                                 <DialogDescription></DialogDescription>
-                                <DetailsTourForm tour={tour} />
+                                {/* <DetailsTourForm event={event} /> */}
                             </DialogHeader>
                         </DialogContent>
                     </Dialog>

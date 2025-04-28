@@ -54,12 +54,12 @@ export function DataTable<TData, TValue>({
                         placeholder="Rechercher par nom..."
                         value={
                             (table
-                                .getColumn("title")
+                                .getColumn("name")
                                 ?.getFilterValue() as string) ?? ""
                         }
                         onChange={(event) =>
                             table
-                                .getColumn("title")
+                                .getColumn("name")
                                 ?.setFilterValue(event.target.value)
                         }
                         className="max-w-sm"
