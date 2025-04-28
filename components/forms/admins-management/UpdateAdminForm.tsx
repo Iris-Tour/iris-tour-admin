@@ -38,7 +38,7 @@ import { cn } from "@/lib/utils";
 import SimpleChip from "@/components/chips/SimpleChip";
 
 interface UpdateAdminFormProps {
-    admin: UserData;
+    admin: AdminType;
     adminRoles: Array<RoleType>;
     allRoles: Array<RoleType>;
 }

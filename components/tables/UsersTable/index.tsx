@@ -3,7 +3,7 @@ import { DataTable } from "./data-table";
 import { columns } from "./columns";
 
 interface Props {
-    data: EventType[];
+    data: UserType[];
 }
 
 const Table: FC<Props> = ({ data }) => {

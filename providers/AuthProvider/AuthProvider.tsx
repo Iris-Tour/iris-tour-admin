@@ -75,7 +75,7 @@ const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
         }
     }, [user, router, pathname, isError, isClient]);
 
-    const login = (userData: UserData, tokenData: TokenData) => {
+    const login = (userData: AdminType | UserType, tokenData: TokenData) => {
         localStorage.setItem("token", JSON.stringify(tokenData));
         setToken(tokenData.token);
         queryClient.setQueryData(["current-user"], userData);

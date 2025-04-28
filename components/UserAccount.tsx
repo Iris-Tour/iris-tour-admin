@@ -2,7 +2,7 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { FC } from "react";
 
 interface UserAccountProps {
-    user: UserData;
+    user: AdminType | UserType;
 }
 
 const UserAccount: FC<UserAccountProps> = ({ user }) => {

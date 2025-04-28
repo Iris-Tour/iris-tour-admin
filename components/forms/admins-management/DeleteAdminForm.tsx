@@ -9,7 +9,7 @@ import { Trans } from "react-i18next";
 import { toast } from "sonner";
 
 interface DeleteAdminFormProps {
-    admin: UserData;
+    admin: AdminType;
 }
 
 const DeleteAdminForm: FC<DeleteAdminFormProps> = ({ admin }) => {

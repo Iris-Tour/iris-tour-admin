@@ -12,3 +12,5 @@ type UserType = {
     isActive: boolean;
     logCount: number;
 };
+
+type GetAllUsersPromise = Array<UserType>;

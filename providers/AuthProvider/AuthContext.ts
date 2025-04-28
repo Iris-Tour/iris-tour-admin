@@ -1,10 +1,10 @@
 import { createContext } from "react";
 
 interface AuthContextProps {
-    user: {user: UserData} | undefined;
+    user: { user: AdminType | UserType } | undefined;
     token: string | undefined;
     isAuthenticated: boolean;
-    login: (userData: UserData, tokenData: TokenData) => void;
+    login: (userData: AdminType | UserType, tokenData: TokenData) => void;
     logout: () => void;
 }
 

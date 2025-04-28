@@ -14,12 +14,10 @@ import { Trans } from "react-i18next";
 import { FC } from "react";
 
 interface ActionsCellProps {
-    admin: AdminType;
-    adminRoles: Array<RoleType>;
-    allRoles: Array<RoleType>;
+    user: UserType;
 }
 
-const ActionsCell: FC<ActionsCellProps> = ({admin, adminRoles, allRoles}) => {
+const ActionsCell: FC<ActionsCellProps> = ({user}) => {
     return (
         <div className="flex items-center gap-3">
             <Dialog>
@@ -36,17 +34,15 @@ const ActionsCell: FC<ActionsCellProps> = ({admin, adminRoles, allRoles}) => {
                         </DialogTitle>
                         <DialogDescription></DialogDescription>
                     </DialogHeader>
-                    <UpdateAdminForm
-                        admin={admin}
-                        adminRoles={adminRoles}
-                        allRoles={allRoles ?? []}
-                    />
+                    {/* <UpdateAdminForm
+                        admin={user}
+                    /> */}
                 </DialogContent>
             </Dialog>
             <Dialog>
                 <DialogTrigger
                     className={`${
-                        admin.isActive
+                        user.isActive
                             ? "text-secondary hover:bg-secondary/10"
                             : "text-green-600 hover:bg-green-600/10"
                     } px-2 py-2 rounded-md cursor-pointer transition`}
@@ -54,7 +50,7 @@ const ActionsCell: FC<ActionsCellProps> = ({admin, adminRoles, allRoles}) => {
                     <span className="sr-only">
                         <Trans i18nKey="roles-and-permissions.admins-list.actions.suspend" />
                     </span>
-                    {admin.isActive ? (
+                    {user.isActive ? (
                         <LockSlash className="stroke-secondary w-5 h-5" />
                     ) : (
                         <Unlock className="stroke-green-600 w-5 h-5" />
@@ -63,14 +59,14 @@ const ActionsCell: FC<ActionsCellProps> = ({admin, adminRoles, allRoles}) => {
                 <DialogContent>
                     <DialogHeader>
                         <DialogTitle>
-                            {admin.isActive ? (
+                            {user.isActive ? (
                                 <Trans i18nKey="roles-and-permissions.admins-list.suspend-admin-dialog.title1" />
                             ) : (
                                 <Trans i18nKey="roles-and-permissions.admins-list.suspend-admin-dialog.title2" />
                             )}
                         </DialogTitle>
                         <DialogDescription></DialogDescription>
-                        <SuspendAdminForm admin={admin} />
+                        {/* <SuspendAdminForm admin={user} /> */}
                     </DialogHeader>
                 </DialogContent>
             </Dialog>
@@ -87,7 +83,7 @@ const ActionsCell: FC<ActionsCellProps> = ({admin, adminRoles, allRoles}) => {
                             <Trans i18nKey="roles-and-permissions.admins-list.delete-admin-dialog.title" />
                         </DialogTitle>
                         <DialogDescription></DialogDescription>
-                        <DeleteAdminForm admin={admin} />
+                        {/* <DeleteAdminForm admin={user} /> */}
                     </DialogHeader>
                 </DialogContent>
             </Dialog>

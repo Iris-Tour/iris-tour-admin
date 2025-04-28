@@ -9,7 +9,7 @@ import { Trans } from "react-i18next";
 import { toast } from "sonner";
 
 interface SuspendAdminFormProps {
-    admin: UserData;
+    admin: AdminType;
 }
 
 const SuspendAdminForm: FC<SuspendAdminFormProps> = ({ admin }) => {

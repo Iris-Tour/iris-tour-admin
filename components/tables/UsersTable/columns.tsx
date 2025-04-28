@@ -1,28 +1,14 @@
 "use client";
 
+import UserAccount from "@/components/UserAccount";
 import { ColumnDef } from "@tanstack/react-table";
-import {
-    Dialog,
-    DialogContent,
-    DialogDescription,
-    DialogHeader,
-    DialogTitle,
-    DialogTrigger,
-} from "@/components/ui/dialog";
-import {
-    Calendar,
-    Edit2,
-    Eye,
-    Location,
-    Trash,
-} from "iconsax-react";
-import { Checkbox } from "@/components/ui/checkbox";
-import { format } from "date-fns";
-import { fr } from "date-fns/locale";
 import { Trans } from "react-i18next";
-import EventsStatusChip from "@/components/chips/EventsStatusChip";
+import { Row } from "@tanstack/react-table";
+import { Checkbox } from "@/components/ui/checkbox";
+import AdminsStatusChip from "@/components/chips/AdminsStatusChip";
+import ActionsCell from "./cells/ActionsCell";
 
-export const columns: ColumnDef<EventType>[] = [
+export const columns: ColumnDef<UserType>[] = [
     {
         id: "select",
         header: ({ table }) => (
@@ -48,154 +34,58 @@ export const columns: ColumnDef<EventType>[] = [
         enableHiding: false,
     },
     {
-        accessorKey: "name",
-        header: "Nom",
-        cell: ({ row }) => {
-            const event = row.original;
-
-            return <span className="font-semibold">{event.name}</span>;
-        },
-    },
-    {
-        accessorKey: "description",
-        header: "Description",
-        cell: ({ row }) => {
-            const event = row.original;
-
-            return (
-                <div className="truncate max-w-[250px]">
-                    <span className="text-foreground">{event.description}</span>
-                </div>
-            );
-        },
-    },
-    {
-        id: "location",
+        accessorKey: "id",
         header: () => {
             return (
-                <div className="flex items-center gap-1">
-                    Lieu
-                    <Location className="w-4 h-4 stroke-accent-foreground" />
-                </div>
-            );
-        },
-        cell: ({ row }) => {
-            const event = row.original;
-
-            return (
-                <div className="font-semibold text-primary">
-                    <span>{event.location}</span>
-                </div>
+                <Trans i18nKey="roles-and-permissions.admins-list.headers.header1" />
             );
         },
     },
     {
-        accessorKey: "ticketPrice",
-        header: "Prix",
-        cell: ({ row }) => {
-            const event = row.original;
-            const formattedPrice = new Intl.NumberFormat("fr-FR", {
-                style: "currency",
-                currency: "XOF",
-            }).format(event.ticketPrice);
-
-            return <span className="font-bold">{formattedPrice}</span>;
-        },
-    },
-    {
-        accessorKey: "startDateTime",
+        id: "account",
         header: () => {
             return (
-                <div className="flex items-center gap-1">
-                    Départ
-                    <Calendar className="w-4 h-4 stroke-accent-foreground" />
-                </div>
+                <Trans i18nKey="roles-and-permissions.admins-list.headers.header2" />
             );
         },
         cell: ({ row }) => {
-            const event = row.original;
+            const user = row.original;
+            return <UserAccount user={user} />;
+        },
+        filterFn: (row: Row<any>, columnId: string, filterValue: string) => {
+            const admin = row.original.admin;
+            const name =
+                `${admin.firstname} ${admin.lastname}`.toLowerCase() || "";
+            const email = admin.email.toLowerCase() || "";
+            const value = filterValue.toLowerCase();
 
-            return (
-                <div className="flex flex-col text-foreground">
-                    <span>
-                        {format(
-                            new Date(event.startDateTime),
-                            "E dd MMMM yyyy",
-                            { locale: fr }
-                        )}
-                    </span>
-                    <span>
-                        {format(new Date(event.startDateTime), "HH'h' mm", {
-                            locale: fr,
-                        })}
-                    </span>
-                </div>
-            );
+            return name.includes(value) || email.includes(value);
         },
     },
     {
         id: "status",
-        header: "Statut",
+        header: () => {
+            return (
+                <Trans i18nKey="roles-and-permissions.admins-list.headers.header4" />
+            );
+        },
         cell: ({ row }) => {
-            const event = row.original;
+            const user = row.original;
 
-            return <EventsStatusChip event={event} />;
+            return <AdminsStatusChip admin={user} />;
         },
     },
     {
         id: "actions",
-        header: "Actions",
-        cell: ({ row }) => {
-            const event = row.original;
+        header: () => {
             return (
-                <div className="flex items-center gap-3">
-                    <Dialog>
-                        <DialogTrigger className="text-primary hover:bg-primary/10 px-2 py-2 rounded-md cursor-pointer transition">
-                            <span className="sr-only">
-                                Modifier l'événement
-                            </span>
-                            <Edit2 className="stroke-primary w-5 h-5" />
-                        </DialogTrigger>
-                        <DialogContent className="sm:max-w-3xl">
-                            <DialogHeader>
-                                <DialogTitle>Modifier l'événement</DialogTitle>
-                                <DialogDescription></DialogDescription>
-                                {/* <UpdateTourForm event={event} /> */}
-                            </DialogHeader>
-                        </DialogContent>
-                    </Dialog>
-                    <Dialog>
-                        <DialogTrigger className="text-red-500 hover:bg-red-500/10 px-2 py-2 rounded-md cursor-pointer transition">
-                            <span className="sr-only">
-                                Supprimer l'événement
-                            </span>
-                            <Trash className="stroke-red-500 w-5 h-5" />
-                        </DialogTrigger>
-                        <DialogContent>
-                            <DialogHeader>
-                                <DialogTitle>Supprimer l'événement</DialogTitle>
-                                <DialogDescription></DialogDescription>
-                                {/* <DeleteTourForm event={event} /> */}
-                            </DialogHeader>
-                        </DialogContent>
-                    </Dialog>
-                    <Dialog>
-                        <DialogTrigger className="text-secondary hover:bg-secondary/10 px-2 py-2 rounded-md cursor-pointer transition">
-                            <span className="sr-only">Détails</span>
-                            <Eye className="stroke-secondary w-5 h-5" />
-                        </DialogTrigger>
-                        <DialogContent>
-                            <DialogHeader>
-                                <DialogTitle className="flex items-center gap-10">
-                                    Détails <EventsStatusChip event={event} />
-                                </DialogTitle>
-                                <DialogDescription></DialogDescription>
-                                {/* <DetailsTourForm event={event} /> */}
-                            </DialogHeader>
-                        </DialogContent>
-                    </Dialog>
-                </div>
+                <Trans i18nKey="roles-and-permissions.admins-list.headers.header5" />
             );
+        },
+        cell: ({ row }) => {
+            const user = row.original;
+
+            return <ActionsCell user={user} />;
         },
     },
 ];

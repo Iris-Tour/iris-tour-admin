@@ -66,7 +66,7 @@ export const api = async <T>(
 
 export const apiLogin = (
     data: LoginMutation
-): Promise<{ user: UserData; token: TokenData }> =>
+): Promise<{ user: AdminType; token: TokenData }> =>
     api(API_PREFIX, "/auth/login", "POST", data);
 
 export const apiLogout = (token: string): Promise<any> =>
@@ -74,7 +74,7 @@ export const apiLogout = (token: string): Promise<any> =>
 
 export const currentUser = (
     data: GetCurrentUser
-): Promise<{ user: UserData }> =>
+): Promise<{ user: AdminType }> =>
     sessionApi(API_PREFIX, "/auth/current-user", "GET", undefined, data.token);
 
 export const resetPassword = (
@@ -209,7 +209,9 @@ export const apiDeleteTour = (
 
 //------------- EVENTS
 // Get all events
-export const apiGetAllEvents = (token: string): Promise<GetAllEventsPromise> => sessionApi(API_PREFIX, "/events", "GET", undefined, token);
+export const apiGetAllEvents = (token: string): Promise<GetAllEventsPromise> =>
+    sessionApi(API_PREFIX, "/events", "GET", undefined, token);
+
 // Create an event
 export const apiStoreEvent = (
     token: string,
@@ -217,3 +219,8 @@ export const apiStoreEvent = (
 ): Promise<StoreEventPromise> =>
     sessionApi(API_PREFIX, "/events", "POST", data, token);
 //------------- END EVENTS
+
+//------------- USERS
+export const apiGetAllUsers = (token: string): Promise<GetAllUsersPromise> =>
+    sessionApi(API_PREFIX, "/users", "GET", undefined, token);
+//------------- END USERS

@@ -13,9 +13,26 @@ import {
 } from "@/components/ui/dialog";
 import { useTranslation } from "react-i18next";
 import AddUserForm from "@/components/forms/users-management/AddUserForm";
+import UsersTable from "@/components/tables/UsersTable";
+import { useQuery } from "@tanstack/react-query";
+import { apiGetAllUsers } from "@/lib/api";
+import useAuth from "@/hooks/useAuth";
+import { useEffect, useState } from "react";
 
 const UsersTableSection = () => {
     const { t } = useTranslation();
+    const { token } = useAuth();
+
+    const [allUsers, setAllUsers] = useState<GetAllUsersPromise | undefined>(undefined);
+
+    const getAllUsersQuery = useQuery({
+        queryKey: ["get-all-users"],
+        queryFn: () => apiGetAllUsers(token!),
+    });
+
+    useEffect(() => {
+        setAllUsers(getAllUsersQuery.data)
+    }, [])
 
     return (
         <SectionContainer>
@@ -50,9 +67,7 @@ const UsersTableSection = () => {
                 </Dialog>
             </div>
 
-            {/* <UsersTable
-                    data={adminsWithRoles?.usersWithRoles ?? []}
-                /> */}
+            <UsersTable data={allUsers ?? []} />
         </SectionContainer>
     );
 };

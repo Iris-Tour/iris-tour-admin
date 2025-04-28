@@ -3,7 +3,7 @@ import SimpleChip from "./SimpleChip";
 import { statuses } from "@/constants/statuses";
 
 interface AdminsStatusChipProps {
-    admin: UserData;
+    admin: AdminType;
 }
 
 const AdminsStatusChip: FC<AdminsStatusChipProps> = ({ admin }) => {

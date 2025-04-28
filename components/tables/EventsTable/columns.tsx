@@ -13,17 +13,12 @@ import {
     Calendar,
     Edit2,
     Eye,
-    Forbidden,
     Location,
     Trash,
 } from "iconsax-react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { format } from "date-fns";
 import { fr } from "date-fns/locale";
-import UpdateTourForm from "@/components/forms/tours/UpdateTourForm";
-import DeleteTourForm from "@/components/forms/tours/DeleteTourForm";
-import DetailsTourForm from "@/components/forms/tours/DetailsTourForm";
-import ToursStatusChip from "@/components/chips/ToursStatusChip";
 import EventsStatusChip from "@/components/chips/EventsStatusChip";
 
 export const columns: ColumnDef<EventType>[] = [

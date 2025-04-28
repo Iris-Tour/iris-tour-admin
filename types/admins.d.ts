@@ -1,4 +1,19 @@
-type AdminWithRoles = { user: UserData; roles: Array<RoleType> };
+type AdminType = {
+    id: number;
+    firstname: string;
+    lastname: string;
+    email: string;
+    emailVerificationToken: string | null;
+    emailVerificationTokenExpiresAt: string | null;
+    emailVerified: boolean;
+    createdAt: string;
+    updatedAt: string;
+    isAdmin: boolean;
+    isActive: boolean;
+    logCount: number;
+};
+
+type AdminWithRoles = { user: AdminType; roles: Array<RoleType> };
 
 type GetAllAdminsWithRolesPromise = {
     message: string;
