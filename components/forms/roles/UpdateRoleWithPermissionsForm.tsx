@@ -78,6 +78,10 @@ const UpdateRoleWithPermissionsForm: FC<UpdateRoleWithPermissionsFormProps> = ({
                 queryKey: ["get-all-admins-with-roles"],
             });
 
+            // Get all roles
+            queryClient.invalidateQueries({
+                queryKey: ["get-all-roles"],
+            });
             toast.success(
                 t(
                     "roles-and-permissions.updateRoleDialog.success-messages.Permissions assigned successfully"

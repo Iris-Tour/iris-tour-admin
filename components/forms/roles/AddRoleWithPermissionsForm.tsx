@@ -59,6 +59,16 @@ const AddRoleWithPermissionsForm = () => {
                 queryKey: ["get-all-roles-with-permissions"],
             });
 
+            // Update admins list
+            queryClient.invalidateQueries({
+                queryKey: ["get-all-admins-with-roles"],
+            });
+
+            // Get all roles
+            queryClient.invalidateQueries({
+                queryKey: ["get-all-roles"],
+            });
+
             document.getElementById("dialog-close")?.click();
 
             toast.success(

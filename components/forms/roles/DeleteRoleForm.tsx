@@ -32,6 +32,16 @@ const DeleteRoleForm: FC<DeleteRoleFormProps> = ({ role, roleId }) => {
                 queryKey: ["get-all-roles-with-permissions"],
             });
 
+            // Update admins list
+            queryClient.invalidateQueries({
+                queryKey: ["get-all-admins-with-roles"],
+            });
+
+            // Get all roles
+            queryClient.invalidateQueries({
+                queryKey: ["get-all-roles"],
+            });
+
             toast.success(
                 <Trans
                     i18nKey="roles-and-permissions.deleteRoleDialog.success-messages.Role deleted successfully"
