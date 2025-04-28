@@ -89,7 +89,9 @@ const AddAdminForm: FC<AddAdminFormProps> = ({ roles }) => {
             document.getElementById("dialog-close")?.click();
 
             toast.success(
-                "roles-and-permissions.admins-list.add-admin-dialog.success-messages.Admin created successfully"
+                t(
+                    "roles-and-permissions.admins-list.add-admin-dialog.success-messages.Admin created successfully"
+                )
             );
         },
         onError: (error: any) => {

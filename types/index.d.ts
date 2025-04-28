@@ -80,15 +80,17 @@ type GetAllRolesWithPermissionPromise = {
 };
 
 type GetAllPermissionsPromise = {
-    id: string;
-    slug: string;
-    title: string | null;
-    entityType: string;
-    entityId: string | null;
-    scope: string;
-    allowed: boolean;
-    createdAt: string;
-    updatedAt: string;
+    permissions: Array<{
+        id: string;
+        slug: string;
+        title: string | null;
+        entityType: string;
+        entityId: string | null;
+        scope: string;
+        allowed: boolean;
+        createdAt: string;
+        updatedAt: string;
+    }>;
 };
 
 type GetPermissionsOfRolePromise = {

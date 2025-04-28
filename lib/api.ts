@@ -101,7 +101,7 @@ export const apiGetAllRolesWithPermissions = (
 // Get all permissions
 export const apiGetAllPermissions = (
     token: string
-): Promise<GetAllPermissionsPromise[]> =>
+): Promise<GetAllPermissionsPromise> =>
     sessionApi(API_PREFIX, `/acl/permissions`, "GET", undefined, token);
 
 // Create a new role with permissions

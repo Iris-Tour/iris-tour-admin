@@ -56,7 +56,7 @@ export const getColumns = (
             return <UserAccount user={admin} />;
         },
         filterFn: (row: Row<any>, columnId: string, filterValue: string) => {
-            const admin = row.original.admin;
+            const admin = row.original.user;
             const name =
                 `${admin.firstname} ${admin.lastname}`.toLowerCase() || "";
             const email = admin.email.toLowerCase() || "";

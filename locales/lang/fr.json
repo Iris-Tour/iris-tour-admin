@@ -18,7 +18,8 @@
         "error-messages": {
             "UNVERIFIED_EMAIL": "Votre compte n'est pas encore vérifié.",
             "E_INVALID_CREDENTIALS": "Email ou Mot de passe incorrects.",
-            "E_VALIDATION_ERROR": "Email ou Mot de passe incorrects."
+            "E_VALIDATION_ERROR": "Email ou Mot de passe incorrects.",
+            "USER_NOT_ACTIVE": "Votre compte a été bloqué. Veuillez contacter un administrateur."
         },
         "success-messages": {
             "login-successful": "Connexion réussie, bienvenue !"
@@ -184,6 +185,7 @@
             "cta": "Créer",
             "error-messages": {
                 "ROLE_ALREADY_EXISTS": "Ce nom de rôle existe déjà.",
+                "PERMISSIONS_REQUIRED": "Veuillez choisir au moins une permission.",
                 "Permissions are required": "Veuillez sélectionner au moins une permission."
             },
             "success-messages": {
