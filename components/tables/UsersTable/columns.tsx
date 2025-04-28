@@ -53,10 +53,10 @@ export const columns: ColumnDef<UserType>[] = [
             return <UserAccount user={user} />;
         },
         filterFn: (row: Row<any>, columnId: string, filterValue: string) => {
-            const admin = row.original.admin;
+            const user = row.original;
             const name =
-                `${admin.firstname} ${admin.lastname}`.toLowerCase() || "";
-            const email = admin.email.toLowerCase() || "";
+                `${user.firstname} ${user.lastname}`.toLowerCase() || "";
+            const email = user.email.toLowerCase() || "";
             const value = filterValue.toLowerCase();
 
             return name.includes(value) || email.includes(value);

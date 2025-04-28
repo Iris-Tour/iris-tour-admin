@@ -23,7 +23,9 @@ const UsersTableSection = () => {
     const { t } = useTranslation();
     const { token } = useAuth();
 
-    const [allUsers, setAllUsers] = useState<GetAllUsersPromise | undefined>(undefined);
+    const [allUsers, setAllUsers] = useState<GetAllUsersPromise | undefined>(
+        undefined
+    );
 
     const getAllUsersQuery = useQuery({
         queryKey: ["get-all-users"],
@@ -31,8 +33,8 @@ const UsersTableSection = () => {
     });
 
     useEffect(() => {
-        setAllUsers(getAllUsersQuery.data)
-    }, [])
+        setAllUsers(getAllUsersQuery.data);
+    }, [getAllUsersQuery]);
 
     return (
         <SectionContainer>

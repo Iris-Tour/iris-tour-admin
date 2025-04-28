@@ -24,8 +24,13 @@ import {
     storeUserSchema,
     StoreUserSchemaType,
 } from "@/utils/schemas/users/store-user-schema";
+import { FC } from "react";
 
-const AddUserForm = () => {
+interface UpdateUserFormProps {
+    user: UserType;
+}
+
+const UpdateUserForm: FC<UpdateUserFormProps> = ({ user }) => {
     const { t } = useTranslation();
 
     const { token } = useAuth();
@@ -35,9 +40,9 @@ const AddUserForm = () => {
     const form = useForm<StoreUserSchemaType>({
         resolver: zodResolver(storeUserSchema),
         defaultValues: {
-            lastname: "",
-            firstname: "",
-            email: "",
+            lastname: user.lastname,
+            firstname: user.firstname,
+            email: user.email,
             password: "",
             passwordConfirmation: "",
         },
@@ -56,7 +61,7 @@ const AddUserForm = () => {
 
             toast.success(
                 t(
-                    "manage-users.users-list.add-user-dialog.success-messages.User created successfully"
+                    "manage-users.users-list.add-user-dialog.success-messages.User updated successfully"
                 )
             );
         },
@@ -74,7 +79,7 @@ const AddUserForm = () => {
     });
 
     function onSubmit(values: StoreUserSchemaType) {
-        storeUserMutation.mutate({ data: values });
+        // storeUserMutation.mutate({ data: values });
     }
 
     return (
@@ -208,4 +213,4 @@ const AddUserForm = () => {
     );
 };
 
-export default AddUserForm;
+export default UpdateUserForm;

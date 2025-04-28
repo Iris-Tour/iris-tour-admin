@@ -234,6 +234,14 @@ export const apiStoreEvent = (
 //------------- END EVENTS
 
 //------------- USERS
+// Store a user
+export const apiStoreUser = (
+    token: string,
+    data: StoreUserMutation
+): Promise<StoreUserPromise> =>
+    sessionApi(API_PREFIX, "/auth/register", "POST", data, token);
+
+// Get all users
 export const apiGetAllUsers = (token: string): Promise<GetAllUsersPromise> =>
     sessionApi(API_PREFIX, "/users", "GET", undefined, token);
 //------------- END USERS

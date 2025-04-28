@@ -289,18 +289,6 @@
                     "Admin updated successfully": "Administrateur mis à jour avec succès."
                 }
             },
-            "headers": {
-                "header1": "ID No.",
-                "header2": "Comptes",
-                "header3": "Rôle",
-                "header4": "Statut",
-                "header5": "Actions"
-            },
-            "actions": {
-                "edit": "Modifier",
-                "suspend": "Bloquer",
-                "delete": "Supprimer"
-            },
             "suspend-admin-dialog": {
                 "title1": "Suspension de compte",
                 "title2": "Déblocage de compte",
@@ -325,6 +313,18 @@
                 "success-messages": {
                     "Admin deleted successfully": "Administrateur <b>{{adminName}}</b> supprimé avec succès."
                 }
+            },
+            "headers": {
+                "header1": "ID No.",
+                "header2": "Comptes",
+                "header3": "Rôle",
+                "header4": "Statut",
+                "header5": "Actions"
+            },
+            "actions": {
+                "edit": "Modifier",
+                "suspend": "Bloquer",
+                "delete": "Supprimer"
             }
         }
     },
@@ -367,6 +367,68 @@
                 },
                 "success-messages": {
                     "User created successfully": "Utilisateur créé avec succès."
+                }
+            },
+            "update-user-dialog": {
+                "title": "Modifier un compte utilisateur",
+                "field1": {
+                    "title": "Nom",
+                    "placeholder": "Entrez le nom"
+                },
+                "field2": {
+                    "title": "Prénom",
+                    "placeholder": "Entrez le prénom"
+                },
+                "field3": {
+                    "title": "Email",
+                    "placeholder": "Entrez l'email"
+                },
+                "field4": {
+                    "title": "Mot de passe",
+                    "placeholder": "Entrez le mot de passe"
+                },
+                "field5": {
+                    "title": "Confirmer le mot de passe",
+                    "placeholder": "Confirmez le mot de passe"
+                },
+                "cta": "Modifier",
+                "error-messages": {
+                    "E_VALIDATION_ERROR": {
+                        "title": "Error",
+                        "email": {
+                            "database": {
+                                "unique": "Cette adresse email est déjà utilisée."
+                            }
+                        }
+                    }
+                },
+                "success-messages": {
+                    "User updated successfully": "Utilisateur mis à jour avec succès."
+                }
+            },
+            "suspend-user-dialog": {
+                "title1": "Suspension de compte",
+                "title2": "Déblocage de compte",
+                "description1": "Voulez-vous vraiment suspendre le compte de l'utilisateur : <b>{{userName}}</b> ?",
+                "description2": "Voulez-vous débloquer le compte de l'utilisateur : <b>{{userName}}</b> ?",
+                "button1": "Annuler",
+                "button2": "Suspendre",
+                "unblock": "Débloquer",
+                "error-messages": {
+                    "is not user": "Ce compte n'est pas utilisateur."
+                },
+                "success-messages": {
+                    "User blocked successfully": "Utilisateur <b>{{userName}}</b> bloqué avec succès.",
+                    "User unblocked successfully": "Utilisateur <b>{{userName}}</b> débloqué avec succès."
+                }
+            },
+            "delete-user-dialog": {
+                "title": "Suppression de compte",
+                "description": "Voulez-vous vraiment supprimer le compte de l'utilisateur : <b>{{userName}}</b> ?",
+                "button1": "Annuler",
+                "button2": "Supprimer",
+                "success-messages": {
+                    "Admin deleted successfully": "Utilisateur <b>{{userName}}</b> supprimé avec succès."
                 }
             }
         }

@@ -14,3 +14,15 @@ type UserType = {
 };
 
 type GetAllUsersPromise = Array<UserType>;
+
+type StoreUserMutation = {
+    firstname: string;
+    lastname: string;
+    email: string;
+    password: string;
+    passwordConfirmation: string;
+};
+
+type StoreUserPromise = {
+    message: string;
+};
