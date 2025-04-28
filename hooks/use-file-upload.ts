@@ -21,7 +21,7 @@ export type FileMetadata = {
 export type FileWithPreview = {
     file: File | FileMetadata;
     id: string;
-    preview?: string;
+    preview: string;
 };
 
 export type FileUploadOptions = {
@@ -250,7 +250,7 @@ export const useFileUpload = (
                     validFiles.push({
                         file,
                         id: generateUniqueId(file),
-                        preview: createPreview(file),
+                        preview: createPreview(file) ?? "",
                     });
                 }
             });

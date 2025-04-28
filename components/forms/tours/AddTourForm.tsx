@@ -85,6 +85,7 @@ const AddTourForm = () => {
     });
 
     function onSubmit(values: FormSchemaType) {
+        console.log(values);
         storeTourMutation.mutate({ data: values });
     }
 
@@ -372,7 +373,11 @@ const AddTourForm = () => {
                                             accept=".jpg,.jpeg,.png" // Optional: You can specify the file types allowed
                                             multiple // Allow multiple file selection
                                         /> */}
-                                <FileUpload2 accept="image/png,image/jpeg,image/jpg" multiple {...field} />
+                                <FileUpload2
+                                    accept="image/png,image/jpeg,image/jpg"
+                                    multiple
+                                    {...field}
+                                />
                             </FormControl>
                             <FormMessage />
                         </FormItem>

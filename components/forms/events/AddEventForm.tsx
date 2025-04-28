@@ -3,6 +3,7 @@ import SimpleChip from "@/components/chips/SimpleChip";
 import SharedForm from "@/components/forms/SharedForm";
 import DateTimePicker from "@/components/inputs/DateTimePicker";
 import FileUpload from "@/components/inputs/FileUpload";
+import FileUpload2 from "@/components/inputs/FileUpload2";
 import Input1 from "@/components/inputs/Input1";
 import NumericInput from "@/components/inputs/NumericInput";
 import Textarea1 from "@/components/inputs/Textarea1";
@@ -100,7 +101,7 @@ const AddEventForm = () => {
     function onSubmit(values: StoreEventSchemaType) {
         storeEventMutation.mutate({ data: values });
     }
-    
+
     return (
         <SharedForm
             form={form}
@@ -554,13 +555,18 @@ const AddEventForm = () => {
                                 {t("events.add-event-dialog.field15.title")}
                             </FormLabel>
                             <FormControl>
-                                <FileUpload
+                                {/* <FileUpload
                                     ref={field.ref} // Forward ref to the input
                                     onFilesChange={(files) =>
                                         field.onChange(files)
                                     } // Update form value with selected files
                                     accept=".jpg,.jpeg,.png" // Optional: You can specify the file types allowed
                                     multiple // Allow multiple file selection
+                                /> */}
+                                <FileUpload2
+                                    accept="image/png,image/jpeg,image/jpg"
+                                    multiple
+                                    {...field}
                                 />
                             </FormControl>
                             <FormMessage />
