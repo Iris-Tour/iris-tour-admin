@@ -7,7 +7,7 @@ import {
 } from "@/components/ui/popover";
 import Button3 from "../buttons/Button3";
 import { CalendarIcon } from "lucide-react";
-import { FC } from "react";
+import { FC, Ref } from "react";
 import { format } from "date-fns";
 import { fr } from "date-fns/locale";
 import { Calendar } from "../ui/calendar";
@@ -18,13 +18,14 @@ interface DatePicker {
     date?: string;
     onSelect: (selectedDate: Date | undefined) => void;
     placeholder?: string;
+    ref?: Ref<HTMLButtonElement> | undefined;
 }
 
-const DatePicker: FC<DatePicker> = ({ date = "", onSelect, placeholder }) => {
+const DatePicker: FC<DatePicker> = ({ date = "", onSelect, placeholder, ref }) => {
     const { t } = useTranslation();
     return (
         <Popover>
-            <PopoverTrigger className="text-[clamp(14px,_2vw,_16px)] bg-white w-full py-6" asChild>
+            <PopoverTrigger ref={ref} className="text-[clamp(14px,_2vw,_16px)] bg-white w-full py-6" asChild>
                 <Button3
                     type="button"
                     variant={"outline"}

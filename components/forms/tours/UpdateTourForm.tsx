@@ -28,6 +28,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { apiUpdateTour } from "@/lib/api";
 import { FC } from "react";
 import { updateTourSchema } from "@/utils/schemas/tours/update-tour-schema";
+import FileUpload2 from "@/components/inputs/FileUpload2";
 
 interface UpdateTourFormProps {
     tour: TourType;
@@ -68,7 +69,7 @@ const UpdateTourForm: FC<UpdateTourFormProps> = ({ tour }) => {
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)}>
                 <div className="flex flex-col gap-5">
-                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
+                    <div className="grid grid-cols-1 gap-5">
                         <FormField
                             control={form.control}
                             name="title"
@@ -347,7 +348,8 @@ const UpdateTourForm: FC<UpdateTourFormProps> = ({ tour }) => {
                                     <FormControl>
                                         <Textarea1
                                             placeholder="Équipements requis"
-                                            {...field}
+                                            value={field.value ?? ""}
+                                            onChange={field.onChange}
                                         />
                                     </FormControl>
                                     <FormMessage />
@@ -363,13 +365,10 @@ const UpdateTourForm: FC<UpdateTourFormProps> = ({ tour }) => {
                                         Images
                                     </FormLabel>
                                     <FormControl>
-                                        <FileUpload
-                                            ref={field.ref} // Forward ref to the input
-                                            onFilesChange={(files) =>
-                                                field.onChange(files)
-                                            } // Update form value with selected files
-                                            accept=".jpg,.jpeg,.png" // Optional: You can specify the file types allowed
-                                            multiple // Allow multiple file selection
+                                        <FileUpload2
+                                            accept="image/png,image/jpeg,image/jpg"
+                                            multiple
+                                            {...field}
                                         />
                                     </FormControl>
                                     <FormMessage />

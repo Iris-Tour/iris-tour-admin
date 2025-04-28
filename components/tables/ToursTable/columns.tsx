@@ -161,7 +161,7 @@ export const columns: ColumnDef<TourType>[] = [
                             </span>
                             <Edit2 className="stroke-primary w-5 h-5" />
                         </DialogTrigger>
-                        <DialogContent className="sm:max-w-3xl">
+                        <DialogContent className="sm:max-w-xl">
                             <DialogHeader>
                                 <DialogTitle>Modifier l'excursion</DialogTitle>
                                 <DialogDescription></DialogDescription>

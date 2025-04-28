@@ -38,7 +38,7 @@ const ButtonsSection = () => {
                                 <Trans i18nKey={"tours.add-tour"} />
                             </Button2>
                         </DialogTrigger>
-                        <DialogContent className="sm:max-w-3xl">
+                        <DialogContent className="sm:max-w-xl">
                             <DialogHeader>
                                 <DialogTitle>
                                     <Trans
