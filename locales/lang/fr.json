@@ -325,5 +325,48 @@
                 }
             }
         }
+    },
+    "manage-users": {
+        "users-list": {
+            "heading": "Liste des utilisateurs",
+            "add-user": "Créer un utilisateur",
+            "add-user-dialog": {
+                "title": "Créer un compte utilisateur",
+                "field1": {
+                    "title": "Nom",
+                    "placeholder": "Entrez le nom"
+                },
+                "field2": {
+                    "title": "Prénom",
+                    "placeholder": "Entrez le prénom"
+                },
+                "field3": {
+                    "title": "Email",
+                    "placeholder": "Entrez l'email"
+                },
+                "field4": {
+                    "title": "Mot de passe",
+                    "placeholder": "Entrez le mot de passe"
+                },
+                "field5": {
+                    "title": "Confirmer le mot de passe",
+                    "placeholder": "Confirmez le mot de passe"
+                },
+                "cta": "Créer",
+                "error-messages": {
+                    "E_VALIDATION_ERROR": {
+                        "title": "Error",
+                        "email": {
+                            "database": {
+                                "unique": "Cette adresse email est déjà utilisée."
+                            }
+                        }
+                    }
+                },
+                "success-messages": {
+                    "User created successfully": "Utilisateur créé avec succès."
+                }
+            }
+        }
     }
 }

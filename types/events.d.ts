@@ -1,7 +1,7 @@
 type EventType = {
     id: number;
     name: string;
-    description: null;
+    description: string | null;
     startDateTime: string;
     endDateTime: string;
     location: string;
@@ -14,7 +14,7 @@ type EventType = {
         order: number;
         language: string;
     }>;
-    accessibilityForDisabled: false;
+    accessibilityForDisabled: boolean;
     promotionalImage: [];
     organizerContact: string;
     program: string;

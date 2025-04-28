@@ -68,7 +68,7 @@ const AddRoleWithPermissionsForm = () => {
             );
         },
         onError: (error: any) => {
-            console.log(error.error.code);
+            // console.log(error);
             if (typeof error === "string") {
                 toast.error(t(`general-errors.${error}`));
             } else {
