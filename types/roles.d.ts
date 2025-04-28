@@ -6,3 +6,8 @@ type RolesWithPermissions = {
 type GetAllRolesPromise = {
     roles: RoleType[];
 };
+
+type GetRoleAdminsPromise = {
+    message: string;
+    users: Array<UserType>;
+};

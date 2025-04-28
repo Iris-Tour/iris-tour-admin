@@ -125,6 +125,19 @@ export const apiUpdateRoleWithPermissions = (
         token
     );
 
+// Get the admins of a role
+export const apiGetRoleAdmins = (
+    token: string,
+    roleId: string
+): Promise<GetRoleAdminsPromise> =>
+    sessionApi(
+        API_PREFIX,
+        `/acl/role/${roleId}/users`,
+        "GET",
+        undefined,
+        token
+    );
+
 // Delete a role
 export const apiDeleteRole = (
     token: string,

@@ -2,8 +2,8 @@ import { FC } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import Button2 from "@/components/buttons/Button2";
 import { DialogClose } from "../../ui/dialog";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { apiDeleteRole } from "@/lib/api";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { apiDeleteRole, apiGetRoleAdmins } from "@/lib/api";
 import useAuth from "@/hooks/useAuth";
 import { toast } from "sonner";
 
@@ -17,6 +17,12 @@ const DeleteRoleForm: FC<DeleteRoleFormProps> = ({ role, roleId }) => {
     const { token } = useAuth();
 
     const queryClient = useQueryClient();
+
+    // Get the admins of the role
+    const getRoleAdminsQuery = useQuery({
+        queryKey: ["get-role-admins"],
+        queryFn: () => apiGetRoleAdmins(token!, roleId),
+    });
 
     const deleteRoleMutation = useMutation({
         mutationFn: (roleId: string) => apiDeleteRole(token!, roleId),
@@ -40,7 +46,17 @@ const DeleteRoleForm: FC<DeleteRoleFormProps> = ({ role, roleId }) => {
     });
 
     const onSubmit = () => {
-        deleteRoleMutation.mutate(roleId);
+        // Verify if the role is assigned to any administrator
+        if (
+            getRoleAdminsQuery.data &&
+            getRoleAdminsQuery.data.users.length > 0
+        ) {
+            toast.error(
+                "Vous ne pouvez pas supprimer ce rôle car il est assigné à des administrateurs. Veuillez révoquer ce rôle à tous les administrateurs concernés avant de le supprimer."
+            );
+        } else {
+            deleteRoleMutation.mutate(roleId);
+        }
     };
 
     return (
