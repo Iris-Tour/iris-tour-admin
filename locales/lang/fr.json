@@ -185,8 +185,7 @@
             "cta": "Créer",
             "error-messages": {
                 "ROLE_ALREADY_EXISTS": "Ce nom de rôle existe déjà.",
-                "PERMISSIONS_REQUIRED": "Veuillez choisir au moins une permission.",
-                "Permissions are required": "Veuillez sélectionner au moins une permission."
+                "PERMISSIONS_REQUIRED": "Veuillez sélectionner au moins une permission."
             },
             "success-messages": {
                 "Permissions assigned successfully": "Le rôle et ses permissions ont été créés avec succès."
@@ -204,7 +203,8 @@
             },
             "cta": "Modifier",
             "error-messages": {
-                "Password reset failed": "Token expiré. Veuillez faire une autre demande de réinitialisation de mot de passe."
+                "PERMISSIONS_REQUIRED": "Veuillez sélectionner au moins une permission.",
+                "ROLE_ALREADY_EXISTS": "Ce nom de rôle existe déjà."
             },
             "success-messages": {
                 "Permissions assigned successfully": "Le rôle et ses permissions ont été modifiés avec succès."
