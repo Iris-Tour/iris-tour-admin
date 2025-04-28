@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import Button2 from "@/components/buttons/Button2";
-import { DialogClose } from "../ui/dialog";
+import { DialogClose } from "../../ui/dialog";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { apiDeleteRole } from "@/lib/api";
 import useAuth from "@/hooks/useAuth";

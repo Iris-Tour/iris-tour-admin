@@ -183,7 +183,8 @@
             },
             "cta": "Créer",
             "error-messages": {
-                "ROLE_ALREADY_EXISTS": "Ce nom de rôle existe déjà !"
+                "ROLE_ALREADY_EXISTS": "Ce nom de rôle existe déjà.",
+                "Permissions are required": "Veuillez sélectionner au moins une permission."
             },
             "success-messages": {
                 "Permissions assigned successfully": "Le rôle et ses permissions ont été créés avec succès."

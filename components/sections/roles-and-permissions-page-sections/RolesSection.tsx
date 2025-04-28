@@ -11,14 +11,14 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog";
-import AddRoleWithPermissionsForm from "@/components/forms/AddRoleWithPermissionsForm";
+import AddRoleWithPermissionsForm from "@/components/forms/roles/AddRoleWithPermissionsForm";
 import SectionContainer from "@/components/containers/SectionContainer";
 
 interface RolesSectionProps {
-    rolesWithPermissions: GetAllRolesWithPermissionPromise | undefined
+    rolesWithPermissions: GetAllRolesWithPermissionPromise | undefined;
 }
 
-const RolesSection: FC<RolesSectionProps> = ({rolesWithPermissions}) => {
+const RolesSection: FC<RolesSectionProps> = ({ rolesWithPermissions }) => {
     const { t } = useTranslation();
 
     return (

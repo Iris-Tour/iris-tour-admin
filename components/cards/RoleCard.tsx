@@ -9,8 +9,8 @@ import {
 } from "@/components/ui/dialog";
 import { useTranslation } from "react-i18next";
 import { Separator } from "@/components/ui/separator";
-import UpdateRoleWithPermissionsForm from "../forms/UpdateRoleWithPermissionsForm";
-import DeleteRoleForm from "../forms/DeleteRoleForm";
+import UpdateRoleWithPermissionsForm from "../forms/roles/UpdateRoleWithPermissionsForm";
+import DeleteRoleForm from "../forms/roles/DeleteRoleForm";
 import EllipsisPopover from "../popovers/EllipsisPopover";
 
 interface RoleCardProps {

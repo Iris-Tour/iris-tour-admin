@@ -1,23 +1,29 @@
 type EventType = {
     id: number;
     name: string;
-    description: string | null;
+    description: null;
     startDateTime: string;
     endDateTime: string;
     location: string;
-    category: string | null;
+    category: string;
     organizer: string;
     ticketPrice: number;
     maximumCapacity: number;
-    targetAudience: string | null;
-    eventLanguages: Array<string> | null;
-    accessibilityForDisabled: boolean | null;
+    targetAudience: string;
+    eventLanguages: Array<{
+        order: number;
+        language: string;
+    }>;
+    accessibilityForDisabled: false;
+    promotionalImage: [];
     organizerContact: string;
-    program: string | null;
+    program: string;
     eventStatus: number;
-}
+    createdAt: string;
+    updatedAt: string;
+};
 
-type GetAllEventsPromise = Array<EventType>
+type GetAllEventsPromise = Array<EventType>;
 
 type StoreEventMutation = {
     name: string;

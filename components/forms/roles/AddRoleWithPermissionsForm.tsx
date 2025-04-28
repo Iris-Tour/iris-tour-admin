@@ -3,7 +3,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-
 import { toast } from "sonner";
 import {
     Form,
@@ -69,14 +68,23 @@ const AddRoleWithPermissionsForm = () => {
             );
         },
         onError: (error: any) => {
+            console.log(error.error.code);
             if (typeof error === "string") {
                 toast.error(t(`general-errors.${error}`));
             } else {
-                toast.error(
-                    t(
-                        `roles-and-permissions.addRoleDialog.error-messages.${error.error.code}`
-                    )
-                );
+                if (error.error.code) {
+                    toast.error(
+                        t(
+                            `roles-and-permissions.addRoleDialog.error-messages.${error.error.code}`
+                        )
+                    );
+                } else {
+                    toast.error(
+                        t(
+                            `roles-and-permissions.addRoleDialog.error-messages.${error.message}`
+                        )
+                    );
+                }
             }
         },
     });
