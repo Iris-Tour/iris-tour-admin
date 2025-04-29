@@ -36,7 +36,7 @@ import {
     StoreEventSchemaType,
 } from "@/utils/schemas/events/store-event-schema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { format } from "date-fns";
 import { Check, ChevronsUpDown } from "lucide-react";
 import { useForm } from "react-hook-form";
@@ -47,6 +47,8 @@ const AddEventForm = () => {
     const { t } = useTranslation();
 
     const { token } = useAuth();
+
+    const queryClient = useQueryClient();
 
     const languages = [
         { label: "Fr", value: "Fr" },
@@ -80,9 +82,9 @@ const AddEventForm = () => {
             apiStoreEvent(token!, variables.data),
         onSuccess: () => {
             // Update events list
-            // queryClient.invalidateQueries({
-            //     queryKey: ["get-all-tours"],
-            // });
+            queryClient.invalidateQueries({
+                queryKey: ["get-all-events"],
+            });
 
             document.getElementById("dialog-close")?.click();
 

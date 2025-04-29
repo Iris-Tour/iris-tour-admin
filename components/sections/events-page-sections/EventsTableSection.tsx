@@ -15,7 +15,7 @@ const EventsTableSection = () => {
     );
 
     const getAllEvents = useQuery({
-        queryKey: ["get-all-Events"],
+        queryKey: ["get-all-events"],
         queryFn: () => apiGetAllEvents(token!),
     });
 
