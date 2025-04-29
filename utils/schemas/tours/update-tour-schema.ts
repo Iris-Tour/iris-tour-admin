@@ -59,32 +59,30 @@ export const updateTourSchema = z.object({
             message: "Le prix doit être supérieur à 0.",
         }),
     requiredEquipment: z.string(),
-    mainImages: z
-        .custom<File[]>(
-            (files) => {
-                if (!Array.isArray(files)) return false;
+    mainImages: z.custom<File[]>(
+        (files) => {
+            if (!Array.isArray(files)) return false;
 
-                return files.every((file) => {
-                    const isFile = file instanceof File;
-                    const isAllowedType =
-                        file.type === "image/jpeg" || file.type === "image/png";
-                    const hasAllowedExtension =
-                        file.name.toLowerCase().endsWith(".jpg") ||
-                        file.name.toLowerCase().endsWith(".jpeg") ||
-                        file.name.toLowerCase().endsWith(".png");
+            return files.every((file) => {
+                const isFile = file instanceof File;
+                const isAllowedType =
+                    file.type === "image/jpeg" || file.type === "image/png";
+                const hasAllowedExtension =
+                    file.name.toLowerCase().endsWith(".jpg") ||
+                    file.name.toLowerCase().endsWith(".jpeg") ||
+                    file.name.toLowerCase().endsWith(".png");
 
-                    return isFile && isAllowedType && hasAllowedExtension;
-                });
-            },
-            {
-                message:
-                    "Tous les fichiers doivent être des images au format JPEG ou PNG.",
-            }
-        )
-        .refine((files) => files.length > 0, {
-            message: "Veuillez téléverser au moins une image.",
-        })
-        .optional(),
+                return isFile && isAllowedType && hasAllowedExtension;
+            });
+        },
+        {
+            message:
+                "Tous les fichiers doivent être des images au format JPEG ou PNG.",
+        }
+    ),
+    // .refine((files) => files.length > 0, {
+    //     message: "Veuillez téléverser au moins une image.",
+    // })
     status: z.number().refine((val) => val >= 0, {
         message: "Le statut est requis.",
     }),

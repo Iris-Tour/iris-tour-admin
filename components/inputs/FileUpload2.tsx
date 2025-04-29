@@ -4,40 +4,8 @@ import { AlertCircleIcon, ImageIcon, UploadIcon, XIcon } from "lucide-react";
 
 import { useFileUpload } from "@/hooks/use-file-upload";
 import { Button } from "@/components/ui/button";
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import Image from "next/image";
-
-// Create some dummy initial files
-// const initialFiles = [
-//     {
-//         name: "image-01.jpg",
-//         size: 1528737,
-//         type: "image/jpeg",
-//         url: "https://picsum.photos/1000/800?grayscale&random=1",
-//         id: "image-01-123456789",
-//     },
-//     {
-//         name: "image-02.jpg",
-//         size: 1528737,
-//         type: "image/jpeg",
-//         url: "https://picsum.photos/1000/800?grayscale&random=2",
-//         id: "image-02-123456789",
-//     },
-//     {
-//         name: "image-03.jpg",
-//         size: 1528737,
-//         type: "image/jpeg",
-//         url: "https://picsum.photos/1000/800?grayscale&random=3",
-//         id: "image-03-123456789",
-//     },
-//     {
-//         name: "image-04.jpg",
-//         size: 1528737,
-//         type: "image/jpeg",
-//         url: "https://picsum.photos/1000/800?grayscale&random=4",
-//         id: "image-04-123456789",
-//     },
-// ];
 
 interface FileUploadProps {
     accept?: string;
@@ -45,8 +13,12 @@ interface FileUploadProps {
     onFilesChange?: (files: File[]) => void;
 }
 
-const FileUpload2: FC<FileUploadProps> = ({ accept }) => {
-    const maxSizeMB = 5;
+const FileUpload2: FC<FileUploadProps> = ({
+    accept,
+    multiple,
+    onFilesChange,
+}) => {
+    const maxSizeMB = 10;
     const maxSize = maxSizeMB * 1024 * 1024; // 5MB default
     const maxFiles = 6;
 
@@ -57,6 +29,7 @@ const FileUpload2: FC<FileUploadProps> = ({ accept }) => {
             handleDragLeave,
             handleDragOver,
             handleDrop,
+            handleFileChange,
             openFileDialog,
             removeFile,
             getInputProps,
@@ -65,10 +38,20 @@ const FileUpload2: FC<FileUploadProps> = ({ accept }) => {
         accept:
             accept ?? "image/svg+xml,image/png,image/jpeg,image/jpg,image/gif",
         maxSize,
-        multiple: true,
+        multiple: multiple ?? true,
         maxFiles,
-        // initialFiles,
     });
+
+    // ✅ Notify parent component when files change
+    useEffect(() => {
+        const handler = setTimeout(() => {
+            if (onFilesChange) {
+                onFilesChange(files.map((f) => f.file as File));
+            }
+        }, 100); // Delay 100ms
+
+        return () => clearTimeout(handler);
+    }, [files, onFilesChange]);
 
     return (
         <div className="flex flex-col gap-2">

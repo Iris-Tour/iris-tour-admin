@@ -14,6 +14,7 @@ interface SharedFormProps {
     children?: ReactNode;
     className?: string;
     ctaText?: string;
+    multipart?: boolean;
 }
 
 const SharedForm: FC<SharedFormProps> = ({
@@ -23,10 +24,15 @@ const SharedForm: FC<SharedFormProps> = ({
     children,
     className,
     ctaText = "CTA",
+    multipart = false,
 }) => {
+    const encType = multipart
+        ? "multipart/form-data"
+        : "application/x-www-form-urlencoded";
+
     return (
         <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)}>
+            <form onSubmit={form.handleSubmit(onSubmit)} encType={encType}>
                 <div className={cn("flex flex-col gap-5", className)}>
                     {children}
                     <DialogClose id="dialog-close"></DialogClose>

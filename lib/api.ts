@@ -1,5 +1,6 @@
 import axios from "axios";
 import { getServerUrl } from "@/lib/utils";
+import { convertToFormData } from "@/utils/convertions/convert-to-form-data";
 
 const serverUrl = getServerUrl();
 
@@ -13,12 +14,14 @@ export const sessionApi = async <T>(
     token?: string
 ): Promise<T> => {
     try {
+        const isFormData = body instanceof FormData;
+
         const response = await axios({
             method,
             url: `${serverUrl}${prefix}${endpoint}`,
             headers: {
-                "Content-Type": "application/json",
                 Authorization: `Bearer ${token}`,
+                ...(isFormData ? {} : { "Content-Type": "application/json" }),
             },
             data: body || undefined,
             withCredentials: true,
@@ -202,7 +205,7 @@ export const apiStoreTour = (
     token: string,
     data: StoreTourMutation
 ): Promise<StoreTourPromise> =>
-    sessionApi(API_PREFIX, "/tours", "POST", data, token);
+    sessionApi(API_PREFIX, "/tours", "POST", convertToFormData(data), token);
 
 // Update a tour
 export const apiUpdateTour = (
@@ -210,7 +213,13 @@ export const apiUpdateTour = (
     tourId: string,
     data: UpdateTourMutation
 ): Promise<UpdateTourPromise> =>
-    sessionApi(API_PREFIX, `/tours/${tourId}`, "PUT", data, token);
+    sessionApi(
+        API_PREFIX,
+        `/tours/${tourId}`,
+        "PUT",
+        convertToFormData(data),
+        token
+    );
 
 // Delete a tour
 export const apiDeleteTour = (

@@ -15,20 +15,17 @@ import {
 import { useTranslation } from "react-i18next";
 import useAuth from "@/hooks/useAuth";
 import Input1 from "@/components/inputs/Input1";
-import { DialogClose } from "@/components/ui/dialog";
-import Button2 from "@/components/buttons/Button2";
 import DateTimePicker from "@/components/inputs/DateTimePicker";
 import DatePicker from "@/components/inputs/DatePicker";
 import Select1 from "@/components/selects/Select1";
 import { difficulties } from "@/constants/difficulties";
 import NumericInput from "@/components/inputs/NumericInput";
 import Textarea1 from "@/components/inputs/Textarea1";
-import { FileUpload } from "@/components/inputs/FileUpload";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { apiStoreTour } from "@/lib/api";
 import { storeTourSchema } from "@/utils/schemas/tours/store-tour-schema";
 import FileUpload2 from "@/components/inputs/FileUpload2";
-import SharedForm from "../SharedForm";
+import SharedForm from "@/components/forms/SharedForm";
 
 const formSchema = storeTourSchema;
 
@@ -56,7 +53,7 @@ const AddTourForm = () => {
             maxParticipants: undefined,
             assignedGuide: "",
             requiredEquipment: "",
-            mainImages: undefined,
+            mainImages: [],
             status: 0,
         },
     });
@@ -75,17 +72,16 @@ const AddTourForm = () => {
             toast.success("Excursion créée avec succès.");
         },
         onError: (error: any) => {
+            // console.log(error);
             if (typeof error === "string") {
                 toast.error(t(`general-errors.${error}`));
             } else {
-                console.log(error);
                 toast.error("Une erreur est survenue");
             }
         },
     });
 
     function onSubmit(values: FormSchemaType) {
-        console.log(values);
         storeTourMutation.mutate({ data: values });
     }
 
@@ -95,6 +91,7 @@ const AddTourForm = () => {
             onSubmit={onSubmit}
             mutation={storeTourMutation}
             ctaText={t("tours.add-tour-dialog.cta")}
+            multipart={true}
         >
             <div className="grid grid-cols-1 gap-5">
                 <FormField
@@ -365,18 +362,10 @@ const AddTourForm = () => {
                         <FormItem>
                             <FormLabel className="text-base">Images</FormLabel>
                             <FormControl>
-                                {/* <FileUpload
-                                            ref={field.ref} // Forward ref to the input
-                                            onFilesChange={(files) =>
-                                                field.onChange(files)
-                                            } // Update form value with selected files
-                                            accept=".jpg,.jpeg,.png" // Optional: You can specify the file types allowed
-                                            multiple // Allow multiple file selection
-                                        /> */}
                                 <FileUpload2
                                     accept="image/png,image/jpeg,image/jpg"
                                     multiple
-                                    {...field}
+                                    onFilesChange={field.onChange}
                                 />
                             </FormControl>
                             <FormMessage />

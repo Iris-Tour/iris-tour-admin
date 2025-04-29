@@ -43,7 +43,22 @@ const UpdateTourForm: FC<UpdateTourFormProps> = ({ tour }) => {
 
     const form = useForm({
         resolver: zodResolver(formSchema),
-        defaultValues: { ...tour },
+        defaultValues: {
+            title: tour.title,
+            description: tour.description,
+            departurePoint: tour.departurePoint,
+            arrivalPoint: tour.arrivalPoint,
+            departureDateTime: tour.departureDateTime,
+            arrivalDateTime: tour.arrivalDateTime,
+            difficulty: Number(tour.difficulty),
+            excursionPrice: Number(tour.excursionPrice),
+            totalDistance: Number(tour.totalDistance),
+            maxParticipants: Number(tour.maxParticipants),
+            assignedGuide: tour.assignedGuide,
+            requiredEquipment: tour.requiredEquipment ?? "",
+            mainImages: [],
+            status: 0,
+        },
     });
 
     const updateTourMutation = useMutation({
@@ -55,13 +70,12 @@ const UpdateTourForm: FC<UpdateTourFormProps> = ({ tour }) => {
             toast.success("Excursion mise à jour avec succès.");
         },
         onError: (error) => {
-            console.log(error);
+            // console.log(error);
             toast.error("Une erreur est survenue");
         },
     });
 
     function onSubmit(values: any) {
-        console.log(values);
         updateTourMutation.mutate(values);
     }
 
@@ -368,7 +382,7 @@ const UpdateTourForm: FC<UpdateTourFormProps> = ({ tour }) => {
                                         <FileUpload2
                                             accept="image/png,image/jpeg,image/jpg"
                                             multiple
-                                            {...field}
+                                            onFilesChange={field.onChange}
                                         />
                                     </FormControl>
                                     <FormMessage />

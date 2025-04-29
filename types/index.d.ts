@@ -175,6 +175,7 @@ type StoreTourMutation = {
     arrivalPoint: string;
     maxParticipants: number;
     requiredEquipment: string;
+    mainImages: Array<File> | undefined;
     assignedGuide: string;
     status: number;
 };

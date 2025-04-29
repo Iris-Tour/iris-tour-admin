@@ -25,6 +25,8 @@ const DeleteTourForm: FC<DeleteTourFormProps> = ({ tour }) => {
                 queryKey: ["get-all-tours"],
             });
 
+            document.getElementById("dialog-close")?.click();
+
             toast.success(
                 <Trans
                     i18nKey="tours.delete-tour-dialog.success-messages.Tour deleted successfully"
@@ -60,6 +62,7 @@ const DeleteTourForm: FC<DeleteTourFormProps> = ({ tour }) => {
                     </Button2>
                 </DialogClose>
 
+                <DialogClose id="dialog-close"></DialogClose>
                 <Button2
                     onClick={onSubmit}
                     disabled={deleteTourMutation.isPending}
