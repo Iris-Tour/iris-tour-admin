@@ -253,4 +253,30 @@ export const apiStoreUser = (
 // Get all users
 export const apiGetAllUsers = (token: string): Promise<GetAllUsersPromise> =>
     sessionApi(API_PREFIX, "/users", "GET", undefined, token);
+
+// Block & unblock user
+export const apiSuspendUser = (
+    token: string,
+    userId: string
+): Promise<SuspendUserPromise> =>
+    sessionApi(
+        API_PREFIX,
+        `/users/block/${userId}`,
+        "POST",
+        undefined,
+        token
+    );
+
+// Delete user
+export const apiDeleteUser = (
+    token: string,
+    userId: string
+): Promise<DeleteUserPromise> =>
+    sessionApi(
+        API_PREFIX,
+        `/users/delete/${userId}`,
+        "DELETE",
+        undefined,
+        token
+    );
 //------------- END USERS

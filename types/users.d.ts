@@ -26,3 +26,11 @@ type StoreUserMutation = {
 type StoreUserPromise = {
     message: string;
 };
+
+type SuspendUserPromise = {
+    message: string;
+};
+
+type DeleteUserPromise = {
+    message: string;
+}

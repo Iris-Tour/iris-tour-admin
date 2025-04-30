@@ -165,8 +165,8 @@ export const columns: ColumnDef<TourType>[] = [
                             <DialogHeader>
                                 <DialogTitle>Modifier l'excursion</DialogTitle>
                                 <DialogDescription></DialogDescription>
-                                <UpdateTourForm tour={tour} />
                             </DialogHeader>
+                            <UpdateTourForm tour={tour} />
                         </DialogContent>
                     </Dialog>
                     <Dialog>
@@ -180,8 +180,8 @@ export const columns: ColumnDef<TourType>[] = [
                             <DialogHeader>
                                 <DialogTitle>Supprimer l'excursion</DialogTitle>
                                 <DialogDescription></DialogDescription>
-                                <DeleteTourForm tour={tour} />
                             </DialogHeader>
+                            <DeleteTourForm tour={tour} />
                         </DialogContent>
                     </Dialog>
                     <Dialog>
@@ -195,8 +195,8 @@ export const columns: ColumnDef<TourType>[] = [
                                     Détails <ToursStatusChip tour={tour} />
                                 </DialogTitle>
                                 <DialogDescription></DialogDescription>
-                                <DetailsTourForm tour={tour} />
                             </DialogHeader>
+                            <DetailsTourForm tour={tour} />
                         </DialogContent>
                     </Dialog>
                 </div>

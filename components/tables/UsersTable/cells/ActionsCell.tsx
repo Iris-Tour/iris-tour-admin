@@ -6,7 +6,7 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog";
-import { Edit2, LockSlash, Trash, Unlock } from "iconsax-react";
+import { Edit2, Eye, LockSlash, Trash, Unlock } from "iconsax-react";
 import { Trans } from "react-i18next";
 import { FC } from "react";
 import SuspendUserForm from "@/components/forms/users-management/SuspendUserForm";
@@ -20,23 +20,6 @@ interface ActionsCellProps {
 const ActionsCell: FC<ActionsCellProps> = ({ user }) => {
     return (
         <div className="flex items-center gap-3">
-            <Dialog>
-                <DialogTrigger className="text-primary hover:bg-primary/10 px-2 py-2 rounded-md cursor-pointer transition">
-                    <span className="sr-only">
-                        <Trans i18nKey="manage-users.users-list.actions.edit" />
-                    </span>
-                    <Edit2 className="stroke-primary w-5 h-5" />
-                </DialogTrigger>
-                <DialogContent>
-                    <DialogHeader>
-                        <DialogTitle>
-                            <Trans i18nKey="manage-users.users-list.update-user-dialog.title" />
-                        </DialogTitle>
-                        <DialogDescription></DialogDescription>
-                    </DialogHeader>
-                    <UpdateUserForm user={user} />
-                </DialogContent>
-            </Dialog>
             <Dialog>
                 <DialogTrigger
                     className={`${
@@ -64,8 +47,8 @@ const ActionsCell: FC<ActionsCellProps> = ({ user }) => {
                             )}
                         </DialogTitle>
                         <DialogDescription></DialogDescription>
-                        <SuspendUserForm user={user} />
                     </DialogHeader>
+                    <SuspendUserForm user={user} />
                 </DialogContent>
             </Dialog>
             <Dialog>
@@ -81,7 +64,21 @@ const ActionsCell: FC<ActionsCellProps> = ({ user }) => {
                             <Trans i18nKey="manage-users.users-list.delete-user-dialog.title" />
                         </DialogTitle>
                         <DialogDescription></DialogDescription>
-                        <DeleteUserForm user={user} />
+                    </DialogHeader>
+                    <DeleteUserForm user={user} />
+                </DialogContent>
+            </Dialog>
+            <Dialog>
+                <DialogTrigger className="text-secondary hover:bg-secondary/10 px-2 py-2 rounded-md cursor-pointer transition">
+                    <span className="sr-only">Détails</span>
+                    <Eye className="stroke-secondary w-5 h-5" />
+                </DialogTrigger>
+                <DialogContent>
+                    <DialogHeader>
+                        <DialogTitle className="flex items-center gap-10">
+                            Détails
+                        </DialogTitle>
+                        <DialogDescription></DialogDescription>
                     </DialogHeader>
                 </DialogContent>
             </Dialog>

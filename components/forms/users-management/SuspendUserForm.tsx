@@ -2,7 +2,7 @@ import Button2 from "@/components/buttons/Button2";
 import SpinningCircle from "@/components/spinners/SpinningCircle";
 import { DialogClose } from "@/components/ui/dialog";
 import useAuth from "@/hooks/useAuth";
-import { apiSuspendAdmin } from "@/lib/api";
+import { apiSuspendUser } from "@/lib/api";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { FC } from "react";
 import { Trans } from "react-i18next";
@@ -19,8 +19,8 @@ const SuspendUserForm: FC<SuspendUserFormProps> = ({ user }) => {
 
     const userName = `${user.firstname} ${user.lastname}`;
 
-    const suspendAdminMutation = useMutation({
-        mutationFn: () => apiSuspendAdmin(token!, user.id.toString()),
+    const suspendUserMutation = useMutation({
+        mutationFn: () => apiSuspendUser(token!, user.id.toString()),
         onSuccess: (data: any) => {
             // Update users list
             queryClient.invalidateQueries({
@@ -47,7 +47,7 @@ const SuspendUserForm: FC<SuspendUserFormProps> = ({ user }) => {
     });
 
     const onSubmit = () => {
-        // suspendAdminMutation.mutate();
+        suspendUserMutation.mutate();
     };
 
     return (
@@ -79,9 +79,9 @@ const SuspendUserForm: FC<SuspendUserFormProps> = ({ user }) => {
                 <DialogClose id="dialog-close"></DialogClose>
                 <Button2
                     onClick={onSubmit}
-                    disabled={suspendAdminMutation.isPending}
+                    disabled={suspendUserMutation.isPending}
                 >
-                    {suspendAdminMutation.isPending ? (
+                    {suspendUserMutation.isPending ? (
                         <SpinningCircle />
                     ) : user.isActive ? (
                         <Trans i18nKey="manage-users.users-list.suspend-user-dialog.button2" />
