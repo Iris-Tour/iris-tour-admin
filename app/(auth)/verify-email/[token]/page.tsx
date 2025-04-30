@@ -52,7 +52,7 @@ const VerifyEmailPage = () => {
         }, 1000);
 
         return () => clearTimeout(timeout);
-    }, []);
+    }, [token]);
 
     return (
         <div className="flex justify-center items-center bg-background w-full h-full px-4">
