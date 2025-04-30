@@ -20,6 +20,7 @@ import { toast } from "sonner";
 import Input1 from "../../inputs/Input1";
 import { Loader2 } from "lucide-react";
 import useAuth from "@/hooks/useAuth";
+import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
     email: z
@@ -35,6 +36,7 @@ const LoginForm = () => {
     const { t } = useTranslation();
 
     const { login } = useAuth();
+    const router = useRouter();
 
     const form = useForm<FormSchemaType>({
         resolver: zodResolver(formSchema),
@@ -55,6 +57,9 @@ const LoginForm = () => {
                 toast.error(t(`general-errors.${error}`));
             } else {
                 toast.error(t(`login.error-messages.${error.error.code}`));
+                if (error.error.code === "UNVERIFIED_EMAIL") {
+                    router.push("/verify-email/resend-email-verification");
+                }
             }
         },
     });

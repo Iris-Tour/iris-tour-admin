@@ -21,10 +21,7 @@ const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
     const router = useRouter();
     const [isPending, setTransition] = useTransition();
 
-    const nonAuthPathnames = [
-        "/reset-password",
-        "/reset-password/change-password",
-    ];
+    const publicPathnames = ["/reset-password", "/verify-email"];
 
     // Safely access localStorage after hydration
     useEffect(() => {
@@ -56,11 +53,11 @@ const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
         if (!isClient) return;
 
         const storedToken = JSON.parse(localStorage.getItem("token") ?? "{}");
-        const isNonAuthPath = nonAuthPathnames.some((path) =>
+        const isPublicPathname = publicPathnames.some((path) =>
             pathname.startsWith(path)
         );
 
-        if (!isNonAuthPath) {
+        if (!isPublicPathname) {
             if (isError && pathname !== "/login") {
                 redirectTo("/login");
             } else {
