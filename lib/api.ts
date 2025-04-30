@@ -239,7 +239,28 @@ export const apiStoreEvent = (
     token: string,
     data: StoreEventMutation
 ): Promise<StoreEventPromise> =>
-    sessionApi(API_PREFIX, "/events", "POST", data, token);
+    sessionApi(API_PREFIX, "/events", "POST", convertToFormData(data), token);
+
+// Update an event
+export const apiUpdateEvent = (
+    token: string,
+    eventId: string,
+    data: UpdateEventMutation
+): Promise<UpdateEventPromise> =>
+    sessionApi(
+        API_PREFIX,
+        `/events/${eventId}`,
+        "PUT",
+        convertToFormData(data),
+        token
+    );
+
+// Delete an event
+export const apiDeleteEvent = (
+    token: string,
+    eventId: string
+): Promise<DeleteEventPromise> =>
+    sessionApi(API_PREFIX, `/events/${eventId}`, "DELETE", undefined, token);
 //------------- END EVENTS
 
 //------------- USERS

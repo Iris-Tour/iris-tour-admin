@@ -29,7 +29,6 @@ const FileUpload2: FC<FileUploadProps> = ({
             handleDragLeave,
             handleDragOver,
             handleDrop,
-            handleFileChange,
             openFileDialog,
             removeFile,
             getInputProps,

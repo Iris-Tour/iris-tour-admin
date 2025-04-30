@@ -364,7 +364,6 @@ const AddTourForm = () => {
                             <FormControl>
                                 <FileUpload2
                                     accept="image/png,image/jpeg,image/jpg"
-                                    multiple
                                     onFilesChange={field.onChange}
                                 />
                             </FormControl>

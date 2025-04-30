@@ -2,7 +2,6 @@ import Button3 from "@/components/buttons/Button3";
 import SimpleChip from "@/components/chips/SimpleChip";
 import SharedForm from "@/components/forms/SharedForm";
 import DateTimePicker from "@/components/inputs/DateTimePicker";
-import FileUpload from "@/components/inputs/FileUpload";
 import FileUpload2 from "@/components/inputs/FileUpload2";
 import Input1 from "@/components/inputs/Input1";
 import NumericInput from "@/components/inputs/NumericInput";
@@ -88,19 +87,29 @@ const AddEventForm = () => {
 
             document.getElementById("dialog-close")?.click();
 
-            toast.success("Evénement créé avec succès.");
+            toast.success(
+                t(
+                    "events.add-event-dialog.success-messages.Event created successfully"
+                )
+            );
         },
         onError: (error: any) => {
+            console.log(error);
             if (typeof error === "string") {
                 toast.error(t(`general-errors.${error}`));
             } else {
-                console.log(error);
-                toast.error("Une erreur est survenue");
+                toast.error(
+                    t(
+                        `events.add-event-dialog.error-messages.${error.error.code}`,
+                        "Une erreur est survenue."
+                    )
+                );
             }
         },
     });
 
     function onSubmit(values: StoreEventSchemaType) {
+        console.log(values);
         storeEventMutation.mutate({ data: values });
     }
 
@@ -110,6 +119,7 @@ const AddEventForm = () => {
             onSubmit={onSubmit}
             mutation={storeEventMutation}
             ctaText={t("events.add-event-dialog.cta")}
+            multipart={true}
         >
             <div className="grid grid-cols-1 gap-5">
                 <FormField
@@ -162,6 +172,7 @@ const AddEventForm = () => {
                             </FormLabel>
                             <FormControl>
                                 <DateTimePicker
+                                    ref={field.ref}
                                     date={field.value.toString()}
                                     onSelect={(
                                         selectedDate: Date | undefined
@@ -191,6 +202,7 @@ const AddEventForm = () => {
                             </FormLabel>
                             <FormControl>
                                 <DateTimePicker
+                                    ref={field.ref}
                                     date={field.value.toString()}
                                     onSelect={(
                                         selectedDate: Date | undefined
@@ -434,7 +446,7 @@ const AddEventForm = () => {
                                     </PopoverTrigger>
                                     <PopoverContent className="p-0">
                                         <Command className="w-full">
-                                            <CommandInput placeholder="Rechercher un rôle..." />
+                                            <CommandInput placeholder="Rechercher une langue..." />
                                             <CommandList>
                                                 <CommandEmpty>
                                                     {t(
@@ -557,18 +569,9 @@ const AddEventForm = () => {
                                 {t("events.add-event-dialog.field15.title")}
                             </FormLabel>
                             <FormControl>
-                                {/* <FileUpload
-                                    ref={field.ref} // Forward ref to the input
-                                    onFilesChange={(files) =>
-                                        field.onChange(files)
-                                    } // Update form value with selected files
-                                    accept=".jpg,.jpeg,.png" // Optional: You can specify the file types allowed
-                                    multiple // Allow multiple file selection
-                                /> */}
                                 <FileUpload2
                                     accept="image/png,image/jpeg,image/jpg"
-                                    multiple
-                                    {...field}
+                                    onFilesChange={field.onChange}
                                 />
                             </FormControl>
                             <FormMessage />

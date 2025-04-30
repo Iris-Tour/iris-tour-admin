@@ -9,17 +9,12 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog";
-import {
-    Calendar,
-    Edit2,
-    Eye,
-    Location,
-    Trash,
-} from "iconsax-react";
+import { Calendar, Edit2, Eye, Location, Trash } from "iconsax-react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { format } from "date-fns";
 import { fr } from "date-fns/locale";
 import EventsStatusChip from "@/components/chips/EventsStatusChip";
+import ActionsCell from "./cells/ActionsCell";
 
 export const columns: ColumnDef<EventType>[] = [
     {
@@ -62,7 +57,7 @@ export const columns: ColumnDef<EventType>[] = [
             const event = row.original;
 
             return (
-                <div className="truncate max-w-[250px]">
+                <div className="line-clamp-2 overflow-hidden text-ellipsis text-wrap max-w-[250px]">
                     <span className="text-foreground">{event.description}</span>
                 </div>
             );
@@ -146,55 +141,8 @@ export const columns: ColumnDef<EventType>[] = [
         header: "Actions",
         cell: ({ row }) => {
             const event = row.original;
-            return (
-                <div className="flex items-center gap-3">
-                    <Dialog>
-                        <DialogTrigger className="text-primary hover:bg-primary/10 px-2 py-2 rounded-md cursor-pointer transition">
-                            <span className="sr-only">
-                                Modifier l'événement
-                            </span>
-                            <Edit2 className="stroke-primary w-5 h-5" />
-                        </DialogTrigger>
-                        <DialogContent className="sm:max-w-3xl">
-                            <DialogHeader>
-                                <DialogTitle>Modifier l'événement</DialogTitle>
-                                <DialogDescription></DialogDescription>
-                                {/* <UpdateTourForm event={event} /> */}
-                            </DialogHeader>
-                        </DialogContent>
-                    </Dialog>
-                    <Dialog>
-                        <DialogTrigger className="text-red-500 hover:bg-red-500/10 px-2 py-2 rounded-md cursor-pointer transition">
-                            <span className="sr-only">
-                                Supprimer l'événement
-                            </span>
-                            <Trash className="stroke-red-500 w-5 h-5" />
-                        </DialogTrigger>
-                        <DialogContent>
-                            <DialogHeader>
-                                <DialogTitle>Supprimer l'événement</DialogTitle>
-                                <DialogDescription></DialogDescription>
-                                {/* <DeleteTourForm event={event} /> */}
-                            </DialogHeader>
-                        </DialogContent>
-                    </Dialog>
-                    <Dialog>
-                        <DialogTrigger className="text-secondary hover:bg-secondary/10 px-2 py-2 rounded-md cursor-pointer transition">
-                            <span className="sr-only">Détails</span>
-                            <Eye className="stroke-secondary w-5 h-5" />
-                        </DialogTrigger>
-                        <DialogContent>
-                            <DialogHeader>
-                                <DialogTitle className="flex items-center gap-10">
-                                    Détails <EventsStatusChip event={event} />
-                                </DialogTitle>
-                                <DialogDescription></DialogDescription>
-                                {/* <DetailsTourForm event={event} /> */}
-                            </DialogHeader>
-                        </DialogContent>
-                    </Dialog>
-                </div>
-            );
+
+            return <ActionsCell event={event} />;
         },
     },
 ];

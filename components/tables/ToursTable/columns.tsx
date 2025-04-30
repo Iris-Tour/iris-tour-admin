@@ -66,7 +66,7 @@ export const columns: ColumnDef<TourType>[] = [
             const tour = row.original;
 
             return (
-                <div className="line-clamp-2 overflow-hidden text-ellipsis max-w-[250px]">
+                <div className="line-clamp-2 overflow-hidden text-ellipsis text-wrap max-w-[250px]">
                     <span className="text-foreground">{tour.description}</span>
                 </div>
             );

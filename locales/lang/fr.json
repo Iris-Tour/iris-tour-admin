@@ -186,7 +186,85 @@
                 "title": "Images",
                 "placeholder": "Entrez les images"
             },
-            "cta": "Créer"
+            "cta": "Créer",
+            "success-messages": {
+                "Event created successfully": "L'événement <b>{{event}}</b> a été créé avec succès."
+            }
+        },
+        "update-event-dialog": {
+            "title": "Modifier un Événement",
+            "description": "Saisissez les informations de l'événement",
+            "field1": { "title": "Nom", "placeholder": "Entrez le nom" },
+            "field2": {
+                "title": "Description",
+                "placeholder": "Entrez la description"
+            },
+            "field3": {
+                "title": "Date & heure de début",
+                "placeholder": "Date et heure de début"
+            },
+            "field4": {
+                "title": "Date & heure de fin",
+                "placeholder": "Date et heure de fin"
+            },
+            "field5": {
+                "title": "Lieu",
+                "placeholder": "Entrez le lieu"
+            },
+            "field6": {
+                "title": "Catégorie",
+                "placeholder": "Entrez la catégorie"
+            },
+            "field7": {
+                "title": "Organisateur",
+                "placeholder": "Entrez le nom de l'organisateur"
+            },
+            "field8": {
+                "title": "Prix du ticket",
+                "placeholder": "Entrez le prix du ticket"
+            },
+            "field9": {
+                "title": "Capacité maximum",
+                "placeholder": "Entrez le nombre maximum de tickets"
+            },
+            "field10": {
+                "title": "Public cible",
+                "placeholder": "Entrez le public cible"
+            },
+            "field11": {
+                "title": "Langues",
+                "placeholder": "Définissez les langues",
+                "not-found": "Aucune langue trouvée."
+            },
+            "field12": {
+                "title": "Accessible aux handicapés ?",
+                "placeholder": "Définissez l'accessibilité aux handicapés"
+            },
+            "field13": {
+                "title": "Contact de l'organisateur",
+                "placeholder": "Entrez le contact de l'organisateur"
+            },
+            "field14": {
+                "title": "Programme",
+                "placeholder": "Entrez le programme"
+            },
+            "field15": {
+                "title": "Images",
+                "placeholder": "Entrez les images"
+            },
+            "cta": "Modifier",
+            "success-messages": {
+                "Event updated successfully": "L'événement <b>{{event}}</b> a été modifié avec succès."
+            }
+        },
+        "delete-event-dialog": {
+            "title": "Suppression",
+            "description": "Voulez-vous vraiment supprimer l'événement : <b>{{event}}</b> ?",
+            "button1": "Annuler",
+            "button2": "Supprimer",
+            "success-messages": {
+                "Event deleted successfully": "L'événement <b>{{event}}</b> a été supprimé avec succès."
+            }
         }
     },
     "roles-and-permissions": {
