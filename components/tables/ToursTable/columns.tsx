@@ -66,7 +66,7 @@ export const columns: ColumnDef<TourType>[] = [
             const tour = row.original;
 
             return (
-                <div className="truncate max-w-[250px]">
+                <div className="line-clamp-2 overflow-hidden text-ellipsis max-w-[250px]">
                     <span className="text-foreground">{tour.description}</span>
                 </div>
             );
@@ -107,37 +107,37 @@ export const columns: ColumnDef<TourType>[] = [
             return <span className="font-bold">{formattedPrice}</span>;
         },
     },
-    {
-        accessorKey: "departureDateTime",
-        header: () => {
-            return (
-                <div className="flex items-center gap-1">
-                    Départ
-                    <Calendar className="w-4 h-4 stroke-accent-foreground" />
-                </div>
-            );
-        },
-        cell: ({ row }) => {
-            const tour = row.original;
+    // {
+    //     accessorKey: "departureDateTime",
+    //     header: () => {
+    //         return (
+    //             <div className="flex items-center gap-1">
+    //                 Départ
+    //                 <Calendar className="w-4 h-4 stroke-accent-foreground" />
+    //             </div>
+    //         );
+    //     },
+    //     cell: ({ row }) => {
+    //         const tour = row.original;
 
-            return (
-                <div className="flex flex-col text-foreground">
-                    <span>
-                        {format(
-                            new Date(tour.departureDateTime),
-                            "E dd MMMM yyyy",
-                            { locale: fr }
-                        )}
-                    </span>
-                    <span>
-                        {format(new Date(tour.departureDateTime), "HH'h' mm", {
-                            locale: fr,
-                        })}
-                    </span>
-                </div>
-            );
-        },
-    },
+    //         return (
+    //             <div className="flex flex-col text-foreground">
+    //                 <span>
+    //                     {format(
+    //                         new Date(tour.departureDateTime),
+    //                         "E dd MMMM yyyy",
+    //                         { locale: fr }
+    //                     )}
+    //                 </span>
+    //                 <span>
+    //                     {format(new Date(tour.departureDateTime), "HH'h' mm", {
+    //                         locale: fr,
+    //                     })}
+    //                 </span>
+    //             </div>
+    //         );
+    //     },
+    // },
     {
         id: "status",
         header: "Statut",
