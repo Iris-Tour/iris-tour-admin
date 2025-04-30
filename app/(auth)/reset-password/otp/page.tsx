@@ -2,7 +2,7 @@
 
 import { useTranslation } from "react-i18next";
 import Logo from "@/components/Logo";
-import ResetPasswordOtpForm from "@/components/forms/ResetPasswordOtpForm";
+import ResetPasswordOtpForm from "@/components/forms/auth/ResetPasswordOtpForm";
 
 const ResetPasswordOtpPage = () => {
     const { t } = useTranslation();

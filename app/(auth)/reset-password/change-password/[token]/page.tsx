@@ -2,7 +2,7 @@
 
 import { useTranslation } from "react-i18next";
 import Logo from "@/components/Logo";
-import ChangePasswordForm from "@/components/forms/ChangePasswordForm";
+import ChangePasswordForm from "@/components/forms/auth/ChangePasswordForm";
 
 const ChangePasswordPage = () => {
     const { t } = useTranslation();

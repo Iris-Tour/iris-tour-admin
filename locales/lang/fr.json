@@ -37,7 +37,7 @@
             "USER_NOT_FOUND": "Ce compte n'existe pas."
         },
         "success-messages": {
-            "Email sent successfully": "Nous vous avons envoyé un email contenant le lien pour réinitialiser votre mot de passe."
+            "Email sent successfully": "Nous vous avons envoyé un mail contenant le lien pour réinitialiser votre mot de passe."
         },
         "otp-form": {
             "heading": "Réinitialiser votre mot de passe",
@@ -62,6 +62,31 @@
             "success-messages": {
                 "Password reset successfully": "Votre mot de passe a été réinitialisé avec succès."
             }
+        }
+    },
+    "verify-email": {
+        "waiting-message": "Veuillez patienter, nous tentons d'activer votre compte.",
+        "error-messages": {
+            "Email verification failed": "L'activation a échoué. Votre lien d'activation a déjà été utilisé ou a expiré. Vous pouvez demander un autre lien d'activation."
+        },
+        "success-messages": {
+            "Email verification successful": "Votre compte a été activé. Vous pouvez vous connecter."
+        },
+        "resend-email-verification": {
+            "heading": "Renvoyer un lien d'activation",
+            "description": "Saisissez votre adresse e-mail pour recevoir un nouveau lien d'activation.",
+            "field1": {
+                "title": "Email",
+                "placeholder": "Saisissez votre Mail"
+            },
+            "cta": "Continuer",
+            "error-messages": {
+                "USER_NOT_FOUND": "Ce compte n'existe pas."
+            },
+            "success-messages": {
+                "Email sent successfully": "Nous vous avons envoyé un mail contenant le lien pour activer votre compte."
+            },
+            "loginLink": "Se connecter"
         }
     },
     "tours": {
@@ -428,7 +453,7 @@
                 "button1": "Annuler",
                 "button2": "Supprimer",
                 "success-messages": {
-                    "Admin deleted successfully": "Utilisateur <b>{{userName}}</b> supprimé avec succès."
+                    "User deleted successfully": "Utilisateur <b>{{userName}}</b> supprimé avec succès."
                 }
             }
         }

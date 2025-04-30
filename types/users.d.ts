@@ -33,4 +33,16 @@ type SuspendUserPromise = {
 
 type DeleteUserPromise = {
     message: string;
-}
+};
+
+type VerifyUserEmailPromise = {
+    message: string;
+};
+
+type ResendEmailVerificationMutation = {
+    email: string;
+};
+
+type ResendEmailVerificationPromise = {
+    message: string;
+};

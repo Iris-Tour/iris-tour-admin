@@ -259,13 +259,7 @@ export const apiSuspendUser = (
     token: string,
     userId: string
 ): Promise<SuspendUserPromise> =>
-    sessionApi(
-        API_PREFIX,
-        `/users/block/${userId}`,
-        "POST",
-        undefined,
-        token
-    );
+    sessionApi(API_PREFIX, `/users/block/${userId}`, "POST", undefined, token);
 
 // Delete user
 export const apiDeleteUser = (
@@ -279,4 +273,16 @@ export const apiDeleteUser = (
         undefined,
         token
     );
+
+// Verify user email
+export const apiVerifyUserEmail = (
+    token: string
+): Promise<VerifyUserEmailPromise> =>
+    api(API_PREFIX, `/auth/verify-email?token=${token}`, "POST", undefined);
+
+// Resend email verification
+export const apiResendEmailVerification = (
+    data: ResendEmailVerificationMutation
+): Promise<ResendEmailVerificationPromise> =>
+    api(API_PREFIX, `/auth/resend-email`, "POST", data);
 //------------- END USERS

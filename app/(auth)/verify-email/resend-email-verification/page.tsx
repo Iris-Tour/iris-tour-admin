@@ -2,7 +2,7 @@
 
 import { useTranslation } from "react-i18next";
 import Logo from "@/components/Logo";
-import ResetPasswordForm from "@/components/forms/auth/ResetPasswordForm";
+import ResendEmailVerificationForm from "@/components/forms/auth/ResendEmailVerificationForm";
 
 const ResetPasswordPage = () => {
     const { t } = useTranslation();
@@ -13,11 +13,15 @@ const ResetPasswordPage = () => {
                 <Logo />
                 <div className="flex flex-col gap-2">
                     <h1 className="font-semibold text-[clamp(18px,_5vw,_38px)] leading-10">
-                        {t("reset-password.heading")}
+                        {t("verify-email.resend-email-verification.heading")}
                     </h1>
-                    <p>{t("reset-password.description")}</p>
+                    <p>
+                        {t(
+                            "verify-email.resend-email-verification.description"
+                        )}
+                    </p>
                 </div>
-                <ResetPasswordForm />
+                <ResendEmailVerificationForm />
             </div>
             <div className="hidden lg:block bg-login-image h-full"></div>
         </div>

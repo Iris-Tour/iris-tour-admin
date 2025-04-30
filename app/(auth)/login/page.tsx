@@ -1,7 +1,7 @@
 "use client";
 
 import { useTranslation } from "react-i18next";
-import LoginForm from "@/components/forms/LoginForm";
+import LoginForm from "@/components/forms/auth/LoginForm";
 import Logo from "@/components/Logo";
 
 const LoginPage = () => {

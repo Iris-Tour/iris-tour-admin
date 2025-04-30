@@ -23,7 +23,7 @@ import Link from "next/link";
 const formSchema = z.object({
     email: z
         .string()
-        .min(1, { message: "Veuillez entrer le mail" })
+        .min(1, { message: "Veuillez entrer votre email" })
         .email({ message: "Adresse mail invalide" }),
 });
 
