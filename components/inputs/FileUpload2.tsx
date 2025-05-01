@@ -2,7 +2,7 @@
 
 import { AlertCircleIcon, ImageIcon, UploadIcon, XIcon } from "lucide-react";
 
-import { useFileUpload } from "@/hooks/use-file-upload";
+import { FileMetadata, useFileUpload } from "@/hooks/use-file-upload";
 import { Button } from "@/components/ui/button";
 import { FC, useEffect } from "react";
 import Image from "next/image";
@@ -11,12 +11,14 @@ interface FileUploadProps {
     accept?: string;
     multiple?: boolean;
     onFilesChange?: (files: File[]) => void;
+    initialFiles?: FileMetadata[] | undefined;
 }
 
 const FileUpload2: FC<FileUploadProps> = ({
     accept,
     multiple,
     onFilesChange,
+    initialFiles,
 }) => {
     const maxSizeMB = 10;
     const maxSize = maxSizeMB * 1024 * 1024; // 5MB default
@@ -39,6 +41,7 @@ const FileUpload2: FC<FileUploadProps> = ({
         maxSize,
         multiple: multiple ?? true,
         maxFiles,
+        initialFiles,
     });
 
     // ✅ Notify parent component when files change

@@ -22,8 +22,8 @@ import Select1 from "@/components/selects/Select1";
 import { difficulties } from "@/constants/difficulties";
 import NumericInput from "@/components/inputs/NumericInput";
 import Textarea1 from "@/components/inputs/Textarea1";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { apiGetFile, apiUpdateTour } from "@/lib/api";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { apiUpdateTour } from "@/lib/api";
 import { FC } from "react";
 import { updateTourSchema } from "@/utils/schemas/tours/update-tour-schema";
 import FileUpload2 from "@/components/inputs/FileUpload2";
@@ -40,15 +40,23 @@ const UpdateTourForm: FC<UpdateTourFormProps> = ({ tour }) => {
     const queryClient = useQueryClient();
 
     // Get all the main images
-    // const images = tour.mainImages;
-
-    // const allMainImages = images.map(
-    //     (image) =>
-    //         useQuery({
-    //             queryKey: ["get-file"],
-    //             queryFn: () => apiGetFile(token!, image.path),
-    //         }).data
-    // );
+    // const initialImages = tour.mainImages;
+    const initialImages = [
+        {
+            name: "image-01.jpg",
+            size: 1528737,
+            type: "image/jpeg",
+            url: "https://picsum.photos/1000/800?grayscale&random=1",
+            id: "image-01-123456789",
+        },
+        {
+            name: "image-02.jpg",
+            size: 1528737,
+            type: "image/jpeg",
+            url: "https://picsum.photos/1000/800?grayscale&random=2",
+            id: "image-02-123456789",
+        },
+    ];
 
     const form = useForm({
         resolver: zodResolver(formSchema),
@@ -391,6 +399,7 @@ const UpdateTourForm: FC<UpdateTourFormProps> = ({ tour }) => {
                                         <FileUpload2
                                             accept="image/png,image/jpeg,image/jpg"
                                             onFilesChange={field.onChange}
+                                            initialFiles={initialImages}
                                         />
                                     </FormControl>
                                     <FormMessage />

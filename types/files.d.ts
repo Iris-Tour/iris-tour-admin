@@ -1,1 +1,0 @@
-type GetFilePromise = File;
