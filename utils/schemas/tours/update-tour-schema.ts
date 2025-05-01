@@ -59,7 +59,7 @@ export const updateTourSchema = z.object({
             message: "Le prix doit être supérieur à 0.",
         }),
     requiredEquipment: z.string(),
-    mainImages: z.custom<File[]>(
+    mainImages: z.custom<File[] | undefined>(
         (files) => {
             if (!Array.isArray(files)) return false;
 

@@ -17,7 +17,7 @@ import { useTranslation } from "react-i18next";
 import { useMutation } from "@tanstack/react-query";
 import { apiLogin } from "@/lib/api";
 import { toast } from "sonner";
-import Input1 from "../../inputs/Input1";
+import Input1 from "@/components/inputs/Input1";
 import { Loader2 } from "lucide-react";
 import useAuth from "@/hooks/useAuth";
 import { useRouter } from "next/navigation";

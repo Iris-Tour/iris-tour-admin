@@ -152,7 +152,10 @@ type TourType = {
     departurePoint: string;
     arrivalDateTime: string;
     arrivalPoint: string;
-    mainImages: (File | undefined)[];
+    mainImages: Array<{
+        order: 1;
+        path: string;
+    }>;
     maxParticipants: number;
     requiredEquipment: string;
     assignedGuide: string;

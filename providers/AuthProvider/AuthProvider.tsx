@@ -49,6 +49,10 @@ const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
         setTransition(() => router.push(url));
     };
 
+    const redirectToDashboard = (isAdmin: boolean) => {
+        if (isAdmin) return redirectTo("/dashboard");
+    };
+
     useEffect(() => {
         if (!isClient) return;
 
@@ -63,7 +67,7 @@ const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
             } else {
                 if (storedToken.token) {
                     if (user && pathname === "/login") {
-                        redirectTo("/dashboard");
+                        redirectToDashboard(user.user.isAdmin);
                     }
                 } else if (pathname !== "/login") {
                     redirectTo("/login");
@@ -76,7 +80,7 @@ const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
         localStorage.setItem("token", JSON.stringify(tokenData));
         setToken(tokenData.token);
         queryClient.setQueryData(["current-user"], userData);
-        redirectTo("/dashboard");
+        redirectToDashboard(userData.isAdmin);
     };
 
     const logout = () => {

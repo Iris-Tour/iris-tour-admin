@@ -307,3 +307,8 @@ export const apiResendEmailVerification = (
 ): Promise<ResendEmailVerificationPromise> =>
     api(API_PREFIX, `/auth/resend-email`, "POST", data);
 //------------- END USERS
+
+//------------- FILES
+export const apiGetFile = (token: string, path: string): Promise<GetFilePromise> =>
+    sessionApi(API_PREFIX, `/files?path=${path}`, "GET", undefined, token);
+//------------- END FILES
