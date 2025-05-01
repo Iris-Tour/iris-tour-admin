@@ -50,6 +50,11 @@ const LoginForm = () => {
         mutationFn: (data: LoginMutation) => apiLogin(data),
         onSuccess: ({ user, token }) => {
             login(user, token);
+
+            if (!user.isAdmin) {
+                return toast.error(t("general-errors.not admin"));
+            }
+            
             toast.success(t("login.success-messages.login-successful"));
         },
         onError: (error: LoginError | string) => {

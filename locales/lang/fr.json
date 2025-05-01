@@ -1,6 +1,7 @@
 {
     "general-errors": {
-        "networkError": "Une erreur est survenue. Veuillez vérifier votre connexion internet."
+        "networkError": "Une erreur est survenue. Veuillez vérifier votre connexion internet.",
+        "not admin": "Vous n'êtes pas un administrateur."
     },
     "login": {
         "greeting": "Hé, Salut👋",
