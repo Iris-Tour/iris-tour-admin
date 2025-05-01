@@ -27,6 +27,8 @@ import { apiUpdateTour } from "@/lib/api";
 import { FC } from "react";
 import { updateTourSchema } from "@/utils/schemas/tours/update-tour-schema";
 import FileUpload2 from "@/components/inputs/FileUpload2";
+import { getServerUrl } from "@/lib/utils";
+import SharedForm from "../SharedForm";
 
 interface UpdateTourFormProps {
     tour: TourType;
@@ -40,23 +42,13 @@ const UpdateTourForm: FC<UpdateTourFormProps> = ({ tour }) => {
     const queryClient = useQueryClient();
 
     // Get all the main images
-    // const initialImages = tour.mainImages;
-    const initialImages = [
-        {
-            name: "image-01.jpg",
-            size: 1528737,
-            type: "image/jpeg",
-            url: "https://picsum.photos/1000/800?grayscale&random=1",
-            id: "image-01-123456789",
-        },
-        {
-            name: "image-02.jpg",
-            size: 1528737,
-            type: "image/jpeg",
-            url: "https://picsum.photos/1000/800?grayscale&random=2",
-            id: "image-02-123456789",
-        },
-    ];
+    const initialImages = tour.mainImages.map((image) => ({
+        id: image.id,
+        name: image.name,
+        size: image.size,
+        url: `${getServerUrl()}/${image.path}`,
+        type: image.type,
+    }));
 
     const form = useForm({
         resolver: zodResolver(formSchema),
@@ -97,329 +89,293 @@ const UpdateTourForm: FC<UpdateTourFormProps> = ({ tour }) => {
     }
 
     return (
-        <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)}>
-                <div className="flex flex-col gap-5">
-                    <div className="grid grid-cols-1 gap-5">
-                        <FormField
-                            control={form.control}
-                            name="title"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel className="text-base">
-                                        {t(
-                                            "tours.add-tour-dialog.field1.title"
-                                        )}
-                                    </FormLabel>
-                                    <FormControl>
-                                        <Input1
-                                            placeholder={t(
-                                                "tours.add-tour-dialog.field1.placeholder"
-                                            )}
-                                            {...field}
-                                        />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="description"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel className="text-base">
-                                        {t(
-                                            "tours.add-tour-dialog.field2.title"
-                                        )}
-                                    </FormLabel>
-                                    <FormControl>
-                                        <Textarea1
-                                            placeholder={t(
-                                                "tours.add-tour-dialog.field2.placeholder"
-                                            )}
-                                            {...field}
-                                        />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="departurePoint"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel className="text-base">
-                                        Lieu de départ
-                                    </FormLabel>
-                                    <FormControl>
-                                        <Input1
-                                            placeholder="Lieu de départ"
-                                            {...field}
-                                        />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="arrivalPoint"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel className="text-base">
-                                        Destination
-                                    </FormLabel>
-                                    <FormControl>
-                                        <Input1
-                                            placeholder="Destination"
-                                            {...field}
-                                        />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
+        <SharedForm
+            form={form}
+            onSubmit={onSubmit}
+            mutation={updateTourMutation}
+            ctaText={t("tours.update-tour-form.cta")}
+            multipart={true}
+        >
+            <div className="grid grid-cols-1 gap-5">
+                <FormField
+                    control={form.control}
+                    name="title"
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel className="text-base">
+                                {t("tours.add-tour-dialog.field1.title")}
+                            </FormLabel>
+                            <FormControl>
+                                <Input1
+                                    placeholder={t(
+                                        "tours.add-tour-dialog.field1.placeholder"
+                                    )}
+                                    {...field}
+                                />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
+                <FormField
+                    control={form.control}
+                    name="description"
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel className="text-base">
+                                {t("tours.add-tour-dialog.field2.title")}
+                            </FormLabel>
+                            <FormControl>
+                                <Textarea1
+                                    placeholder={t(
+                                        "tours.add-tour-dialog.field2.placeholder"
+                                    )}
+                                    {...field}
+                                />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
+                <FormField
+                    control={form.control}
+                    name="departurePoint"
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel className="text-base">
+                                Lieu de départ
+                            </FormLabel>
+                            <FormControl>
+                                <Input1
+                                    placeholder="Lieu de départ"
+                                    {...field}
+                                />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
+                <FormField
+                    control={form.control}
+                    name="arrivalPoint"
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel className="text-base">
+                                Destination
+                            </FormLabel>
+                            <FormControl>
+                                <Input1 placeholder="Destination" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
 
-                        <FormField
-                            control={form.control}
-                            name="departureDateTime"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel className="text-base">
-                                        {t(
-                                            "tours.add-tour-dialog.field3.title"
-                                        )}
-                                    </FormLabel>
-                                    <DateTimePicker
-                                        date={field.value.toString()}
-                                        onSelect={(
-                                            selectedDate: Date | undefined
-                                        ) =>
-                                            field.onChange(
-                                                selectedDate
-                                                    ? selectedDate.toISOString()
-                                                    : ""
-                                            )
-                                        }
-                                        placeholder={t(
-                                            "tours.add-tour-dialog.field3.placeholder"
-                                        )}
-                                    />
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="arrivalDateTime"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel className="text-base">
-                                        {t(
-                                            "tours.add-tour-dialog.field4.title"
-                                        )}
-                                    </FormLabel>
-                                    <DatePicker
-                                        date={field.value.toString()}
-                                        onSelect={(
-                                            selectedDate: Date | undefined
-                                        ) =>
-                                            field.onChange(
-                                                selectedDate
-                                                    ? selectedDate.toISOString()
-                                                    : ""
-                                            )
-                                        }
-                                        placeholder={t(
-                                            "tours.add-tour-dialog.field4.placeholder"
-                                        )}
-                                    />
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="assignedGuide"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel className="text-base">
-                                        Nom du guide
-                                    </FormLabel>
-                                    <FormControl>
-                                        <Input1
-                                            placeholder="Nom du guide"
-                                            {...field}
-                                        />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="difficulty"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel className="text-base">
-                                        Difficulté
-                                    </FormLabel>
-                                    <Select1
-                                        options={difficulties}
-                                        value={field.value?.toString()}
-                                        onValueChange={(value) =>
-                                            field.onChange(Number(value))
-                                        }
-                                    />
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="excursionPrice"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel className="text-base">
-                                        Prix
-                                    </FormLabel>
-                                    <FormControl>
-                                        <NumericInput
-                                            thousandSeparator=" "
-                                            decimalSeparator=","
-                                            allowNegative={false}
-                                            allowLeadingZeros={false}
-                                            decimalScale={0}
-                                            fixedDecimalScale
-                                            inputSuffix="FCFA"
-                                            placeholder="Entrez le prix"
-                                            value={field.value ?? ""}
-                                            onValueChange={({ floatValue }) => {
-                                                field.onChange(
-                                                    floatValue ?? undefined
-                                                ); // send clean number
-                                            }}
-                                            min={1}
-                                        />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="totalDistance"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel className="text-base">
-                                        Distance totale
-                                    </FormLabel>
-                                    <FormControl>
-                                        <NumericInput
-                                            thousandSeparator=""
-                                            decimalSeparator=","
-                                            allowNegative={false}
-                                            allowLeadingZeros={false}
-                                            decimalScale={2}
-                                            fixedDecimalScale
-                                            inputSuffix="Km"
-                                            placeholder="Entrez la distance"
-                                            value={field.value ?? ""}
-                                            onValueChange={({ floatValue }) => {
-                                                field.onChange(
-                                                    floatValue ?? undefined
-                                                ); // send clean number
-                                            }}
-                                        />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="maxParticipants"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel className="text-base">
-                                        Nom maximum de participants
-                                    </FormLabel>
-                                    <FormControl>
-                                        <NumericInput
-                                            thousandSeparator=""
-                                            decimalSeparator=","
-                                            allowNegative={false}
-                                            allowLeadingZeros={false}
-                                            decimalScale={0}
-                                            fixedDecimalScale
-                                            inputSuffix=""
-                                            placeholder="Entrez le nombre maximum de participants"
-                                            value={field.value ?? ""}
-                                            onValueChange={({ floatValue }) => {
-                                                field.onChange(
-                                                    floatValue ?? undefined
-                                                ); // send clean number
-                                            }}
-                                        />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="requiredEquipment"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel className="text-base">
-                                        Équipements requis
-                                    </FormLabel>
-                                    <FormControl>
-                                        <Textarea1
-                                            placeholder="Équipements requis"
-                                            value={field.value ?? ""}
-                                            onChange={field.onChange}
-                                        />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="mainImages"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel className="text-base">
-                                        Images
-                                    </FormLabel>
-                                    <FormControl>
-                                        <FileUpload2
-                                            accept="image/png,image/jpeg,image/jpg"
-                                            onFilesChange={field.onChange}
-                                            initialFiles={initialImages}
-                                        />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                    </div>
-
-                    <div>
-                        <DialogClose id="dialog-close"></DialogClose>
-                        <Button2
-                            type="submit"
-                            // disabled={}
-                        >
-                            {t("tours.add-tour-dialog.cta")}
-                        </Button2>
-                    </div>
-                </div>
-            </form>
-        </Form>
+                <FormField
+                    control={form.control}
+                    name="departureDateTime"
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel className="text-base">
+                                {t("tours.add-tour-dialog.field3.title")}
+                            </FormLabel>
+                            <DateTimePicker
+                                date={field.value.toString()}
+                                onSelect={(selectedDate: Date | undefined) =>
+                                    field.onChange(
+                                        selectedDate
+                                            ? selectedDate.toISOString()
+                                            : ""
+                                    )
+                                }
+                                placeholder={t(
+                                    "tours.add-tour-dialog.field3.placeholder"
+                                )}
+                            />
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
+                <FormField
+                    control={form.control}
+                    name="arrivalDateTime"
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel className="text-base">
+                                {t("tours.add-tour-dialog.field4.title")}
+                            </FormLabel>
+                            <DatePicker
+                                date={field.value.toString()}
+                                onSelect={(selectedDate: Date | undefined) =>
+                                    field.onChange(
+                                        selectedDate
+                                            ? selectedDate.toISOString()
+                                            : ""
+                                    )
+                                }
+                                placeholder={t(
+                                    "tours.add-tour-dialog.field4.placeholder"
+                                )}
+                            />
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
+                <FormField
+                    control={form.control}
+                    name="assignedGuide"
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel className="text-base">
+                                Nom du guide
+                            </FormLabel>
+                            <FormControl>
+                                <Input1 placeholder="Nom du guide" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
+                <FormField
+                    control={form.control}
+                    name="difficulty"
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel className="text-base">
+                                Difficulté
+                            </FormLabel>
+                            <Select1
+                                options={difficulties}
+                                value={field.value?.toString()}
+                                onValueChange={(value) =>
+                                    field.onChange(Number(value))
+                                }
+                            />
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
+                <FormField
+                    control={form.control}
+                    name="excursionPrice"
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel className="text-base">Prix</FormLabel>
+                            <FormControl>
+                                <NumericInput
+                                    thousandSeparator=" "
+                                    decimalSeparator=","
+                                    allowNegative={false}
+                                    allowLeadingZeros={false}
+                                    decimalScale={0}
+                                    fixedDecimalScale
+                                    inputSuffix="FCFA"
+                                    placeholder="Entrez le prix"
+                                    value={field.value ?? ""}
+                                    onValueChange={({ floatValue }) => {
+                                        field.onChange(floatValue ?? undefined); // send clean number
+                                    }}
+                                    min={1}
+                                />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
+                <FormField
+                    control={form.control}
+                    name="totalDistance"
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel className="text-base">
+                                Distance totale
+                            </FormLabel>
+                            <FormControl>
+                                <NumericInput
+                                    thousandSeparator=""
+                                    decimalSeparator=","
+                                    allowNegative={false}
+                                    allowLeadingZeros={false}
+                                    decimalScale={2}
+                                    fixedDecimalScale
+                                    inputSuffix="Km"
+                                    placeholder="Entrez la distance"
+                                    value={field.value ?? ""}
+                                    onValueChange={({ floatValue }) => {
+                                        field.onChange(floatValue ?? undefined); // send clean number
+                                    }}
+                                />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
+                <FormField
+                    control={form.control}
+                    name="maxParticipants"
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel className="text-base">
+                                Nom maximum de participants
+                            </FormLabel>
+                            <FormControl>
+                                <NumericInput
+                                    thousandSeparator=""
+                                    decimalSeparator=","
+                                    allowNegative={false}
+                                    allowLeadingZeros={false}
+                                    decimalScale={0}
+                                    fixedDecimalScale
+                                    inputSuffix=""
+                                    placeholder="Entrez le nombre maximum de participants"
+                                    value={field.value ?? ""}
+                                    onValueChange={({ floatValue }) => {
+                                        field.onChange(floatValue ?? undefined); // send clean number
+                                    }}
+                                />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
+                <FormField
+                    control={form.control}
+                    name="requiredEquipment"
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel className="text-base">
+                                Équipements requis
+                            </FormLabel>
+                            <FormControl>
+                                <Textarea1
+                                    placeholder="Équipements requis"
+                                    value={field.value ?? ""}
+                                    onChange={field.onChange}
+                                />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
+                <FormField
+                    control={form.control}
+                    name="mainImages"
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel className="text-base">Images</FormLabel>
+                            <FormControl>
+                                <FileUpload2
+                                    accept="image/png,image/jpeg,image/jpg"
+                                    onFilesChange={field.onChange}
+                                    initialFiles={initialImages}
+                                />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
+            </div>
+        </SharedForm>
     );
 };
 

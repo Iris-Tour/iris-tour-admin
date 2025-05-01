@@ -153,8 +153,11 @@ type TourType = {
     arrivalDateTime: string;
     arrivalPoint: string;
     mainImages: Array<{
-        order: 1;
+        id: string;
         path: string;
+        size: number;
+        name: string;
+        type: string;
     }>;
     maxParticipants: number;
     requiredEquipment: string;

@@ -112,6 +112,9 @@
             },
             "cta": "Créer"
         },
+        "update-tour-form": {
+            "cta": "Modifier"
+        },
         "delete-tour-dialog": {
             "title": "Suppression",
             "description": "Voulez-vous vraiment supprimer l'excursion : <b>{{tour}}</b> ?",

@@ -12,9 +12,7 @@ const nextConfig: NextConfig = {
         ];
     },
     images: {
-        remotePatterns: [
-            { protocol: "https", hostname: "picsum.photos" },
-        ],
+        remotePatterns: [{ protocol: "http", hostname: "localhost" }],
     },
 };
 

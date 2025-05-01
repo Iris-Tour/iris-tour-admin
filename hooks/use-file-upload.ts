@@ -1,5 +1,6 @@
 "use client";
 
+import { rehydrateInitialFilesAsFiles } from "@/utils/convertions/rehydrate-initial-files-as-files";
 import type React from "react";
 import {
     useCallback,
@@ -56,6 +57,9 @@ export type FileUploadActions = {
     ) => InputHTMLAttributes<HTMLInputElement> & {
         ref: React.Ref<HTMLInputElement>;
     };
+    getRealFiles: () => Promise<File[]>;
+    validateFile: (file: File | FileMetadata) => string | null;
+    setState: React.Dispatch<React.SetStateAction<FileUploadState>>
 };
 
 export const useFileUpload = (
@@ -406,6 +410,23 @@ export const useFileUpload = (
         [accept, multiple, handleFileChange]
     );
 
+    const getRealFiles = useCallback(async (): Promise<File[]> => {
+        const realFiles: File[] = [];
+
+        for (const item of state.files) {
+            if (item.file instanceof File) {
+                realFiles.push(item.file);
+            } else {
+                const rehydrated = await rehydrateInitialFilesAsFiles([
+                    item.file,
+                ]);
+                realFiles.push(rehydrated[0]);
+            }
+        }
+
+        return realFiles;
+    }, [state.files]);
+
     return [
         state,
         {
@@ -420,6 +441,9 @@ export const useFileUpload = (
             handleFileChange,
             openFileDialog,
             getInputProps,
+            getRealFiles,
+            validateFile,
+            setState
         },
     ];
 };

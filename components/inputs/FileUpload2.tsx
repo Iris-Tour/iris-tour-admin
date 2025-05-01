@@ -1,8 +1,11 @@
 "use client";
 
 import { AlertCircleIcon, ImageIcon, UploadIcon, XIcon } from "lucide-react";
-
-import { FileMetadata, useFileUpload } from "@/hooks/use-file-upload";
+import {
+    FileMetadata,
+    FileWithPreview,
+    useFileUpload,
+} from "@/hooks/use-file-upload";
 import { Button } from "@/components/ui/button";
 import { FC, useEffect } from "react";
 import Image from "next/image";
@@ -11,7 +14,7 @@ interface FileUploadProps {
     accept?: string;
     multiple?: boolean;
     onFilesChange?: (files: File[]) => void;
-    initialFiles?: FileMetadata[] | undefined;
+    initialFiles?: FileMetadata[];
 }
 
 const FileUpload2: FC<FileUploadProps> = ({
@@ -21,7 +24,7 @@ const FileUpload2: FC<FileUploadProps> = ({
     initialFiles,
 }) => {
     const maxSizeMB = 10;
-    const maxSize = maxSizeMB * 1024 * 1024; // 5MB default
+    const maxSize = maxSizeMB * 1024 * 1024;
     const maxFiles = 6;
 
     const [
@@ -34,6 +37,9 @@ const FileUpload2: FC<FileUploadProps> = ({
             openFileDialog,
             removeFile,
             getInputProps,
+            getRealFiles,
+            validateFile,
+            setState,
         },
     ] = useFileUpload({
         accept:
@@ -44,20 +50,47 @@ const FileUpload2: FC<FileUploadProps> = ({
         initialFiles,
     });
 
-    // ✅ Notify parent component when files change
+    useEffect(() => {
+        const hydrateInitialFiles = async () => {
+            if (!initialFiles || initialFiles.length === 0) return;
+
+            const realFiles = await getRealFiles();
+            const validFiles: FileWithPreview[] = [];
+
+            realFiles.forEach((file, index) => {
+                const error = validateFile(file);
+                if (!error) {
+                    const metadata = initialFiles[index];
+                    validFiles.push({
+                        file,
+                        id: metadata?.id ?? `${file.name}-${Date.now()}`,
+                        preview: metadata?.url ?? URL.createObjectURL(file),
+                    });
+                }
+            });
+
+            setState((prev) => ({
+                ...prev,
+                files: validFiles,
+                errors: [],
+            }));
+
+            onFilesChange?.(validFiles.map((f) => f.file as File));
+        };
+
+        hydrateInitialFiles();
+    }, []);
+
     useEffect(() => {
         const handler = setTimeout(() => {
-            if (onFilesChange) {
-                onFilesChange(files.map((f) => f.file as File));
-            }
-        }, 100); // Delay 100ms
+            onFilesChange?.(files.map((f) => f.file as File));
+        }, 100);
 
         return () => clearTimeout(handler);
     }, [files, onFilesChange]);
 
     return (
         <div className="flex flex-col gap-2">
-            {/* Drop area */}
             <div
                 onDragEnter={handleDragEnter}
                 onDragLeave={handleDragLeave}
@@ -72,6 +105,7 @@ const FileUpload2: FC<FileUploadProps> = ({
                     className="sr-only"
                     aria-label="Upload image file"
                 />
+
                 {files.length > 0 ? (
                     <div className="flex w-full flex-col gap-3">
                         <div className="flex items-center justify-between gap-2">
@@ -121,10 +155,7 @@ const FileUpload2: FC<FileUploadProps> = ({
                     </div>
                 ) : (
                     <div className="flex flex-col items-center justify-center px-4 py-3 text-center">
-                        <div
-                            className="bg-background mb-2 flex size-11 shrink-0 items-center justify-center rounded-full border"
-                            aria-hidden="true"
-                        >
+                        <div className="bg-background mb-2 flex size-11 shrink-0 items-center justify-center rounded-full border">
                             <ImageIcon className="size-4 opacity-60" />
                         </div>
                         <p className="mb-1.5 text-sm font-medium">
@@ -139,10 +170,7 @@ const FileUpload2: FC<FileUploadProps> = ({
                             className="mt-4 cursor-pointer"
                             onClick={openFileDialog}
                         >
-                            <UploadIcon
-                                className="-ms-1 opacity-60"
-                                aria-hidden="true"
-                            />
+                            <UploadIcon className="-ms-1 opacity-60" />
                             Sélectionnez des images
                         </Button>
                     </div>
@@ -158,20 +186,6 @@ const FileUpload2: FC<FileUploadProps> = ({
                     <span>{errors[0]}</span>
                 </div>
             )}
-
-            {/* <p
-                aria-live="polite"
-                role="region"
-                className="text-muted-foreground mt-2 text-center text-xs"
-            >
-                Multiple image uploader w/ image grid ∙{" "}
-                <a
-                    href="https://github.com/origin-space/originui/tree/main/docs/use-file-upload.md"
-                    className="hover:text-foreground underline"
-                >
-                    API
-                </a>
-            </p> */}
         </div>
     );
 };
