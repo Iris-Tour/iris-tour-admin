@@ -5,7 +5,7 @@ import { AuthContext } from "./AuthContext";
 import { QueryClient, useQuery } from "@tanstack/react-query";
 import { currentUser } from "@/lib/api";
 import { usePathname, useRouter } from "next/navigation";
-import Loading from "@/app/loading";
+import Loading from "@/app/Loading";
 
 interface AuthProviderProps {
     children: ReactNode;
