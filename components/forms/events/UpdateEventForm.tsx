@@ -29,7 +29,7 @@ import {
 } from "@/components/ui/popover";
 import useAuth from "@/hooks/useAuth";
 import { apiUpdateEvent } from "@/lib/api";
-import { cn } from "@/lib/utils";
+import { cn, getServerUrl } from "@/lib/utils";
 import {
     updateEventSchema,
     UpdateEventSchemaType,
@@ -59,6 +59,15 @@ const UpdateEventForm: FC<UpdateEventFormProps> = ({ event }) => {
         { label: "En", value: "En" },
     ];
 
+    // Get all the promotional images
+    const initialImages = event.promotionalImage.map((image) => ({
+        id: image.id,
+        name: image.name,
+        size: image.size,
+        url: `${getServerUrl()}/${image.path}`,
+        type: image.type,
+    }));
+
     const form = useForm({
         resolver: zodResolver(updateEventSchema),
         defaultValues: {
@@ -76,7 +85,7 @@ const UpdateEventForm: FC<UpdateEventFormProps> = ({ event }) => {
             accessibilityForDisabled: event.accessibilityForDisabled,
             organizerContact: event.organizerContact,
             program: event.program ?? "",
-            promotionalImage: event.promotionalImage,
+            promotionalImage: [],
             eventStatus: 0,
         },
     });
@@ -581,6 +590,7 @@ const UpdateEventForm: FC<UpdateEventFormProps> = ({ event }) => {
                                 <FileUpload2
                                     accept="image/png,image/jpeg,image/jpg"
                                     onFilesChange={field.onChange}
+                                    initialFiles={initialImages}
                                 />
                             </FormControl>
                             <FormMessage />

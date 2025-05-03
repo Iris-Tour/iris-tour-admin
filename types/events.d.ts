@@ -15,7 +15,13 @@ type EventType = {
         language: string;
     }>;
     accessibilityForDisabled: boolean;
-    promotionalImage: [];
+    promotionalImage: Array<{
+        id: string;
+        path: string;
+        size: number;
+        name: string;
+        type: string;
+    }>;
     organizerContact: string;
     program: string;
     eventStatus: number;
