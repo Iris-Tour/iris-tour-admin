@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/form";
 import { useTranslation } from "react-i18next";
 import useAuth from "@/hooks/useAuth";
-import Input1 from "@/components/inputs/Input1";
+import BaseInput from "@/components/inputs/BaseInput";
 import { DialogClose } from "@/components/ui/dialog";
 import Button2 from "@/components/buttons/Button2";
 import { FC } from "react";
@@ -126,7 +126,7 @@ const AddAdminForm: FC<AddAdminFormProps> = ({ roles }) => {
                                     )}
                                 </FormLabel>
                                 <FormControl>
-                                    <Input1
+                                    <BaseInput
                                         placeholder={t(
                                             "roles-and-permissions.admins-list.add-admin-dialog.field1.placeholder"
                                         )}
@@ -148,7 +148,7 @@ const AddAdminForm: FC<AddAdminFormProps> = ({ roles }) => {
                                     )}
                                 </FormLabel>
                                 <FormControl>
-                                    <Input1
+                                    <BaseInput
                                         placeholder={t(
                                             "roles-and-permissions.admins-list.add-admin-dialog.field2.placeholder"
                                         )}
@@ -170,7 +170,7 @@ const AddAdminForm: FC<AddAdminFormProps> = ({ roles }) => {
                                     )}
                                 </FormLabel>
                                 <FormControl>
-                                    <Input1
+                                    <BaseInput
                                         placeholder={t(
                                             "roles-and-permissions.admins-list.add-admin-dialog.field3.placeholder"
                                         )}

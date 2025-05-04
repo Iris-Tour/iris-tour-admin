@@ -1,4 +1,12 @@
-import { BookSaved, Bus, Car, House2, Ticket, User } from "iconsax-react";
+import {
+    BookSaved,
+    Bus,
+    Car,
+    House2,
+    Ticket,
+    User,
+    UserSquare,
+} from "iconsax-react";
 import { MountainSnow, UserCog } from "lucide-react";
 
 export const sidebarItems = [
@@ -37,5 +45,10 @@ export const sidebarItems = [
         title: "Gestion des utilisateurs",
         url: "/manage-users",
         icon: User,
+    },
+    {
+        title: "Gestion du Staff",
+        url: "/manage-staff",
+        icon: UserSquare,
     },
 ];

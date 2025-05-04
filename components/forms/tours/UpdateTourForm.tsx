@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/form";
 import { useTranslation } from "react-i18next";
 import useAuth from "@/hooks/useAuth";
-import Input1 from "@/components/inputs/Input1";
+import BaseInput from "@/components/inputs/BaseInput";
 import { DialogClose } from "@/components/ui/dialog";
 import Button2 from "@/components/buttons/Button2";
 import DateTimePicker from "@/components/inputs/DateTimePicker";
@@ -26,7 +26,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { apiUpdateTour } from "@/lib/api";
 import { FC } from "react";
 import { updateTourSchema } from "@/utils/schemas/tours/update-tour-schema";
-import FileUpload2 from "@/components/inputs/FileUpload2";
+import FileUpload from "@/components/inputs/FileUpload";
 import { getServerUrl } from "@/lib/utils";
 import SharedForm from "../SharedForm";
 
@@ -106,7 +106,7 @@ const UpdateTourForm: FC<UpdateTourFormProps> = ({ tour }) => {
                                 {t("tours.add-tour-dialog.field1.title")}
                             </FormLabel>
                             <FormControl>
-                                <Input1
+                                <BaseInput
                                     placeholder={t(
                                         "tours.add-tour-dialog.field1.placeholder"
                                     )}
@@ -146,7 +146,7 @@ const UpdateTourForm: FC<UpdateTourFormProps> = ({ tour }) => {
                                 Lieu de départ
                             </FormLabel>
                             <FormControl>
-                                <Input1
+                                <BaseInput
                                     placeholder="Lieu de départ"
                                     {...field}
                                 />
@@ -164,7 +164,10 @@ const UpdateTourForm: FC<UpdateTourFormProps> = ({ tour }) => {
                                 Destination
                             </FormLabel>
                             <FormControl>
-                                <Input1 placeholder="Destination" {...field} />
+                                <BaseInput
+                                    placeholder="Destination"
+                                    {...field}
+                                />
                             </FormControl>
                             <FormMessage />
                         </FormItem>
@@ -230,7 +233,10 @@ const UpdateTourForm: FC<UpdateTourFormProps> = ({ tour }) => {
                                 Nom du guide
                             </FormLabel>
                             <FormControl>
-                                <Input1 placeholder="Nom du guide" {...field} />
+                                <BaseInput
+                                    placeholder="Nom du guide"
+                                    {...field}
+                                />
                             </FormControl>
                             <FormMessage />
                         </FormItem>
@@ -364,7 +370,7 @@ const UpdateTourForm: FC<UpdateTourFormProps> = ({ tour }) => {
                         <FormItem>
                             <FormLabel className="text-base">Images</FormLabel>
                             <FormControl>
-                                <FileUpload2
+                                <FileUpload
                                     accept="image/png,image/jpeg,image/jpg"
                                     onFilesChange={field.onChange}
                                     initialFiles={initialImages}

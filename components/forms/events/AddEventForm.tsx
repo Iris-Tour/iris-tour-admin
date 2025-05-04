@@ -2,8 +2,8 @@ import Button3 from "@/components/buttons/Button3";
 import SimpleChip from "@/components/chips/SimpleChip";
 import SharedForm from "@/components/forms/SharedForm";
 import DateTimePicker from "@/components/inputs/DateTimePicker";
-import FileUpload2 from "@/components/inputs/FileUpload2";
-import Input1 from "@/components/inputs/Input1";
+import FileUpload from "@/components/inputs/FileUpload";
+import BaseInput from "@/components/inputs/BaseInput";
 import NumericInput from "@/components/inputs/NumericInput";
 import Textarea1 from "@/components/inputs/Textarea1";
 import Select1 from "@/components/selects/Select1";
@@ -131,7 +131,7 @@ const AddEventForm = () => {
                                 {t("events.add-event-dialog.field1.title")}
                             </FormLabel>
                             <FormControl>
-                                <Input1
+                                <BaseInput
                                     placeholder={t(
                                         "events.add-event-dialog.field1.placeholder"
                                     )}
@@ -231,7 +231,7 @@ const AddEventForm = () => {
                                 {t("events.add-event-dialog.field5.title")}
                             </FormLabel>
                             <FormControl>
-                                <Input1
+                                <BaseInput
                                     placeholder={t(
                                         "events.add-event-dialog.field5.placeholder"
                                     )}
@@ -277,7 +277,7 @@ const AddEventForm = () => {
                                 {t("events.add-event-dialog.field7.title")}
                             </FormLabel>
                             <FormControl>
-                                <Input1
+                                <BaseInput
                                     placeholder={t(
                                         "events.add-event-dialog.field7.placeholder"
                                     )}
@@ -297,7 +297,7 @@ const AddEventForm = () => {
                                 {t("events.add-event-dialog.field13.title")}
                             </FormLabel>
                             <FormControl>
-                                <Input1
+                                <BaseInput
                                     placeholder={t(
                                         "events.add-event-dialog.field13.placeholder"
                                     )}
@@ -377,7 +377,7 @@ const AddEventForm = () => {
                                 {t("events.add-event-dialog.field10.title")}
                             </FormLabel>
                             <FormControl>
-                                <Input1
+                                <BaseInput
                                     placeholder={t(
                                         "events.add-event-dialog.field10.placeholder"
                                     )}
@@ -569,7 +569,7 @@ const AddEventForm = () => {
                                 {t("events.add-event-dialog.field15.title")}
                             </FormLabel>
                             <FormControl>
-                                <FileUpload2
+                                <FileUpload
                                     accept="image/png,image/jpeg,image/jpg"
                                     onFilesChange={field.onChange}
                                 />

@@ -14,7 +14,7 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 import { useTranslation } from "react-i18next";
-import Input1 from "@/components/inputs/Input1";
+import BaseInput from "@/components/inputs/BaseInput";
 import Button2 from "@/components/buttons/Button2";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -120,7 +120,7 @@ const UpdateRoleWithPermissionsForm: FC<UpdateRoleWithPermissionsFormProps> = ({
                                 )}
                             </FormLabel>
                             <FormControl>
-                                <Input1
+                                <BaseInput
                                     placeholder={t(
                                         "roles-and-permissions.updateRoleDialog.field1.placeholder"
                                     )}

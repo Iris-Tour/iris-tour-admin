@@ -307,3 +307,37 @@ export const apiResendEmailVerification = (
 ): Promise<ResendEmailVerificationPromise> =>
     api(API_PREFIX, `/auth/resend-email`, "POST", data);
 //------------- END USERS
+
+//------------- STAFF
+// Get all staff
+export const apiGetAllStaff = (token: string): Promise<GetAllStaffPromise> =>
+    sessionApi(API_PREFIX, "/staffs", "GET", undefined, token);
+
+// Create a staff member
+export const apiStoreStaff = (
+    token: string,
+    data: StoreStaffMutation
+): Promise<StoreStaffPromise> =>
+    sessionApi(API_PREFIX, "/staffs", "POST", data, token);
+
+// Update a staff member
+export const apiUpdateStaff = (
+    token: string,
+    staffId: string,
+    data: UpdateStaffMutation
+): Promise<UpdateStaffPromise> =>
+    sessionApi(API_PREFIX, `/staffs/${staffId}`, "PUT", data, token);
+
+// Delete a staff member
+export const apiDeleteStaff = (
+    token: string,
+    staffId: string
+): Promise<DeleteStaffPromise> =>
+    sessionApi(
+        API_PREFIX,
+        `/staffs/delete/${staffId}`,
+        "DELETE",
+        undefined,
+        token
+    );
+//------------- END STAFF

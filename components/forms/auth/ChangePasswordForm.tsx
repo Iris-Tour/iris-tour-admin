@@ -11,7 +11,7 @@ import {
     FormLabel,
     FormMessage,
 } from "@/components/ui/form";
-import Input1 from "@/components/inputs/Input1";
+import BaseInput from "@/components/inputs/BaseInput";
 import Link from "next/link";
 import Button1 from "@/components/buttons/Button1";
 import { useTranslation } from "react-i18next";
@@ -133,7 +133,7 @@ const ChangePasswordForm = () => {
                                     )}
                                 </FormLabel>
                                 <FormControl>
-                                    <Input1
+                                    <BaseInput
                                         type="password"
                                         placeholder={t(
                                             "reset-password.change-password-form.field1.placeholder"
@@ -157,7 +157,7 @@ const ChangePasswordForm = () => {
                                         )}
                                     </FormLabel>
                                     <FormControl>
-                                        <Input1
+                                        <BaseInput
                                             type="password"
                                             placeholder={t(
                                                 "reset-password.change-password-form.field2.placeholder"

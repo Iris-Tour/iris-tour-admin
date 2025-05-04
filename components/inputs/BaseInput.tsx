@@ -2,12 +2,16 @@ import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { FC } from "react";
 
-interface Input1Props extends React.ComponentProps<"input"> {
+interface BaseInputProps extends React.ComponentProps<"input"> {
     placeholder?: string;
     className?: string;
 }
 
-const Input1: FC<Input1Props> = ({ placeholder, className, ...props }) => {
+const BaseInput: FC<BaseInputProps> = ({
+    placeholder,
+    className,
+    ...props
+}) => {
     return (
         <Input
             placeholder={placeholder}
@@ -20,4 +24,4 @@ const Input1: FC<Input1Props> = ({ placeholder, className, ...props }) => {
     );
 };
 
-export default Input1;
+export default BaseInput;

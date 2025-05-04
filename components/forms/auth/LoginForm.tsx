@@ -17,7 +17,7 @@ import { useTranslation } from "react-i18next";
 import { useMutation } from "@tanstack/react-query";
 import { apiLogin } from "@/lib/api";
 import { toast } from "sonner";
-import Input1 from "@/components/inputs/Input1";
+import BaseInput from "@/components/inputs/BaseInput";
 import { Loader2 } from "lucide-react";
 import useAuth from "@/hooks/useAuth";
 import { useRouter } from "next/navigation";
@@ -86,7 +86,7 @@ const LoginForm = () => {
                                     {t("login.field1.title")}
                                 </FormLabel>
                                 <FormControl>
-                                    <Input1
+                                    <BaseInput
                                         placeholder={t(
                                             "login.field1.placeholder"
                                         )}
@@ -107,7 +107,7 @@ const LoginForm = () => {
                                         {t("login.field2.title")}
                                     </FormLabel>
                                     <FormControl>
-                                        <Input1
+                                        <BaseInput
                                             type="password"
                                             placeholder={t(
                                                 "login.field2.placeholder"

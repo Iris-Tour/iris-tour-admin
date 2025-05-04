@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/form";
 import { useTranslation } from "react-i18next";
 import useAuth from "@/hooks/useAuth";
-import Input1 from "@/components/inputs/Input1";
+import BaseInput from "@/components/inputs/BaseInput";
 import { DialogClose } from "@/components/ui/dialog";
 import Button2 from "@/components/buttons/Button2";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -92,7 +92,7 @@ const AddUserForm = () => {
                                     )}
                                 </FormLabel>
                                 <FormControl>
-                                    <Input1
+                                    <BaseInput
                                         placeholder={t(
                                             "manage-users.users-list.add-user-dialog.field1.placeholder"
                                         )}
@@ -114,7 +114,7 @@ const AddUserForm = () => {
                                     )}
                                 </FormLabel>
                                 <FormControl>
-                                    <Input1
+                                    <BaseInput
                                         placeholder={t(
                                             "manage-users.users-list.add-user-dialog.field2.placeholder"
                                         )}
@@ -136,7 +136,7 @@ const AddUserForm = () => {
                                     )}
                                 </FormLabel>
                                 <FormControl>
-                                    <Input1
+                                    <BaseInput
                                         placeholder={t(
                                             "manage-users.users-list.add-user-dialog.field3.placeholder"
                                         )}
@@ -158,7 +158,7 @@ const AddUserForm = () => {
                                     )}
                                 </FormLabel>
                                 <FormControl>
-                                    <Input1
+                                    <BaseInput
                                         type="password"
                                         placeholder={t(
                                             "manage-users.users-list.add-user-dialog.field4.placeholder"
@@ -181,7 +181,7 @@ const AddUserForm = () => {
                                     )}
                                 </FormLabel>
                                 <FormControl>
-                                    <Input1
+                                    <BaseInput
                                         type="password"
                                         placeholder={t(
                                             "manage-users.users-list.add-user-dialog.field5.placeholder"

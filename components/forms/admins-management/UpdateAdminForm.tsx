@@ -1,5 +1,5 @@
 import SharedForm from "@/components/forms/SharedForm";
-import Input1 from "@/components/inputs/Input1";
+import BaseInput from "@/components/inputs/BaseInput";
 import {
     FormControl,
     FormField,
@@ -126,7 +126,7 @@ const UpdateAdminForm: FC<UpdateAdminFormProps> = ({
                             )}
                         </FormLabel>
                         <FormControl>
-                            <Input1
+                            <BaseInput
                                 placeholder={t(
                                     "roles-and-permissions.admins-list.update-admin-dialog.field1.placeholder"
                                 )}
@@ -148,7 +148,7 @@ const UpdateAdminForm: FC<UpdateAdminFormProps> = ({
                             )}
                         </FormLabel>
                         <FormControl>
-                            <Input1
+                            <BaseInput
                                 placeholder={t(
                                     "roles-and-permissions.admins-list.update-admin-dialog.field2.placeholder"
                                 )}
@@ -170,7 +170,7 @@ const UpdateAdminForm: FC<UpdateAdminFormProps> = ({
                             )}
                         </FormLabel>
                         <FormControl>
-                            <Input1
+                            <BaseInput
                                 placeholder={t(
                                     "roles-and-permissions.admins-list.update-admin-dialog.field3.placeholder"
                                 )}

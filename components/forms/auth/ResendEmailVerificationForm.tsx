@@ -11,7 +11,7 @@ import {
     FormLabel,
     FormMessage,
 } from "@/components/ui/form";
-import Input1 from "@/components/inputs/Input1";
+import BaseInput from "@/components/inputs/BaseInput";
 import Button1 from "@/components/buttons/Button1";
 import { useTranslation } from "react-i18next";
 import { useMutation } from "@tanstack/react-query";
@@ -81,7 +81,7 @@ const ResendEmailVerificationForm = () => {
                                     )}
                                 </FormLabel>
                                 <FormControl>
-                                    <Input1
+                                    <BaseInput
                                         placeholder={t(
                                             "verify-email.resend-email-verification.field1.placeholder"
                                         )}
@@ -96,9 +96,7 @@ const ResendEmailVerificationForm = () => {
                         className="self-end underline text-secondary-2"
                         href="/login"
                     >
-                        {t(
-                            "verify-email.resend-email-verification.loginLink"
-                        )}
+                        {t("verify-email.resend-email-verification.loginLink")}
                     </Link>
                 </div>
                 <Button1

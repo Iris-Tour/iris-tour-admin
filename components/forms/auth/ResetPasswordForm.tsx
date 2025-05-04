@@ -11,7 +11,7 @@ import {
     FormLabel,
     FormMessage,
 } from "@/components/ui/form";
-import Input1 from "@/components/inputs/Input1";
+import BaseInput from "@/components/inputs/BaseInput";
 import Button1 from "@/components/buttons/Button1";
 import { useTranslation } from "react-i18next";
 import { useMutation } from "@tanstack/react-query";
@@ -75,7 +75,7 @@ const ResetPasswordForm = () => {
                                     {t("reset-password.field1.title")}
                                 </FormLabel>
                                 <FormControl>
-                                    <Input1
+                                    <BaseInput
                                         placeholder={t(
                                             "reset-password.field1.placeholder"
                                         )}

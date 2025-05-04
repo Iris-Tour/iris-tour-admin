@@ -539,5 +539,59 @@
                 }
             }
         }
+    },
+    "manage-staff": {
+        "staff-list": {
+            "heading": "Gestion du staff",
+            "add-staff": "Ajouter un membre du staff",
+            "add-staff-dialog": {
+                "title": "Ajouter un membre du staff",
+                "success-messages": {
+                    "Staff created successfully": "Le membre du staff a été ajouté avec succès."
+                },
+                "error-messages": {
+                    "creation-failed": "Échec de l'ajout du membre du staff."
+                },
+                "field1": {
+                    "title": "Photo",
+                    "placeholder": "Entrez la photo"
+                },
+                "field2": { "title": "Nom", "placeholder": "Entrez le nom" },
+                "field3": {
+                    "title": "Type",
+                    "placeholder": "Entrez le type",
+                    "no-results-text": "Aucun type trouvé."
+                },
+                "field4": {
+                    "title": "Téléphone",
+                    "placeholder": "Entrez le numéro de téléphone"
+                },
+                "field5": { "title": "Email", "placeholder": "Entrez l'email" },
+                "field6": {
+                    "title": "Langues",
+                    "placeholder": "Sélectionnez les langues",
+                    "no-results-text": "Aucune langue trouvée."
+                },
+                "field7": {
+                    "title": "Adresse",
+                    "placeholder": "Entrez l'adresse"
+                },
+                "cta": "Ajouter"
+            },
+            "delete-staff-dialog": {
+                "title": "Suppression",
+                "description": "Voulez-vous vraiment supprimer le membre du staff : <b>{{staffName}}</b> ?",
+                "button1": "Annuler",
+                "button2": "Supprimer"
+            },
+            "headers": {
+                "header1": "Membres",
+                "header2": "Type",
+                "header3": "Téléphone",
+                "header5": "Langues",
+                "header6": "Adresse",
+                "header7": "Actions"
+            }
+        }
     }
 }
