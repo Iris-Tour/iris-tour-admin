@@ -85,8 +85,7 @@ const AddStaffForm: FC = () => {
     });
 
     function onSubmit(values: StoreStaffSchemaType) {
-        console.log(values);
-        // storeStaffMutation.mutate({ data: values });
+        storeStaffMutation.mutate({ data: values });
     }
 
     return (
@@ -110,7 +109,9 @@ const AddStaffForm: FC = () => {
                             <FormControl>
                                 <div className="flex justify-center">
                                     <AvatarFileUpload
-                                        onFilesChange={field.onChange}
+                                        onFilesChange={(files) => {
+                                            field.onChange(files[0]);
+                                        }}
                                     />
                                 </div>
                             </FormControl>
@@ -153,7 +154,11 @@ const AddStaffForm: FC = () => {
                                 )}
                             </FormLabel>
                             <SelectWithSearch
+                                value={
+                                    field.value ? field.value.toString() : ""
+                                }
                                 onValueChange={(value) => {
+                                    console.log(value);
                                     field.onChange(Number(value));
                                 }}
                                 options={staffTypes}
@@ -228,7 +233,11 @@ const AddStaffForm: FC = () => {
                             <div className="space-y-2">
                                 <MultiselectWithPlaceholderAndClear
                                     onChange={(selectedOptions) => {
-                                        field.onChange(selectedOptions);
+                                        const languages = selectedOptions.map(
+                                            (option) => option.value
+                                        );
+
+                                        field.onChange(languages);
                                     }}
                                     options={languages}
                                     label={t(

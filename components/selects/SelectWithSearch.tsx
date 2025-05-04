@@ -20,11 +20,13 @@ import {
 } from "@/components/ui/popover";
 
 export default function SelectWithSearch({
+    value,
     onValueChange,
     options,
     placeholder = "Search framework...",
     noResultsText = "No framework found.",
 }: {
+    value: string;
     onValueChange: (value: string) => void;
     options: { value: string; label: string }[];
     placeholder?: string;
@@ -32,7 +34,6 @@ export default function SelectWithSearch({
 }) {
     const id = useId();
     const [open, setOpen] = useState<boolean>(false);
-    const [value, setValue] = useState<string>("");
 
     return (
         <div className="*:not-first:mt-2">
@@ -84,11 +85,10 @@ export default function SelectWithSearch({
                                             );
                                             const newValue =
                                                 selectedOption?.value === value
-                                                    ? ""
+                                                    ? undefined
                                                     : selectedOption?.value ||
-                                                      "";
-                                            setValue(newValue);
-                                            onValueChange(newValue);
+                                                      undefined;
+                                            onValueChange(newValue ?? "");
                                             setOpen(false);
                                         }}
                                         className="text-base"

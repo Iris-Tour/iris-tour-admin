@@ -1,6 +1,13 @@
 // Staff Types
 type StaffType = {
     id: string;
+    imagePath: {
+        id: string;
+        name: string;
+        size: number;
+        path: string;
+        type: string;
+    }[];
     name: string;
     type: number;
     phone: string;

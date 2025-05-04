@@ -20,17 +20,13 @@ import {
     updateStaffSchema,
     UpdateStaffSchemaType,
 } from "@/utils/schemas/staff/update-staff-schema";
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select";
 import { FC } from "react";
-import { Badge } from "@/components/ui/badge";
-import { X } from "lucide-react";
 import SharedForm from "@/components/forms/SharedForm";
+import { staffTypes } from "@/constants/staffTypes";
+import SelectWithSearch from "@/components/selects/SelectWithSearch";
+import AvatarFileUpload from "@/components/inputs/AvatarFileUpload";
+import MultiselectWithPlaceholderAndClear from "@/components/selects/MultiselectWithPlaceholderAndClear";
+import { getServerUrl } from "@/lib/utils";
 
 interface UpdateStaffFormProps {
     staff: StaffType;
@@ -41,9 +37,21 @@ const UpdateStaffForm: FC<UpdateStaffFormProps> = ({ staff }) => {
     const { token } = useAuth();
     const queryClient = useQueryClient();
 
+    console.log(staff);
+
+    // Get all the main images
+    const image = staff.imagePath[0];
+
+    const languages = [
+        { label: "Français", value: "Français" },
+        { label: "English", value: "English" },
+        { label: "Español", value: "Español" },
+    ];
+
     const form = useForm<UpdateStaffSchemaType>({
         resolver: zodResolver(updateStaffSchema),
         defaultValues: {
+            imagePath: undefined,
             name: staff.name,
             type: staff.type,
             phone: staff.phone,
@@ -65,7 +73,7 @@ const UpdateStaffForm: FC<UpdateStaffFormProps> = ({ staff }) => {
 
             toast.success(
                 t(
-                    "staff-management.staff-list.edit-staff-dialog.success-messages.Staff updated successfully"
+                    "manage-staff.staff-list.update-staff-dialog.success-messages.Staff updated successfully"
                 )
             );
         },
@@ -79,7 +87,7 @@ const UpdateStaffForm: FC<UpdateStaffFormProps> = ({ staff }) => {
             } else {
                 toast.error(
                     t(
-                        `staff-management.staff-list.edit-staff-dialog.error-messages.${code}.${field}.${rule}`
+                        `manage-staff.staff-list.update-staff-dialog.error-messages.${code}.${field}.${rule}`
                     )
                 );
             }
@@ -90,28 +98,36 @@ const UpdateStaffForm: FC<UpdateStaffFormProps> = ({ staff }) => {
         updateStaffMutation.mutate({ data: values });
     }
 
-    const handleLanguageChange = (value: string) => {
-        const currentLanguages = form.getValues("languages");
-        if (!currentLanguages.includes(value)) {
-            form.setValue("languages", [...currentLanguages, value]);
-        }
-    };
-
-    const removeLanguage = (languageToRemove: string) => {
-        const currentLanguages = form.getValues("languages");
-        form.setValue(
-            "languages",
-            currentLanguages.filter((lang) => lang !== languageToRemove)
-        );
-    };
-
     return (
         <SharedForm
             form={form}
             onSubmit={onSubmit}
             mutation={updateStaffMutation}
+            ctaText={t("manage-staff.staff-list.update-staff-dialog.cta")}
         >
             <div className="grid grid-cols-1 gap-5">
+                <FormField
+                    control={form.control}
+                    name="imagePath"
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormControl>
+                                <div className="flex justify-center">
+                                    <AvatarFileUpload
+                                        onFilesChange={(files) => {
+                                            field.onChange(files[0]);
+                                        }}
+                                        initialImage={`${getServerUrl()}/${
+                                            image.path
+                                        }`}
+                                    />
+                                </div>
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
+
                 <FormField
                     control={form.control}
                     name="name"
@@ -119,13 +135,13 @@ const UpdateStaffForm: FC<UpdateStaffFormProps> = ({ staff }) => {
                         <FormItem>
                             <FormLabel className="text-base">
                                 {t(
-                                    "staff-management.staff-list.edit-staff-dialog.field1.title"
+                                    "manage-staff.staff-list.update-staff-dialog.field2.title"
                                 )}
                             </FormLabel>
                             <FormControl>
                                 <BaseInput
                                     placeholder={t(
-                                        "staff-management.staff-list.edit-staff-dialog.field1.placeholder"
+                                        "manage-staff.staff-list.update-staff-dialog.field2.placeholder"
                                     )}
                                     {...field}
                                 />
@@ -142,30 +158,22 @@ const UpdateStaffForm: FC<UpdateStaffFormProps> = ({ staff }) => {
                         <FormItem>
                             <FormLabel className="text-base">
                                 {t(
-                                    "staff-management.staff-list.edit-staff-dialog.field2.title"
+                                    "manage-staff.staff-list.update-staff-dialog.field3.title"
                                 )}
                             </FormLabel>
-                            <Select
-                                onValueChange={(value) =>
-                                    field.onChange(Number(value))
-                                }
-                                defaultValue={field.value.toString()}
-                            >
-                                <FormControl>
-                                    <SelectTrigger>
-                                        <SelectValue
-                                            placeholder={t(
-                                                "staff-management.staff-list.edit-staff-dialog.field2.placeholder"
-                                            )}
-                                        />
-                                    </SelectTrigger>
-                                </FormControl>
-                                <SelectContent>
-                                    <SelectItem value="1">Guide</SelectItem>
-                                    <SelectItem value="2">Driver</SelectItem>
-                                    <SelectItem value="3">Manager</SelectItem>
-                                </SelectContent>
-                            </Select>
+                            <SelectWithSearch
+                                value={field.value.toString()}
+                                onValueChange={(value) => {
+                                    field.onChange(Number(value));
+                                }}
+                                options={staffTypes}
+                                placeholder={t(
+                                    "manage-staff.staff-list.update-staff-dialog.field3.placeholder"
+                                )}
+                                noResultsText={t(
+                                    "manage-staff.staff-list.update-staff-dialog.field3.no-results-text"
+                                )}
+                            />
                             <FormMessage />
                         </FormItem>
                     )}
@@ -178,13 +186,13 @@ const UpdateStaffForm: FC<UpdateStaffFormProps> = ({ staff }) => {
                         <FormItem>
                             <FormLabel className="text-base">
                                 {t(
-                                    "staff-management.staff-list.edit-staff-dialog.field3.title"
+                                    "manage-staff.staff-list.update-staff-dialog.field4.title"
                                 )}
                             </FormLabel>
                             <FormControl>
                                 <BaseInput
                                     placeholder={t(
-                                        "staff-management.staff-list.edit-staff-dialog.field3.placeholder"
+                                        "manage-staff.staff-list.update-staff-dialog.field4.placeholder"
                                     )}
                                     {...field}
                                 />
@@ -201,13 +209,13 @@ const UpdateStaffForm: FC<UpdateStaffFormProps> = ({ staff }) => {
                         <FormItem>
                             <FormLabel className="text-base">
                                 {t(
-                                    "staff-management.staff-list.edit-staff-dialog.field4.title"
+                                    "manage-staff.staff-list.update-staff-dialog.field5.title"
                                 )}
                             </FormLabel>
                             <FormControl>
                                 <BaseInput
                                     placeholder={t(
-                                        "staff-management.staff-list.edit-staff-dialog.field4.placeholder"
+                                        "manage-staff.staff-list.update-staff-dialog.field5.placeholder"
                                     )}
                                     {...field}
                                 />
@@ -224,54 +232,28 @@ const UpdateStaffForm: FC<UpdateStaffFormProps> = ({ staff }) => {
                         <FormItem>
                             <FormLabel className="text-base">
                                 {t(
-                                    "staff-management.staff-list.edit-staff-dialog.field5.title"
+                                    "manage-staff.staff-list.update-staff-dialog.field6.title"
                                 )}
                             </FormLabel>
                             <div className="space-y-2">
-                                <Select onValueChange={handleLanguageChange}>
-                                    <FormControl>
-                                        <SelectTrigger>
-                                            <SelectValue
-                                                placeholder={t(
-                                                    "staff-management.staff-list.edit-staff-dialog.field5.placeholder"
-                                                )}
-                                            />
-                                        </SelectTrigger>
-                                    </FormControl>
-                                    <SelectContent>
-                                        <SelectItem value="Fr">
-                                            Français
-                                        </SelectItem>
-                                        <SelectItem value="En">
-                                            English
-                                        </SelectItem>
-                                        <SelectItem value="Es">
-                                            Español
-                                        </SelectItem>
-                                        <SelectItem value="De">
-                                            Deutsch
-                                        </SelectItem>
-                                    </SelectContent>
-                                </Select>
-                                <div className="flex flex-wrap gap-2">
-                                    {field.value.map((language) => (
-                                        <Badge
-                                            key={language}
-                                            variant="secondary"
-                                        >
-                                            {language}
-                                            <button
-                                                type="button"
-                                                onClick={() =>
-                                                    removeLanguage(language)
-                                                }
-                                                className="ml-1 ring-offset-background rounded-full outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
-                                            >
-                                                <X className="h-3 w-3" />
-                                            </button>
-                                        </Badge>
-                                    ))}
-                                </div>
+                                <MultiselectWithPlaceholderAndClear
+                                    onChange={(selectedOptions) => {
+                                        const languages = selectedOptions.map(
+                                            (option) => option.value
+                                        );
+                                        field.onChange(languages);
+                                    }}
+                                    options={languages}
+                                    label={t(
+                                        "manage-staff.staff-list.update-staff-dialog.field6.title"
+                                    )}
+                                    placeholder={t(
+                                        "manage-staff.staff-list.update-staff-dialog.field6.placeholder"
+                                    )}
+                                    emptyMessage={t(
+                                        "manage-staff.staff-list.update-staff-dialog.field6.no-results-text"
+                                    )}
+                                />
                             </div>
                             <FormMessage />
                         </FormItem>
@@ -285,13 +267,13 @@ const UpdateStaffForm: FC<UpdateStaffFormProps> = ({ staff }) => {
                         <FormItem>
                             <FormLabel className="text-base">
                                 {t(
-                                    "staff-management.staff-list.edit-staff-dialog.field6.title"
+                                    "manage-staff.staff-list.update-staff-dialog.field7.title"
                                 )}
                             </FormLabel>
                             <FormControl>
                                 <BaseInput
                                     placeholder={t(
-                                        "staff-management.staff-list.edit-staff-dialog.field6.placeholder"
+                                        "manage-staff.staff-list.update-staff-dialog.field7.placeholder"
                                     )}
                                     {...field}
                                 />

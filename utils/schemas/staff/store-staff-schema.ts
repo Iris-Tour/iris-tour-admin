@@ -31,7 +31,7 @@ export const storeStaffSchema = z.object({
             message: "Le type est requis.",
         })
         .int()
-        .refine((type) => type.toString().length >= 0, {
+        .refine((type) => !isNaN(type) && type >= 0, {
             message: "Le type est requis.",
         }),
     phone: z.string().min(9, {

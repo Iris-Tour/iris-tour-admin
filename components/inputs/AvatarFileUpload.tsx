@@ -8,8 +8,10 @@ import { Button } from "@/components/ui/button";
 
 export default function AvatarFileUpload({
     onFilesChange,
+    initialImage,
 }: {
     onFilesChange: (files: File[]) => void;
+    initialImage?: string;
 }) {
     const [
         { files, isDragging },
@@ -35,7 +37,7 @@ export default function AvatarFileUpload({
         updateFiles();
     }, [files, onFilesChange, getRealFiles]);
 
-    const previewUrl = files[0]?.preview || null;
+    const previewUrl = files[0]?.preview || initialImage || null;
 
     return (
         <div className="flex flex-col items-center gap-2">
