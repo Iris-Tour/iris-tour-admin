@@ -3,18 +3,29 @@
 import { CircleUserRoundIcon, XIcon } from "lucide-react";
 import { useEffect } from "react";
 
-import { useFileUpload } from "@/hooks/use-file-upload";
+import {
+    useFileUpload,
+    FileWithPreview,
+    FileMetadata,
+} from "@/hooks/use-file-upload";
 import { Button } from "@/components/ui/button";
+
+interface AvatarFileUploadProps {
+    accept?: string;
+    onFilesChange?: (files: File[]) => void;
+    initialFiles?: FileMetadata[];
+}
 
 export default function AvatarFileUpload({
     onFilesChange,
-    initialImage,
-}: {
-    onFilesChange: (files: File[]) => void;
-    initialImage?: string;
-}) {
+    initialFiles,
+    accept,
+}: AvatarFileUploadProps) {
+    const maxSizeMB = 10;
+    const maxSize = maxSizeMB * 1024 * 1024;
+
     const [
-        { files, isDragging },
+        { files, isDragging, errors },
         {
             removeFile,
             openFileDialog,
@@ -24,20 +35,58 @@ export default function AvatarFileUpload({
             handleDragOver,
             handleDrop,
             getRealFiles,
+            validateFile,
+            setState,
         },
     ] = useFileUpload({
-        accept: "image/*",
+        accept: accept || "image/*",
+        maxSize,
+        multiple: false,
+        initialFiles,
     });
 
+    // Hydrate initial files
     useEffect(() => {
-        const updateFiles = async () => {
-            const realFiles = await getRealFiles();
-            onFilesChange(realFiles);
-        };
-        updateFiles();
-    }, [files, onFilesChange, getRealFiles]);
+        const hydrateInitialFiles = async () => {
+            if (!initialFiles || initialFiles.length === 0) return;
 
-    const previewUrl = files[0]?.preview || initialImage || null;
+            const realFiles = await getRealFiles();
+            const validFiles: FileWithPreview[] = [];
+
+            realFiles.forEach((file, index) => {
+                const error = validateFile(file);
+                if (!error) {
+                    const metadata = initialFiles[index];
+                    validFiles.push({
+                        file,
+                        id: metadata?.id ?? `${file.name}-${Date.now()}`,
+                        preview: metadata?.url ?? URL.createObjectURL(file),
+                    });
+                }
+            });
+
+            setState((prev) => ({
+                ...prev,
+                files: validFiles,
+                errors: [],
+            }));
+
+            onFilesChange?.(validFiles.map((f) => f.file as File));
+        };
+
+        hydrateInitialFiles();
+    }, []);
+
+    // Handle file changes
+    useEffect(() => {
+        const handler = setTimeout(() => {
+            onFilesChange?.(files.map((f) => f.file as File));
+        }, 100);
+
+        return () => clearTimeout(handler);
+    }, [files, onFilesChange]);
+
+    const previewUrl = files[0]?.preview || null;
 
     return (
         <div className="flex flex-col items-center gap-2">
@@ -71,7 +120,14 @@ export default function AvatarFileUpload({
                 </div>
                 {previewUrl && (
                     <Button
-                        onClick={() => removeFile(files[0]?.id)}
+                        type="button"
+                        onClick={() => {
+                            removeFile(files[0]?.id);
+                            setState((prev) => ({
+                                ...prev,
+                                files: [],
+                            }));
+                        }}
                         size="icon"
                         className="border-background focus-visible:border-background absolute -top-1 -right-1 size-6 rounded-full border-2 shadow-none"
                         aria-label="Remove image"
@@ -85,19 +141,14 @@ export default function AvatarFileUpload({
                     aria-label="Upload image file"
                 />
             </div>
-            {/* <p
-                aria-live="polite"
-                role="region"
-                className="text-muted-foreground mt-2 text-xs"
-            >
-                Avatar uploader with droppable area ∙{" "}
-                <a
-                    href="https://github.com/origin-space/originui/tree/main/docs/use-file-upload.md"
-                    className="hover:text-foreground underline"
+            {errors.length > 0 && (
+                <div
+                    className="text-destructive flex items-center gap-1 text-sm"
+                    role="alert"
                 >
-                    API
-                </a>
-            </p> */}
+                    <span>{errors[0]}</span>
+                </div>
+            )}
         </div>
     );
 }

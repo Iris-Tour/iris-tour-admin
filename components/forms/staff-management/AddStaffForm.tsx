@@ -25,6 +25,9 @@ import { staffTypes } from "@/constants/staffTypes";
 import SelectWithSearch from "@/components/selects/SelectWithSearch";
 import AvatarFileUpload from "@/components/inputs/AvatarFileUpload";
 import MultiselectWithPlaceholderAndClear from "@/components/selects/MultiselectWithPlaceholderAndClear";
+import PhoneNumberInput from "@/components/inputs/PhoneNumberInput";
+import NumericInput from "@/components/inputs/NumericInput";
+import FileUpload from "@/components/inputs/FileUpload";
 
 const AddStaffForm: FC = () => {
     const { t } = useTranslation();
@@ -40,7 +43,7 @@ const AddStaffForm: FC = () => {
     const form = useForm<StoreStaffSchemaType>({
         resolver: zodResolver(storeStaffSchema),
         defaultValues: {
-            imagePath: undefined,
+            image_path: [],
             name: "",
             type: undefined,
             phone: "",
@@ -68,6 +71,7 @@ const AddStaffForm: FC = () => {
             );
         },
         onError: (error: any) => {
+            console.log(error);
             const code = error?.error?.code;
             const field = error?.error?.messages[0].field;
             const rule = error?.error?.messages[0].rule;
@@ -85,6 +89,7 @@ const AddStaffForm: FC = () => {
     });
 
     function onSubmit(values: StoreStaffSchemaType) {
+        console.log(values);
         storeStaffMutation.mutate({ data: values });
     }
 
@@ -98,7 +103,7 @@ const AddStaffForm: FC = () => {
             <div className="grid grid-cols-1 gap-5">
                 <FormField
                     control={form.control}
-                    name="imagePath"
+                    name="image_path"
                     render={({ field }) => (
                         <FormItem>
                             {/* <FormLabel className="text-base">
@@ -109,9 +114,8 @@ const AddStaffForm: FC = () => {
                             <FormControl>
                                 <div className="flex justify-center">
                                     <AvatarFileUpload
-                                        onFilesChange={(files) => {
-                                            field.onChange(files[0]);
-                                        }}
+                                        accept="image/png,image/jpeg,image/jpg"
+                                        onFilesChange={field.onChange}
                                     />
                                 </div>
                             </FormControl>
@@ -154,11 +158,8 @@ const AddStaffForm: FC = () => {
                                 )}
                             </FormLabel>
                             <SelectWithSearch
-                                value={
-                                    field.value ? field.value.toString() : ""
-                                }
+                                value={field.value?.toString() ?? ""}
                                 onValueChange={(value) => {
-                                    console.log(value);
                                     field.onChange(Number(value));
                                 }}
                                 options={staffTypes}
@@ -185,11 +186,15 @@ const AddStaffForm: FC = () => {
                                 )}
                             </FormLabel>
                             <FormControl>
-                                <BaseInput
+                                <NumericInput
+                                    value={field.value}
+                                    onChange={(value) => {
+                                        field.onChange(value);
+                                    }}
                                     placeholder={t(
                                         "manage-staff.staff-list.add-staff-dialog.field4.placeholder"
                                     )}
-                                    {...field}
+                                    maxLength={9}
                                 />
                             </FormControl>
                             <FormMessage />

@@ -1,28 +1,28 @@
 import { z } from "zod";
 
 export const storeStaffSchema = z.object({
-    imagePath: z
-        .custom<File | undefined>(
-            (file) => {
-                if (!file) return true; // Allow undefined/null values
+    image_path: z.custom<File[]>(
+        (files) => {
+            if (!Array.isArray(files)) return false;
 
-                if (!(file instanceof File)) return false;
-
+            return files.every((file) => {
+                const isFile = file instanceof File;
                 const isAllowedType =
-                    file.type === "image/jpeg" || file.type === "image/png";
+                    file.type === "image/jpeg" ||
+                    file.type === "image/png" ||
+                    file.type === "image/jpg";
                 const hasAllowedExtension =
                     file.name.toLowerCase().endsWith(".jpg") ||
                     file.name.toLowerCase().endsWith(".jpeg") ||
                     file.name.toLowerCase().endsWith(".png");
 
-                return isAllowedType && hasAllowedExtension;
-            },
-            {
-                message:
-                    "Le fichier doit être une image au format JPEG ou PNG.",
-            }
-        )
-        .optional(),
+                return isFile && isAllowedType && hasAllowedExtension;
+            });
+        },
+        {
+            message: "Le fichier doit être une image au format JPEG ou PNG.",
+        }
+    ),
     name: z
         .string()
         .min(2, { message: "Le nom doit contenir au moins 2 caractères." }),
@@ -31,7 +31,7 @@ export const storeStaffSchema = z.object({
             message: "Le type est requis.",
         })
         .int()
-        .refine((type) => !isNaN(type) && type >= 0, {
+        .refine((type) => type > -1, {
             message: "Le type est requis.",
         }),
     phone: z.string().min(9, {

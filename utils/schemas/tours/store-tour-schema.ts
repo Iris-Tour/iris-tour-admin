@@ -66,7 +66,9 @@ export const storeTourSchema = z
                 return files.every((file) => {
                     const isFile = file instanceof File;
                     const isAllowedType =
-                        file.type === "image/jpeg" || file.type === "image/png";
+                        file.type === "image/jpeg" ||
+                        file.type === "image/png" ||
+                        file.type === "image/jpg";
                     const hasAllowedExtension =
                         file.name.toLowerCase().endsWith(".jpg") ||
                         file.name.toLowerCase().endsWith(".jpeg") ||

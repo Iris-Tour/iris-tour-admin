@@ -26,7 +26,7 @@ const NumberInput = ({
     ...props
 }: NumberInputProps) => {
     return (
-        <div className="relative flex items-center">
+        <div className="relative flex items-center w-full">
             {inputPrefix && (
                 <span className="absolute left-3 text-[clamp(14px,_2vw,_16px)] text-muted-foreground">
                     {inputPrefix}
@@ -34,7 +34,7 @@ const NumberInput = ({
             )}
             <Input
                 {...props}
-                className={`text-[clamp(14px,_2vw,_16px)] py-6 px-5 ${
+                className={`text-[clamp(14px,_2vw,_16px)] bg-white py-6 px-5 ${
                     inputPrefix && "pl-14 pr-5"
                 } ${inputSuffix && "pl-5 pr-14"} ${
                     inputPrefix && inputSuffix && "px-14"
@@ -73,7 +73,6 @@ const NumericInput = ({
             inputPrefix={inputPrefix}
             inputSuffix={inputSuffix}
             onValueChange={onValueChange}
-            className="bg-white"
             {...rest}
         />
     );

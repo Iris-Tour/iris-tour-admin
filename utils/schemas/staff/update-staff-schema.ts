@@ -1,35 +1,42 @@
 import { z } from "zod";
 
 export const updateStaffSchema = z.object({
-    imagePath: z.custom<File>(
-        (file) => {
-            if (!file) return false;
+    image_path: z.custom<File[]>(
+        (files) => {
+            if (!Array.isArray(files)) return false;
 
-            const isFile = file instanceof File;
-            const isAllowedType =
-                file.type === "image/jpeg" || file.type === "image/png";
-            const hasAllowedExtension =
-                file.name.toLowerCase().endsWith(".jpg") ||
-                file.name.toLowerCase().endsWith(".jpeg") ||
-                file.name.toLowerCase().endsWith(".png");
+            return files.every((file) => {
+                const isFile = file instanceof File;
+                const isAllowedType =
+                    file.type === "image/jpeg" ||
+                    file.type === "image/png" ||
+                    file.type === "image/jpg";
+                const hasAllowedExtension =
+                    file.name.toLowerCase().endsWith(".jpg") ||
+                    file.name.toLowerCase().endsWith(".jpeg") ||
+                    file.name.toLowerCase().endsWith(".png");
 
-            return isFile && isAllowedType && hasAllowedExtension;
+                return isFile && isAllowedType && hasAllowedExtension;
+            });
         },
         {
-            message:
-                "Tous les fichiers doivent être des images au format JPEG ou PNG.",
+            message: "Le fichier doit être une image au format JPEG ou PNG.",
         }
     ),
     name: z
         .string()
         .min(2, { message: "Le nom doit contenir au moins 2 caractères." }),
-    type: z.number().min(1, { message: "Le type est requis." }),
-    phone: z
-        .string()
-        .min(9, {
-            message:
-                "Le numéro de téléphone doit contenir 9 chiffres.",
+    type: z
+        .number({
+            message: "Le type est requis.",
+        })
+        .int()
+        .refine((type) => type > -1, {
+            message: "Le type est requis.",
         }),
+    phone: z.string().min(9, {
+        message: "Le numéro de téléphone doit contenir 9 chiffres.",
+    }),
     email: z.string().email({ message: "L'email est invalide." }),
     languages: z
         .array(z.string())

@@ -317,16 +317,56 @@ export const apiGetAllStaff = (token: string): Promise<GetAllStaffPromise> =>
 export const apiStoreStaff = (
     token: string,
     data: StoreStaffMutation
-): Promise<StoreStaffPromise> =>
-    sessionApi(API_PREFIX, "/staffs", "POST", data, token);
+): Promise<StoreStaffPromise> => {
+    const formData = new FormData();
+    
+    // Ajouter les champs texte
+    formData.append('name', data.name);
+    formData.append('type', data.type.toString());
+    formData.append('phone', data.phone);
+    formData.append('email', data.email);
+    formData.append('address', data.address);
+    
+    // Ajouter les langues
+    data.languages.forEach((lang, index) => {
+        formData.append(`languages[${index}]`, lang);
+    });
+    
+    // Ajouter les fichiers
+    data.image_path.forEach((file, index) => {
+        formData.append(`image_path[${index}]`, file);
+    });
+    
+    return sessionApi(API_PREFIX, "/staffs", "POST", formData, token);
+};
 
 // Update a staff member
 export const apiUpdateStaff = (
     token: string,
     staffId: string,
     data: UpdateStaffMutation
-): Promise<UpdateStaffPromise> =>
-    sessionApi(API_PREFIX, `/staffs/${staffId}`, "PUT", data, token);
+): Promise<UpdateStaffPromise> => {
+    const formData = new FormData();
+    
+    // Ajouter les champs texte
+    formData.append('name', data.name);
+    formData.append('type', data.type.toString());
+    formData.append('phone', data.phone);
+    formData.append('email', data.email);
+    formData.append('address', data.address);
+    
+    // Ajouter les langues
+    data.languages.forEach((lang, index) => {
+        formData.append(`languages[${index}]`, lang);
+    });
+    
+    // Ajouter les fichiers
+    data.image_path.forEach((file, index) => {
+        formData.append(`image_path[${index}]`, file);
+    });
+    
+    return sessionApi(API_PREFIX, `/staffs/${staffId}`, "PUT", formData, token);
+};
 
 // Delete a staff member
 export const apiDeleteStaff = (

@@ -23,8 +23,8 @@ export default function SelectWithSearch({
     value,
     onValueChange,
     options,
-    placeholder = "Search framework...",
-    noResultsText = "No framework found.",
+    placeholder = "Rechercher...",
+    noResultsText = "Aucun résultat trouvé.",
 }: {
     value: string;
     onValueChange: (value: string) => void;

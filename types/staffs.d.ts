@@ -21,6 +21,7 @@ type StaffType = {
 type GetAllStaffPromise = StaffType[];
 
 type StoreStaffMutation = {
+    image_path: File[];
     name: string;
     type: number;
     phone: string;
@@ -35,6 +36,7 @@ type StoreStaffPromise = {
 };
 
 type UpdateStaffMutation = {
+    image_path: File[];
     name: string;
     type: number;
     phone: string;

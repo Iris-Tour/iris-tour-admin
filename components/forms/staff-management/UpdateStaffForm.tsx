@@ -37,10 +37,14 @@ const UpdateStaffForm: FC<UpdateStaffFormProps> = ({ staff }) => {
     const { token } = useAuth();
     const queryClient = useQueryClient();
 
-    console.log(staff);
-
-    // Get all the main images
-    const image = staff.imagePath[0];
+    // Get the staff's image
+    const staffImage = staff.imagePath.map((image) => ({
+        id: image.id,
+        name: image.name,
+        size: image.size,
+        url: `${getServerUrl()}/${image.path}`,
+        type: image.type,
+    }));
 
     const languages = [
         { label: "Français", value: "Français" },
@@ -51,7 +55,7 @@ const UpdateStaffForm: FC<UpdateStaffFormProps> = ({ staff }) => {
     const form = useForm<UpdateStaffSchemaType>({
         resolver: zodResolver(updateStaffSchema),
         defaultValues: {
-            imagePath: undefined,
+            image_path: [],
             name: staff.name,
             type: staff.type,
             phone: staff.phone,
@@ -95,6 +99,7 @@ const UpdateStaffForm: FC<UpdateStaffFormProps> = ({ staff }) => {
     });
 
     function onSubmit(values: UpdateStaffSchemaType) {
+        console.log(values);
         updateStaffMutation.mutate({ data: values });
     }
 
@@ -108,18 +113,15 @@ const UpdateStaffForm: FC<UpdateStaffFormProps> = ({ staff }) => {
             <div className="grid grid-cols-1 gap-5">
                 <FormField
                     control={form.control}
-                    name="imagePath"
+                    name="image_path"
                     render={({ field }) => (
                         <FormItem>
                             <FormControl>
                                 <div className="flex justify-center">
                                     <AvatarFileUpload
-                                        onFilesChange={(files) => {
-                                            field.onChange(files[0]);
-                                        }}
-                                        initialImage={`${getServerUrl()}/${
-                                            image.path
-                                        }`}
+                                        accept="image/png,image/jpeg,image/jpg"
+                                        onFilesChange={field.onChange}
+                                        initialFiles={staffImage}
                                     />
                                 </div>
                             </FormControl>
