@@ -280,6 +280,7 @@ const AddTourForm = () => {
                             <FormLabel className="text-base">Prix</FormLabel>
                             <FormControl>
                                 <NumericInput
+                                    ref={field.ref}
                                     thousandSeparator=" "
                                     decimalSeparator=","
                                     allowNegative={false}
@@ -308,6 +309,7 @@ const AddTourForm = () => {
                             </FormLabel>
                             <FormControl>
                                 <NumericInput
+                                    ref={field.ref}
                                     thousandSeparator=""
                                     decimalSeparator=","
                                     allowNegative={false}
@@ -336,6 +338,7 @@ const AddTourForm = () => {
                             </FormLabel>
                             <FormControl>
                                 <NumericInput
+                                    ref={field.ref}
                                     thousandSeparator=""
                                     decimalSeparator=","
                                     allowNegative={false}

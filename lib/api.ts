@@ -200,6 +200,12 @@ export const apiDeleteAdmin = (
 export const apiGetAllTours = (token: string): Promise<GetAllToursPromise> =>
     sessionApi(API_PREFIX, `/tours`, "GET", undefined, token);
 
+export const apiGetTourById = (
+    token: string,
+    tourId: string
+): Promise<TourType> =>
+    sessionApi(API_PREFIX, `/tours/${tourId}`, "GET", undefined, token);
+
 // Create a tour
 export const apiStoreTour = (
     token: string,

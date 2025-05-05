@@ -24,6 +24,7 @@ import UpdateTourForm from "@/components/forms/tours/UpdateTourForm";
 import DeleteTourForm from "@/components/forms/tours/DeleteTourForm";
 import DetailsTourForm from "@/components/forms/tours/DetailsTourForm";
 import ToursStatusChip from "@/components/chips/ToursStatusChip";
+import Link from "next/link";
 
 export const columns: ColumnDef<TourType>[] = [
     {
@@ -184,21 +185,13 @@ export const columns: ColumnDef<TourType>[] = [
                             <DeleteTourForm tour={tour} />
                         </DialogContent>
                     </Dialog>
-                    <Dialog>
-                        <DialogTrigger className="text-secondary hover:bg-secondary/10 px-2 py-2 rounded-md cursor-pointer transition">
-                            <span className="sr-only">Détails</span>
-                            <Eye className="stroke-secondary w-5 h-5" />
-                        </DialogTrigger>
-                        <DialogContent>
-                            <DialogHeader>
-                                <DialogTitle className="flex items-center gap-10">
-                                    Détails <ToursStatusChip tour={tour} />
-                                </DialogTitle>
-                                <DialogDescription></DialogDescription>
-                            </DialogHeader>
-                            <DetailsTourForm tour={tour} />
-                        </DialogContent>
-                    </Dialog>
+                    <Link
+                        href={`/tours/${tour.id}`}
+                        className="text-secondary hover:bg-secondary/10 px-2 py-2 rounded-md cursor-pointer transition"
+                    >
+                        <span className="sr-only">Détails</span>
+                        <Eye className="stroke-secondary w-5 h-5" />
+                    </Link>
                 </div>
             );
         },

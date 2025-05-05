@@ -87,6 +87,7 @@ const UpdateTourForm: FC<UpdateTourFormProps> = ({ tour }) => {
             toast.success("Excursion mise à jour avec succès.");
         },
         onError: (error: any) => {
+            console.log(error);
             if (typeof error === "string") {
                 toast.error(t(`general-errors.${error}`));
             } else {
@@ -283,6 +284,7 @@ const UpdateTourForm: FC<UpdateTourFormProps> = ({ tour }) => {
                             <FormLabel className="text-base">Prix</FormLabel>
                             <FormControl>
                                 <NumericInput
+                                    ref={field.ref}
                                     thousandSeparator=" "
                                     decimalSeparator=","
                                     allowNegative={false}
@@ -291,11 +293,10 @@ const UpdateTourForm: FC<UpdateTourFormProps> = ({ tour }) => {
                                     fixedDecimalScale
                                     inputSuffix="FCFA"
                                     placeholder="Entrez le prix"
-                                    value={field.value ?? ""}
+                                    value={field.value ?? undefined}
                                     onValueChange={({ floatValue }) => {
-                                        field.onChange(floatValue ?? undefined); // send clean number
+                                        field.onChange(floatValue ?? null); // send clean number
                                     }}
-                                    min={1}
                                 />
                             </FormControl>
                             <FormMessage />
@@ -312,6 +313,7 @@ const UpdateTourForm: FC<UpdateTourFormProps> = ({ tour }) => {
                             </FormLabel>
                             <FormControl>
                                 <NumericInput
+                                    ref={field.ref}
                                     thousandSeparator=""
                                     decimalSeparator=","
                                     allowNegative={false}
@@ -320,9 +322,9 @@ const UpdateTourForm: FC<UpdateTourFormProps> = ({ tour }) => {
                                     fixedDecimalScale
                                     inputSuffix="Km"
                                     placeholder="Entrez la distance"
-                                    value={field.value ?? ""}
+                                    value={field.value ?? undefined}
                                     onValueChange={({ floatValue }) => {
-                                        field.onChange(floatValue ?? undefined); // send clean number
+                                        field.onChange(floatValue ?? null); // send clean number
                                     }}
                                 />
                             </FormControl>
@@ -340,6 +342,7 @@ const UpdateTourForm: FC<UpdateTourFormProps> = ({ tour }) => {
                             </FormLabel>
                             <FormControl>
                                 <NumericInput
+                                    ref={field.ref}
                                     thousandSeparator=""
                                     decimalSeparator=","
                                     allowNegative={false}
@@ -348,9 +351,9 @@ const UpdateTourForm: FC<UpdateTourFormProps> = ({ tour }) => {
                                     fixedDecimalScale
                                     inputSuffix=""
                                     placeholder="Entrez le nombre maximum de participants"
-                                    value={field.value ?? ""}
+                                    value={field.value ?? undefined}
                                     onValueChange={({ floatValue }) => {
-                                        field.onChange(floatValue ?? undefined); // send clean number
+                                        field.onChange(floatValue ?? null); // send clean number
                                     }}
                                 />
                             </FormControl>
@@ -368,6 +371,7 @@ const UpdateTourForm: FC<UpdateTourFormProps> = ({ tour }) => {
                             </FormLabel>
                             <FormControl>
                                 <Textarea1
+                                    ref={field.ref}
                                     placeholder="Équipements requis"
                                     value={field.value ?? ""}
                                     onChange={field.onChange}
