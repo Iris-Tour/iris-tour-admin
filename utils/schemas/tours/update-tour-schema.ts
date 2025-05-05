@@ -48,9 +48,9 @@ export const updateTourSchema = z.object({
     arrivalPoint: z
         .string()
         .min(1, { message: "Le lieu d'arrivée est requis." }),
-    assignedGuide: z
-        .string()
-        .min(1, { message: "Le nom du guide est requis." }),
+    staffId: z.number().refine((val) => val > 0, {
+        message: "Le guide est requis.",
+    }),
     maxParticipants: z
         .number({
             message: "Le nombre maximum de participants est requis.",
@@ -59,7 +59,7 @@ export const updateTourSchema = z.object({
             message: "Le prix doit être supérieur à 0.",
         }),
     requiredEquipment: z.string(),
-    mainImages: z.custom<File[] | undefined>(
+    mainImages: z.custom<File[]>(
         (files) => {
             if (!Array.isArray(files)) return false;
 
@@ -82,9 +82,6 @@ export const updateTourSchema = z.object({
                 "Tous les fichiers doivent être des images au format JPEG ou PNG.",
         }
     ),
-    // .refine((files) => files.length > 0, {
-    //     message: "Veuillez téléverser au moins une image.",
-    // })
     status: z.number().refine((val) => val >= 0, {
         message: "Le statut est requis.",
     }),

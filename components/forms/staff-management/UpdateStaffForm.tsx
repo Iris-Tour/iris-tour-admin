@@ -99,7 +99,6 @@ const UpdateStaffForm: FC<UpdateStaffFormProps> = ({ staff }) => {
     });
 
     function onSubmit(values: UpdateStaffSchemaType) {
-        console.log(values);
         updateStaffMutation.mutate({ data: values });
     }
 
@@ -109,6 +108,7 @@ const UpdateStaffForm: FC<UpdateStaffFormProps> = ({ staff }) => {
             onSubmit={onSubmit}
             mutation={updateStaffMutation}
             ctaText={t("manage-staff.staff-list.update-staff-dialog.cta")}
+            multipart={true}
         >
             <div className="grid grid-cols-1 gap-5">
                 <FormField

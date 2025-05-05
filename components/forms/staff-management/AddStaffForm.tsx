@@ -89,7 +89,6 @@ const AddStaffForm: FC = () => {
     });
 
     function onSubmit(values: StoreStaffSchemaType) {
-        console.log(values);
         storeStaffMutation.mutate({ data: values });
     }
 
@@ -99,6 +98,7 @@ const AddStaffForm: FC = () => {
             onSubmit={onSubmit}
             mutation={storeStaffMutation}
             ctaText={t("manage-staff.staff-list.add-staff-dialog.cta")}
+            multipart={true}
         >
             <div className="grid grid-cols-1 gap-5">
                 <FormField

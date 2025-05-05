@@ -2,6 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { z } from "zod";
 import { toast } from "sonner";
 import {
     Form,
@@ -22,35 +23,42 @@ import Select1 from "@/components/selects/Select1";
 import { difficulties } from "@/constants/difficulties";
 import NumericInput from "@/components/inputs/NumericInput";
 import Textarea1 from "@/components/inputs/Textarea1";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { apiUpdateTour } from "@/lib/api";
+import { useMutation, useQueryClient, useQuery } from "@tanstack/react-query";
+import { apiUpdateTour, apiGetAllStaff } from "@/lib/api";
 import { FC } from "react";
 import { updateTourSchema } from "@/utils/schemas/tours/update-tour-schema";
 import FileUpload from "@/components/inputs/FileUpload";
 import { getServerUrl } from "@/lib/utils";
 import SharedForm from "../SharedForm";
+import ProfileSelect from "@/components/selects/ProfileSelect";
 
 interface UpdateTourFormProps {
     tour: TourType;
 }
 
 const formSchema = updateTourSchema;
+type FormSchemaType = z.infer<typeof formSchema>;
 
 const UpdateTourForm: FC<UpdateTourFormProps> = ({ tour }) => {
     const { t } = useTranslation();
     const { token } = useAuth();
     const queryClient = useQueryClient();
 
+    const { data: staffs = [] } = useQuery({
+        queryKey: ["get-all-staffs"],
+        queryFn: () => apiGetAllStaff(token!),
+    });
+
     // Get all the main images
     const initialImages = tour.mainImages.map((image) => ({
-        id: image.id,
+        id: image.id.toString(),
         name: image.name,
         size: image.size,
         url: `${getServerUrl()}/${image.path}`,
         type: image.type,
     }));
 
-    const form = useForm({
+    const form = useForm<FormSchemaType>({
         resolver: zodResolver(formSchema),
         defaultValues: {
             title: tour.title,
@@ -63,29 +71,32 @@ const UpdateTourForm: FC<UpdateTourFormProps> = ({ tour }) => {
             excursionPrice: Number(tour.excursionPrice),
             totalDistance: Number(tour.totalDistance),
             maxParticipants: Number(tour.maxParticipants),
-            assignedGuide: tour.assignedGuide,
+            staffId: tour.staffId,
             requiredEquipment: tour.requiredEquipment ?? "",
             mainImages: [],
-            status: 0,
+            status: tour.status,
         },
     });
 
     const updateTourMutation = useMutation({
-        mutationFn: (data: any) =>
-            apiUpdateTour(token!, tour.id.toString(), data),
+        mutationFn: (variables: { data: FormSchemaType }) =>
+            apiUpdateTour(token!, tour.id.toString(), variables.data),
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["get-all-tours"] });
             document.getElementById("dialog-close")?.click();
             toast.success("Excursion mise à jour avec succès.");
         },
-        onError: (error) => {
-            // console.log(error);
-            toast.error("Une erreur est survenue");
+        onError: (error: any) => {
+            if (typeof error === "string") {
+                toast.error(t(`general-errors.${error}`));
+            } else {
+                toast.error("Une erreur est survenue");
+            }
         },
     });
 
-    function onSubmit(values: any) {
-        updateTourMutation.mutate(values);
+    function onSubmit(values: FormSchemaType) {
+        updateTourMutation.mutate({ data: values });
     }
 
     return (
@@ -226,16 +237,19 @@ const UpdateTourForm: FC<UpdateTourFormProps> = ({ tour }) => {
                 />
                 <FormField
                     control={form.control}
-                    name="assignedGuide"
+                    name="staffId"
                     render={({ field }) => (
                         <FormItem>
                             <FormLabel className="text-base">
-                                Nom du guide
+                                Guide assigné
                             </FormLabel>
                             <FormControl>
-                                <BaseInput
-                                    placeholder="Nom du guide"
-                                    {...field}
+                                <ProfileSelect
+                                    staffs={staffs}
+                                    value={field.value}
+                                    onChange={field.onChange}
+                                    placeholder="Sélectionnez un guide"
+                                    label="Guide assigné"
                                 />
                             </FormControl>
                             <FormMessage />

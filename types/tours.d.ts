@@ -2,7 +2,6 @@ type TourType = {
     id: number;
     title: string;
     description: string;
-    duration: string;
     difficulty: number;
     totalDistance: number;
     excursionPrice: number;
@@ -11,7 +10,7 @@ type TourType = {
     arrivalDateTime: string;
     arrivalPoint: string;
     mainImages: Array<{
-        id: string;
+        id: number;
         path: string;
         size: number;
         name: string;
@@ -19,10 +18,31 @@ type TourType = {
     }>;
     maxParticipants: number;
     requiredEquipment: string;
-    assignedGuide: string;
     status: number;
     createdAt: string;
     updatedAt: string;
+    staffId: number;
+    staff: {
+        id: number;
+        name: string;
+        type: number;
+        phone: string;
+        email: string;
+        imagePath: Array<{
+            id: number;
+            path: string;
+            size: number;
+            name: string;
+            type: string;
+        }>;
+        languages: Array<{
+            order: number;
+            language: string;
+        }>;
+        address: string;
+        createdAt: string;
+        updatedAt: string;
+    };
 };
 
 type GetAllToursPromise = Array<TourType>;
@@ -40,7 +60,7 @@ type StoreTourMutation = {
     maxParticipants: number;
     requiredEquipment: string;
     mainImages: Array<File> | undefined;
-    assignedGuide: string;
+    staffId: number;
     status: number;
 };
 
@@ -60,7 +80,8 @@ type UpdateTourMutation = {
     arrivalPoint: string;
     maxParticipants: number;
     requiredEquipment: string;
-    assignedGuide: string;
+    mainImages: Array<File> | undefined;
+    staffId: number;
     status: number;
 };
 

@@ -204,22 +204,58 @@ export const apiGetAllTours = (token: string): Promise<GetAllToursPromise> =>
 export const apiStoreTour = (
     token: string,
     data: StoreTourMutation
-): Promise<StoreTourPromise> =>
-    sessionApi(API_PREFIX, "/tours", "POST", convertToFormData(data), token);
+): Promise<StoreTourPromise> => {
+    const formData = new FormData();
+
+    formData.append("title", data.title);
+    formData.append("description", data.description);
+    formData.append("difficulty", data.difficulty.toString());
+    formData.append("totalDistance", data.totalDistance.toString());
+    formData.append("excursionPrice", data.excursionPrice.toString());
+    formData.append("departurePoint", data.departurePoint);
+    formData.append("arrivalPoint", data.arrivalPoint);
+    formData.append("departureDateTime", data.departureDateTime);
+    formData.append("arrivalDateTime", data.arrivalDateTime);
+    formData.append("maxParticipants", data.maxParticipants.toString());
+    formData.append("requiredEquipment", data.requiredEquipment);
+    formData.append("staffId", data.staffId.toString());
+    formData.append("status", data.status.toString());
+
+    data.mainImages?.forEach((file) => {
+        formData.append("mainImages", file);
+    });
+
+    return sessionApi(API_PREFIX, "/tours", "POST", formData, token);
+};
 
 // Update a tour
 export const apiUpdateTour = (
     token: string,
     tourId: string,
     data: UpdateTourMutation
-): Promise<UpdateTourPromise> =>
-    sessionApi(
-        API_PREFIX,
-        `/tours/${tourId}`,
-        "PUT",
-        convertToFormData(data),
-        token
-    );
+): Promise<UpdateTourPromise> => {
+    const formData = new FormData();
+
+    formData.append("title", data.title);
+    formData.append("description", data.description);
+    formData.append("difficulty", data.difficulty.toString());
+    formData.append("totalDistance", data.totalDistance.toString());
+    formData.append("excursionPrice", data.excursionPrice.toString());
+    formData.append("departurePoint", data.departurePoint);
+    formData.append("arrivalPoint", data.arrivalPoint);
+    formData.append("departureDateTime", data.departureDateTime);
+    formData.append("arrivalDateTime", data.arrivalDateTime);
+    formData.append("maxParticipants", data.maxParticipants.toString());
+    formData.append("requiredEquipment", data.requiredEquipment);
+    formData.append("staffId", data.staffId.toString());
+    formData.append("status", data.status.toString());
+
+    data.mainImages?.forEach((file) => {
+        formData.append("mainImages", file);
+    });
+
+    return sessionApi(API_PREFIX, `/tours/${tourId}`, "PUT", formData, token);
+};
 
 // Delete a tour
 export const apiDeleteTour = (
@@ -319,24 +355,24 @@ export const apiStoreStaff = (
     data: StoreStaffMutation
 ): Promise<StoreStaffPromise> => {
     const formData = new FormData();
-    
+
     // Ajouter les champs texte
-    formData.append('name', data.name);
-    formData.append('type', data.type.toString());
-    formData.append('phone', data.phone);
-    formData.append('email', data.email);
-    formData.append('address', data.address);
-    
+    formData.append("name", data.name);
+    formData.append("type", data.type.toString());
+    formData.append("phone", data.phone);
+    formData.append("email", data.email);
+    formData.append("address", data.address);
+
     // Ajouter les langues
     data.languages.forEach((lang, index) => {
         formData.append(`languages[${index}]`, lang);
     });
-    
+
     // Ajouter les fichiers
     data.image_path.forEach((file, index) => {
         formData.append(`image_path[${index}]`, file);
     });
-    
+
     return sessionApi(API_PREFIX, "/staffs", "POST", formData, token);
 };
 
@@ -347,24 +383,24 @@ export const apiUpdateStaff = (
     data: UpdateStaffMutation
 ): Promise<UpdateStaffPromise> => {
     const formData = new FormData();
-    
+
     // Ajouter les champs texte
-    formData.append('name', data.name);
-    formData.append('type', data.type.toString());
-    formData.append('phone', data.phone);
-    formData.append('email', data.email);
-    formData.append('address', data.address);
-    
+    formData.append("name", data.name);
+    formData.append("type", data.type.toString());
+    formData.append("phone", data.phone);
+    formData.append("email", data.email);
+    formData.append("address", data.address);
+
     // Ajouter les langues
     data.languages.forEach((lang, index) => {
         formData.append(`languages[${index}]`, lang);
     });
-    
+
     // Ajouter les fichiers
     data.image_path.forEach((file, index) => {
         formData.append(`image_path[${index}]`, file);
     });
-    
+
     return sessionApi(API_PREFIX, `/staffs/${staffId}`, "PUT", formData, token);
 };
 

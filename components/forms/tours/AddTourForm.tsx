@@ -22,10 +22,12 @@ import { difficulties } from "@/constants/difficulties";
 import NumericInput from "@/components/inputs/NumericInput";
 import Textarea1 from "@/components/inputs/Textarea1";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { apiStoreTour } from "@/lib/api";
+import { apiStoreTour, apiGetAllStaff } from "@/lib/api";
 import { storeTourSchema } from "@/utils/schemas/tours/store-tour-schema";
 import FileUpload from "@/components/inputs/FileUpload";
 import SharedForm from "@/components/forms/SharedForm";
+import ProfileSelect from "@/components/selects/ProfileSelect";
+import { useQuery } from "@tanstack/react-query";
 
 const formSchema = storeTourSchema;
 
@@ -37,6 +39,11 @@ const AddTourForm = () => {
     const { token } = useAuth();
 
     const queryClient = useQueryClient();
+
+    const { data: staffs = [] } = useQuery({
+        queryKey: ["get-all-staffs"],
+        queryFn: () => apiGetAllStaff(token!),
+    });
 
     const form = useForm<FormSchemaType>({
         resolver: zodResolver(formSchema),
@@ -51,7 +58,7 @@ const AddTourForm = () => {
             excursionPrice: undefined,
             totalDistance: undefined,
             maxParticipants: undefined,
-            assignedGuide: "",
+            staffId: 0,
             requiredEquipment: "",
             mainImages: [],
             status: 0,
@@ -72,7 +79,7 @@ const AddTourForm = () => {
             toast.success("Excursion créée avec succès.");
         },
         onError: (error: any) => {
-            // console.log(error);
+            console.log(error);
             if (typeof error === "string") {
                 toast.error(t(`general-errors.${error}`));
             } else {
@@ -82,7 +89,9 @@ const AddTourForm = () => {
     });
 
     function onSubmit(values: FormSchemaType) {
-        storeTourMutation.mutate({ data: values });
+        storeTourMutation.mutate({
+            data: values,
+        });
     }
 
     return (
@@ -225,16 +234,19 @@ const AddTourForm = () => {
                 />
                 <FormField
                     control={form.control}
-                    name="assignedGuide"
+                    name="staffId"
                     render={({ field }) => (
                         <FormItem>
                             <FormLabel className="text-base">
-                                Nom du guide
+                                Guide assigné
                             </FormLabel>
                             <FormControl>
-                                <BaseInput
-                                    placeholder="Nom du guide"
-                                    {...field}
+                                <ProfileSelect
+                                    staffs={staffs}
+                                    value={field.value}
+                                    onChange={field.onChange}
+                                    placeholder="Sélectionnez un guide"
+                                    label="Guide assigné"
                                 />
                             </FormControl>
                             <FormMessage />
