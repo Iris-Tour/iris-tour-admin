@@ -112,14 +112,12 @@ const ButtonsSection = () => {
         <SectionContainer>
             <div className="flex items-center justify-between">
                 <div className="flex items-center gap-4">
-                    {!isLoading && tours.length > 0 && (
-                        <ExportPrintButtons
-                            data={tours}
-                            columns={columns}
-                            fileName="excursions"
-                            title="Liste des Excursions"
-                        />
-                    )}
+                    <ExportPrintButtons
+                        data={tours}
+                        columns={columns}
+                        fileName="excursions"
+                        title="Liste des Excursions"
+                    />
                 </div>
                 <div>
                     <Dialog>

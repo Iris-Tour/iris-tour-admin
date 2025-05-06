@@ -144,15 +144,25 @@ const ExportPrintButtons = ({
         }
     };
 
+    const isDisabled = data.length === 0;
+
     return (
         <div className={`flex gap-4 ${className}`}>
-            <Button3 onClick={handleExport}>
+            <Button3 onClick={handleExport} disabled={isDisabled}>
                 <Trans i18nKey={"tours.export"} />
-                <DocumentUpload className="stroke-black" />
+                <DocumentUpload
+                    className={`${
+                        isDisabled ? "stroke-gray-400" : "stroke-black"
+                    }`}
+                />
             </Button3>
-            <Button3 onClick={handlePrint}>
+            <Button3 onClick={handlePrint} disabled={isDisabled}>
                 <Trans i18nKey={"tours.print"} />
-                <Printer className="stroke-black" />
+                <Printer
+                    className={`${
+                        isDisabled ? "stroke-gray-400" : "stroke-black"
+                    }`}
+                />
             </Button3>
         </div>
     );
