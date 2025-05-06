@@ -1,7 +1,7 @@
 "use client";
 
 import { useParams } from "next/navigation";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { format } from "date-fns";
 import { fr } from "date-fns/locale";
 import {
@@ -58,24 +58,24 @@ export default function TouristicSiteDetailsPage() {
         setSelectedImageIndex(index);
     };
 
-    const handleClose = () => {
+    const handleClose = useCallback(() => {
         setSelectedImageIndex(null);
-    };
+    }, []);
 
-    const handlePrevious = () => {
+    const handlePrevious = useCallback(() => {
         if (selectedImageIndex === null || !touristicSite?.mainImages) return;
         setSelectedImageIndex(
             (selectedImageIndex - 1 + touristicSite.mainImages.length) %
                 touristicSite.mainImages.length
         );
-    };
+    }, [selectedImageIndex, touristicSite?.mainImages]);
 
-    const handleNext = () => {
+    const handleNext = useCallback(() => {
         if (selectedImageIndex === null || !touristicSite?.mainImages) return;
         setSelectedImageIndex(
             (selectedImageIndex + 1) % touristicSite.mainImages.length
         );
-    };
+    }, [selectedImageIndex, touristicSite?.mainImages]);
 
     useEffect(() => {
         const handleKeyDown = (e: KeyboardEvent) => {
@@ -92,7 +92,7 @@ export default function TouristicSiteDetailsPage() {
 
         window.addEventListener("keydown", handleKeyDown);
         return () => window.removeEventListener("keydown", handleKeyDown);
-    }, [selectedImageIndex]);
+    }, [selectedImageIndex, handlePrevious, handleNext, handleClose]);
 
     if (isLoading) {
         return (

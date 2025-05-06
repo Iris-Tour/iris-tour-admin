@@ -1,7 +1,7 @@
 "use client";
 
 import { useParams } from "next/navigation";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { format } from "date-fns";
 import { fr } from "date-fns/locale";
 import {
@@ -55,24 +55,24 @@ export default function EventDetailsPage() {
         setSelectedImageIndex(index);
     };
 
-    const handleClose = () => {
+    const handleClose = useCallback(() => {
         setSelectedImageIndex(null);
-    };
+    }, []);
 
-    const handlePrevious = () => {
+    const handlePrevious = useCallback(() => {
         if (selectedImageIndex === null || !event?.promotionalImage) return;
         setSelectedImageIndex(
             (selectedImageIndex - 1 + event.promotionalImage.length) %
                 event.promotionalImage.length
         );
-    };
+    }, [selectedImageIndex, event?.promotionalImage]);
 
-    const handleNext = () => {
+    const handleNext = useCallback(() => {
         if (selectedImageIndex === null || !event?.promotionalImage) return;
         setSelectedImageIndex(
             (selectedImageIndex + 1) % event.promotionalImage.length
         );
-    };
+    }, [selectedImageIndex, event?.promotionalImage]);
 
     useEffect(() => {
         const handleKeyDown = (e: KeyboardEvent) => {
@@ -89,7 +89,7 @@ export default function EventDetailsPage() {
 
         window.addEventListener("keydown", handleKeyDown);
         return () => window.removeEventListener("keydown", handleKeyDown);
-    }, [selectedImageIndex]);
+    }, [selectedImageIndex, handlePrevious, handleNext, handleClose]);
 
     if (isLoading) {
         return (

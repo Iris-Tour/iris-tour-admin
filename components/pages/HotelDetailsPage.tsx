@@ -1,7 +1,7 @@
 "use client";
 
 import { useParams } from "next/navigation";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import {
     Location,
     Tag,
@@ -50,24 +50,24 @@ export default function HotelDetailsPage() {
         setSelectedImageIndex(index);
     };
 
-    const handleClose = () => {
+    const handleClose = useCallback(() => {
         setSelectedImageIndex(null);
-    };
+    }, []);
 
-    const handlePrevious = () => {
+    const handlePrevious = useCallback(() => {
         if (selectedImageIndex === null || !hotel?.hotelImages) return;
         setSelectedImageIndex(
             (selectedImageIndex - 1 + hotel.hotelImages.length) %
                 hotel.hotelImages.length
         );
-    };
+    }, [selectedImageIndex, hotel?.hotelImages]);
 
-    const handleNext = () => {
+    const handleNext = useCallback(() => {
         if (selectedImageIndex === null || !hotel?.hotelImages) return;
         setSelectedImageIndex(
             (selectedImageIndex + 1) % hotel.hotelImages.length
         );
-    };
+    }, [selectedImageIndex, hotel?.hotelImages]);
 
     useEffect(() => {
         const handleKeyDown = (e: KeyboardEvent) => {
@@ -84,7 +84,7 @@ export default function HotelDetailsPage() {
 
         window.addEventListener("keydown", handleKeyDown);
         return () => window.removeEventListener("keydown", handleKeyDown);
-    }, [selectedImageIndex]);
+    }, [selectedImageIndex, handlePrevious, handleNext, handleClose]);
 
     if (isLoading) {
         return (

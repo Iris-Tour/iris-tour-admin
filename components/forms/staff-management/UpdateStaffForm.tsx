@@ -60,7 +60,7 @@ const UpdateStaffForm: FC<UpdateStaffFormProps> = ({ staff }) => {
             type: staff.type,
             phone: staff.phone,
             email: staff.email,
-            languages: staff.languages,
+            languages: staff.languages.map((language) => language.language),
             address: staff.address,
         },
     });
