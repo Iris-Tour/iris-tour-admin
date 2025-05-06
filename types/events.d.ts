@@ -67,6 +67,7 @@ type UpdateEventMutation = {
     accessibilityForDisabled: boolean | null;
     program: string | null;
     eventStatus: number;
+    promotionalImage: File[];
 };
 
 type UpdateEventPromise = {

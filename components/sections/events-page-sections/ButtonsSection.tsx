@@ -20,7 +20,7 @@ const ButtonsSection = () => {
     return (
         <SectionContainer>
             <div className="flex items-center justify-between">
-                <div className="flex gap-4">
+                <div className="flex items-center gap-4">
                     <Button3>
                         <Trans i18nKey={"events.export"} />
                         <DocumentUpload className="stroke-black" />

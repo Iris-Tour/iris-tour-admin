@@ -329,7 +329,7 @@
         "admins-list": {
             "heading": "Liste des administrateurs",
             "subheading": "Retrouvez tous les comptes administrateurs et leurs rôles associés.",
-            "add-admin": "Ajouter un administrateur",
+            "add-admin": "Créer un administrateur",
             "add-admin-dialog": {
                 "title": "Créer un compte administrateur",
                 "field1": {
@@ -543,9 +543,9 @@
     "manage-staff": {
         "staff-list": {
             "heading": "Gestion du staff",
-            "add-staff": "Ajouter un membre du staff",
+            "add-staff": "Créer un membre du staff",
             "add-staff-dialog": {
-                "title": "Ajouter un membre du staff",
+                "title": "Créer un membre du staff",
                 "success-messages": {
                     "Staff created successfully": "Le membre du staff a été ajouté avec succès."
                 },
@@ -576,7 +576,7 @@
                     "title": "Adresse",
                     "placeholder": "Entrez l'adresse"
                 },
-                "cta": "Ajouter"
+                "cta": "Créer"
             },
             "update-staff-dialog": {
                 "title": "Modifier un membre du staff",
@@ -632,14 +632,14 @@
         }
     },
     "touristic-sites": {
-        "add-site": "Ajouter un site touristique",
+        "add-site": "Créer un site touristique",
         "actions": {
             "edit": "Modifier le site touristique",
             "delete": "Supprimer le site touristique",
             "view": "Voir les détails"
         },
         "add-site-dialog": {
-            "title": "Ajouter un site touristique",
+            "title": "Créer un site touristique",
             "field1": {
                 "title": "Nom",
                 "placeholder": "Entrez le nom"
@@ -682,6 +682,78 @@
             "button2": "Supprimer",
             "success-messages": {
                 "Site deleted successfully": "Le site touristique <b>{{site}}</b> a été supprimé avec succès."
+            }
+        }
+    },
+    "hotels": {
+        "actions": {
+            "edit": "Modifier l'hôtel",
+            "delete": "Supprimer l'hôtel",
+            "view": "Voir les détails"
+        },
+        "add-hotel-dialog": {
+            "title": "Créer un hôtel",
+            "description": "Saisissez les informations de l'hôtel",
+            "field1": {
+                "title": "Nom de l'hôtel",
+                "placeholder": "Entrez le nom de l'hôtel"
+            },
+            "field2": {
+                "title": "Description",
+                "placeholder": "Décrivez l'hôtel"
+            },
+            "field3": {
+                "title": "Adresse",
+                "placeholder": "Entrez l'adresse de l'hôtel"
+            },
+            "field4": {
+                "title": "Contact",
+                "placeholder": "Entrez les informations de contact"
+            },
+            "field5": {
+                "title": "Photos de l'hôtel",
+                "placeholder": "Ajoutez des photos de l'hôtel"
+            },
+            "cta": "Ajouter",
+            "success-messages": {
+                "Hotel created successfully": "L'hôtel a été créé avec succès."
+            }
+        },
+        "update-hotel-dialog": {
+            "title": "Modifier l'hôtel",
+            "description": "Modifiez les informations de l'hôtel",
+            "field1": {
+                "title": "Nom de l'hôtel",
+                "placeholder": "Entrez le nom de l'hôtel"
+            },
+            "field2": {
+                "title": "Description",
+                "placeholder": "Décrivez l'hôtel"
+            },
+            "field3": {
+                "title": "Adresse",
+                "placeholder": "Entrez l'adresse de l'hôtel"
+            },
+            "field4": {
+                "title": "Contact",
+                "placeholder": "Entrez les informations de contact"
+            },
+            "field5": {
+                "title": "Photos de l'hôtel",
+                "placeholder": "Modifiez les photos de l'hôtel"
+            },
+            "cta": "Mettre à jour",
+            "success-messages": {
+                "Hotel updated successfully": "L'hôtel a été modifié avec succès."
+            }
+        },
+        "delete-hotel-dialog": {
+            "title": "Suppression",
+            "description": "Voulez-vous vraiment supprimer l'hôtel : <b>{{hotel}}</b> ?",
+            "button1": "Annuler",
+            "button2": "Supprimer",
+            "success-messages": {
+                "Hotel deleted successfully": "L'hôtel <b>{{hotel}}</b> a été supprimé avec succès."
             }
         }
     }

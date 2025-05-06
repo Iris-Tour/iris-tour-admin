@@ -39,10 +39,10 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient, useQuery } from "@tanstack/react-query";
 import { format } from "date-fns";
-import { Check, ChevronsUpDown } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
+import { Checkbox } from "@/components/ui/checkbox";
 
 const AddEventForm = () => {
     const { t } = useTranslation();
@@ -412,35 +412,6 @@ const AddEventForm = () => {
                 />
                 <FormField
                     control={form.control}
-                    name="accessibilityForDisabled"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormLabel className="text-base">
-                                {t("events.add-event-dialog.field12.title")}
-                            </FormLabel>
-                            <FormControl>
-                                <Select1
-                                    options={[
-                                        { label: "Oui", value: "true" },
-                                        { label: "Non", value: "false" },
-                                    ]}
-                                    placeholder={t(
-                                        "events.add-event-dialog.field12.placeholder"
-                                    )}
-                                    value={field.value ? "true" : "false"}
-                                    onValueChange={(value) =>
-                                        field.onChange(
-                                            value === "true" ? true : false
-                                        )
-                                    }
-                                />
-                            </FormControl>
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                />
-                <FormField
-                    control={form.control}
                     name="program"
                     render={({ field }) => (
                         <FormItem>
@@ -456,6 +427,23 @@ const AddEventForm = () => {
                                 />
                             </FormControl>
                             <FormMessage />
+                        </FormItem>
+                    )}
+                />
+                <FormField
+                    control={form.control}
+                    name="accessibilityForDisabled"
+                    render={({ field }) => (
+                        <FormItem className="flex items-center bg-white gap-3 rounded-md border p-4">
+                            <FormControl>
+                                <Checkbox
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                />
+                            </FormControl>
+                            <FormLabel className="text-sm md:text-base">
+                                Accessibilité pour les personnes handicapées
+                            </FormLabel>
                         </FormItem>
                     )}
                 />

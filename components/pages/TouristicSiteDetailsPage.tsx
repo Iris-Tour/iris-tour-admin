@@ -163,10 +163,10 @@ export default function TouristicSiteDetailsPage() {
                             </Button>
                         </Link>
                         <div className="flex-1">
-                            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
+                            <h1 className="text-3xl md:text-4xl font-bold tracking-tight bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
                                 {touristicSite.name}
                             </h1>
-                            <p className="text-muted-foreground mt-1 flex items-center gap-2 text-base md:text-lg lg:text-xl">
+                            <p className="text-muted-foreground mt-1 flex items-center gap-2 text-base md:text-lg">
                                 <Tag className="w-5 h-5 stroke-muted-foreground" />
                                 {touristicSite.category}
                             </p>
@@ -215,7 +215,7 @@ export default function TouristicSiteDetailsPage() {
             <div className="grid gap-4 md:gap-6 grid-cols-1 md:grid-cols-2">
                 <Card className="border-none shadow-lg hover:shadow-xl transition-shadow duration-300 bg-gradient-to-br from-background to-background/50 backdrop-blur-sm">
                     <CardHeader className="pb-2">
-                        <CardTitle className="flex items-center gap-2 text-lg md:text-xl lg:text-2xl">
+                        <CardTitle className="flex items-center gap-2 text-lg md:text-xl">
                             <Location className="w-6 h-6 stroke-primary" />
                             Localisation
                         </CardTitle>
@@ -223,10 +223,10 @@ export default function TouristicSiteDetailsPage() {
                     <CardContent className="pt-0">
                         <div className="space-y-3">
                             <div className="flex flex-col gap-1">
-                                <span className="text-base md:text-lg font-medium text-muted-foreground">
+                                <span className="text-base font-medium text-muted-foreground">
                                     Adresse
                                 </span>
-                                <span className="text-lg md:text-xl lg:text-2xl font-semibold">
+                                <span className="text-lg md:text-xl font-semibold">
                                     {touristicSite.address}
                                 </span>
                             </div>
@@ -236,7 +236,7 @@ export default function TouristicSiteDetailsPage() {
 
                 <Card className="border-none shadow-lg hover:shadow-xl transition-shadow duration-300 bg-gradient-to-br from-background to-background/50 backdrop-blur-sm">
                     <CardHeader className="pb-2">
-                        <CardTitle className="flex items-center gap-2 text-lg md:text-xl lg:text-2xl">
+                        <CardTitle className="flex items-center gap-2 text-lg md:text-xl">
                             <Clock className="w-6 h-6 stroke-primary" />
                             Horaires d'ouverture
                         </CardTitle>
@@ -249,10 +249,10 @@ export default function TouristicSiteDetailsPage() {
                                         key={day}
                                         className="flex justify-between items-center"
                                     >
-                                        <span className="text-base md:text-lg font-medium capitalize">
+                                        <span className="text-base font-medium capitalize">
                                             {day}
                                         </span>
-                                        <span className="text-base md:text-lg">
+                                        <span className="text-base">
                                             {hours ? `${hours}` : "Fermé"}
                                         </span>
                                     </div>
@@ -264,17 +264,17 @@ export default function TouristicSiteDetailsPage() {
 
                 <Card className="border-none shadow-lg hover:shadow-xl transition-shadow duration-300 bg-gradient-to-br from-background to-background/50 backdrop-blur-sm">
                     <CardHeader className="pb-2">
-                        <CardTitle className="flex items-center gap-2 text-lg md:text-xl lg:text-2xl">
+                        <CardTitle className="flex items-center gap-2 text-lg md:text-xl">
                             <Tag className="w-6 h-6 stroke-primary" />
                             Prix d'entrée
                         </CardTitle>
                     </CardHeader>
                     <CardContent className="pt-0">
                         <div className="flex flex-col gap-1">
-                            <span className="text-base md:text-lg font-medium text-muted-foreground">
+                            <span className="text-base font-medium text-muted-foreground">
                                 Tarif par personne
                             </span>
-                            <div className="text-3xl md:text-4xl lg:text-5xl font-bold bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
+                            <div className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
                                 {new Intl.NumberFormat("fr-FR", {
                                     style: "currency",
                                     currency: "XOF",
@@ -286,7 +286,7 @@ export default function TouristicSiteDetailsPage() {
 
                 <Card className="border-none shadow-lg hover:shadow-xl transition-shadow duration-300 bg-gradient-to-br from-background to-background/50 backdrop-blur-sm">
                     <CardHeader className="pb-2">
-                        <CardTitle className="flex items-center gap-2 text-lg md:text-xl lg:text-2xl">
+                        <CardTitle className="flex items-center gap-2 text-lg md:text-xl">
                             <User className="w-6 h-6 stroke-primary" />
                             Guide assigné
                         </CardTitle>
@@ -335,26 +335,26 @@ export default function TouristicSiteDetailsPage() {
                                             )}
                                         </div>
                                         <div>
-                                            <span className="text-lg md:text-xl lg:text-2xl font-semibold">
+                                            <span className="text-lg md:text-xl font-semibold">
                                                 {touristicSite.staff.name}
                                             </span>
-                                            <p className="text-sm md:text-base text-muted-foreground">
+                                            <p className="text-sm text-muted-foreground">
                                                 {touristicSite.staff.email}
                                             </p>
                                         </div>
                                     </div>
                                     <div className="grid grid-cols-2 gap-4 mt-2">
                                         <div className="flex flex-col gap-1">
-                                            <span className="text-sm md:text-base font-medium text-muted-foreground">
+                                            <span className="text-sm font-medium text-muted-foreground">
                                                 Téléphone
                                             </span>
-                                            <span className="text-base md:text-lg">
+                                            <span className="text-base">
                                                 {touristicSite.staff.phone ||
                                                     "Non renseigné"}
                                             </span>
                                         </div>
                                         <div className="flex flex-col gap-1">
-                                            <span className="text-sm md:text-base font-medium text-muted-foreground">
+                                            <span className="text-sm font-medium text-muted-foreground">
                                                 Langues parlées
                                             </span>
                                             <div className="flex flex-wrap gap-1">
@@ -399,7 +399,7 @@ export default function TouristicSiteDetailsPage() {
 
                 <Card className="border-none shadow-lg hover:shadow-xl transition-shadow duration-300 bg-gradient-to-br from-background to-background/50 backdrop-blur-sm">
                     <CardHeader className="pb-2">
-                        <CardTitle className="flex items-center gap-2 text-lg md:text-xl lg:text-2xl">
+                        <CardTitle className="flex items-center gap-2 text-lg md:text-xl">
                             <Tag className="w-6 h-6 stroke-primary" />
                             Statut légal
                         </CardTitle>
@@ -418,7 +418,7 @@ export default function TouristicSiteDetailsPage() {
 
                 <Card className="border-none shadow-lg hover:shadow-xl transition-shadow duration-300 bg-gradient-to-br from-background to-background/50 backdrop-blur-sm">
                     <CardHeader className="pb-2">
-                        <CardTitle className="flex items-center gap-2 text-lg md:text-xl lg:text-2xl">
+                        <CardTitle className="flex items-center gap-2 text-lg md:text-xl">
                             <Tag className="w-6 h-6 stroke-primary" />
                             Accessibilité
                         </CardTitle>
@@ -440,13 +440,13 @@ export default function TouristicSiteDetailsPage() {
 
             <Card className="border-none shadow-lg hover:shadow-xl transition-shadow duration-300 bg-gradient-to-br from-background to-background/50 backdrop-blur-sm">
                 <CardHeader className="pb-2">
-                    <CardTitle className="flex items-center gap-2 text-lg md:text-xl lg:text-2xl">
+                    <CardTitle className="flex items-center gap-2 text-lg md:text-xl">
                         <Map className="w-6 h-6 stroke-primary" />
                         Description
                     </CardTitle>
                 </CardHeader>
                 <CardContent className="pt-0">
-                    <div className="prose prose-base md:prose-lg lg:prose-xl max-w-none">
+                    <div className="prose prose-base md:prose-lg max-w-none">
                         <p className="text-foreground whitespace-pre-wrap leading-relaxed">
                             {touristicSite.description}
                         </p>

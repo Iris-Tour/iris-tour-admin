@@ -25,9 +25,9 @@ export const updateEventSchema = z
             .transform((val) => format(new Date(val), "yyyy-MM-dd HH:mm:ss")),
         location: z.string().min(1, { message: "Le lieu est requis." }),
         category: z.string(),
-        organizer: z
-            .string()
-            .min(1, { message: "Le nom de l'organisateur est requis." }),
+        staffId: z.number().refine((val) => val > 0, {
+            message: "L'organisateur est requis.",
+        }),
         ticketPrice: z
             .number({
                 message: "Le prix du ticket est requis.",
@@ -43,9 +43,6 @@ export const updateEventSchema = z
         targetAudience: z.string(),
         eventLanguages: z.array(z.string()),
         accessibilityForDisabled: z.boolean(),
-        organizerContact: z
-            .string()
-            .min(1, { message: "Le contact de l'organisateur est requis." }),
         program: z.string(),
         promotionalImage: z.custom<File[]>(
             (files) => {

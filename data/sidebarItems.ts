@@ -7,7 +7,7 @@ import {
     User,
     UserSquare,
 } from "iconsax-react";
-import { MountainSnow, UserCog } from "lucide-react";
+import { MountainSnow, UserCog, Hotel } from "lucide-react";
 
 export const sidebarItems = [
     {
@@ -35,6 +35,12 @@ export const sidebarItems = [
         url: "/touristic-sites",
         icon: MountainSnow,
     },
+    {
+        title: "Gestion des hôtels",
+        url: "/manage-hotels",
+        icon: Hotel,
+    },
+
     { title: "Transports", url: "/transport", icon: Bus },
     {
         title: "Rôles & Permissions",

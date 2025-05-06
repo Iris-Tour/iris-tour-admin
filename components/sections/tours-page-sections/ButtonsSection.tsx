@@ -111,14 +111,16 @@ const ButtonsSection = () => {
     return (
         <SectionContainer>
             <div className="flex items-center justify-between">
-                {!isLoading && tours.length > 0 && (
-                    <ExportPrintButtons
-                        data={tours}
-                        columns={columns}
-                        fileName="excursions"
-                        title="Liste des Excursions"
-                    />
-                )}
+                <div className="flex items-center gap-4">
+                    {!isLoading && tours.length > 0 && (
+                        <ExportPrintButtons
+                            data={tours}
+                            columns={columns}
+                            fileName="excursions"
+                            title="Liste des Excursions"
+                        />
+                    )}
+                </div>
                 <div>
                     <Dialog>
                         <DialogTrigger className="cursor-pointer" asChild>

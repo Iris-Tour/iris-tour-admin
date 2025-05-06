@@ -5,7 +5,6 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { toast } from "sonner";
 import {
-    Form,
     FormControl,
     FormField,
     FormItem,
@@ -23,10 +22,10 @@ import SharedForm from "@/components/forms/SharedForm";
 import ProfileSelect from "@/components/selects/ProfileSelect";
 import NumericInput from "@/components/inputs/NumericInput";
 import Select1 from "@/components/selects/Select1";
-import { FC, useEffect, useState } from "react";
-import { FileMetadata } from "@/hooks/use-file-upload";
+import { FC } from "react";
 import { getServerUrl } from "@/lib/utils";
 import ScheduleTimePicker from "@/components/inputs/ScheduleTimePicker";
+import { Checkbox } from "@/components/ui/checkbox";
 
 const formSchema = updateTouristicSiteSchema;
 
@@ -318,33 +317,6 @@ const UpdateTouristicSiteForm: FC<UpdateTouristicSiteFormProps> = ({
                 />
                 <FormField
                     control={form.control}
-                    name="accessibilityForDisabled"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormLabel className="text-base">
-                                Accessibilité pour les personnes handicapées
-                            </FormLabel>
-                            <FormControl>
-                                <Select1
-                                    options={[
-                                        { label: "Oui", value: "true" },
-                                        { label: "Non", value: "false" },
-                                    ]}
-                                    placeholder="Sélectionnez une option"
-                                    value={field.value ? "true" : "false"}
-                                    onValueChange={(value) =>
-                                        field.onChange(
-                                            value === "true" ? true : false
-                                        )
-                                    }
-                                />
-                            </FormControl>
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                />
-                <FormField
-                    control={form.control}
                     name="legalStatus"
                     render={({ field }) => (
                         <FormItem>
@@ -379,6 +351,23 @@ const UpdateTouristicSiteForm: FC<UpdateTouristicSiteFormProps> = ({
                                 />
                             </FormControl>
                             <FormMessage />
+                        </FormItem>
+                    )}
+                />
+                <FormField
+                    control={form.control}
+                    name="accessibilityForDisabled"
+                    render={({ field }) => (
+                        <FormItem className="flex items-center bg-white gap-3 rounded-md border p-4">
+                            <FormControl>
+                                <Checkbox
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                />
+                            </FormControl>
+                            <FormLabel className="text-sm md:text-base">
+                                Accessibilité pour les personnes handicapées
+                            </FormLabel>
                         </FormItem>
                     )}
                 />

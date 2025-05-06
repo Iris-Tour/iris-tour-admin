@@ -276,6 +276,13 @@ export const apiDeleteTour = (
 export const apiGetAllEvents = (token: string): Promise<GetAllEventsPromise> =>
     sessionApi(API_PREFIX, "/events", "GET", undefined, token);
 
+// Get an event by id
+export const apiGetEventById = (
+    token: string,
+    eventId: string
+): Promise<EventType> =>
+    sessionApi(API_PREFIX, `/events/${eventId}`, "GET", undefined, token);
+
 // Create an event
 export const apiStoreEvent = (
     token: string,
@@ -432,6 +439,74 @@ export const apiDeleteTouristicSite = (
         token
     );
 //------------- END TOURISTIC SITES
+
+//------------- HOTELS
+// Get all hotels
+export const apiGetAllHotels = (token: string): Promise<GetAllHotelsPromise> =>
+    sessionApi(API_PREFIX, "/hotels", "GET", undefined, token);
+
+// Get a hotel by id
+export const apiGetHotelById = (
+    token: string,
+    hotelId: string
+): Promise<HotelType> =>
+    sessionApi(API_PREFIX, `/hotels/${hotelId}`, "GET", undefined, token);
+
+// Create a hotel
+export const apiStoreHotel = (
+    token: string,
+    data: StoreHotelMutation
+): Promise<StoreHotelPromise> => {
+    const formData = new FormData();
+
+    formData.append("name", data.name);
+    formData.append("description", data.description);
+    formData.append("location", data.location);
+    formData.append(
+        "accessibility_for_disabled",
+        data.accessibilityForDisabled.toString()
+    );
+    formData.append("contact", data.contact);
+
+    data.hotelImages.forEach((file) => {
+        formData.append("hotel_images", file);
+    });
+
+    return sessionApi(API_PREFIX, "/hotels", "POST", formData, token);
+};
+
+// Update a hotel
+export const apiUpdateHotel = (
+    token: string,
+    hotelId: string,
+    data: UpdateHotelMutation
+): Promise<UpdateHotelPromise> => {
+    const formData = new FormData();
+
+    formData.append("name", data.name);
+    formData.append("description", data.description);
+    formData.append("location", data.location);
+    formData.append(
+        "accessibility_for_disabled",
+        data.accessibilityForDisabled.toString()
+    );
+    formData.append("contact", data.contact);
+
+    data.hotelImages.forEach((file) => {
+        formData.append("hotel_images", file);
+    });
+
+    return sessionApi(API_PREFIX, `/hotels/${hotelId}`, "PUT", formData, token);
+};
+
+// Delete a hotel
+export const apiDeleteHotel = (
+    token: string,
+    hotelId: string
+): Promise<DeleteHotelPromise> =>
+    sessionApi(API_PREFIX, `/hotels/${hotelId}`, "DELETE", undefined, token);
+
+//------------- END HOTELS
 
 //------------- USERS
 // Store a user

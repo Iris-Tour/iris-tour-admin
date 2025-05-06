@@ -7,6 +7,8 @@ import BaseInput from "@/components/inputs/BaseInput";
 import NumericInput from "@/components/inputs/NumericInput";
 import Textarea1 from "@/components/inputs/Textarea1";
 import Select1 from "@/components/selects/Select1";
+import ProfileSelect from "@/components/selects/ProfileSelect";
+import MultiselectWithPlaceholderAndClear from "@/components/selects/MultiselectWithPlaceholderAndClear";
 import {
     Command,
     CommandEmpty,
@@ -28,20 +30,21 @@ import {
     PopoverTrigger,
 } from "@/components/ui/popover";
 import useAuth from "@/hooks/useAuth";
-import { apiUpdateEvent } from "@/lib/api";
+import { apiUpdateEvent, apiGetAllStaff } from "@/lib/api";
 import { cn, getServerUrl } from "@/lib/utils";
 import {
     updateEventSchema,
     UpdateEventSchemaType,
 } from "@/utils/schemas/events/update-event-schema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient, useQuery } from "@tanstack/react-query";
 import { format } from "date-fns";
 import { Check, ChevronsUpDown } from "lucide-react";
 import { FC } from "react";
 import { useForm } from "react-hook-form";
 import { Trans, useTranslation } from "react-i18next";
 import { toast } from "sonner";
+import { Checkbox } from "@/components/ui/checkbox";
 
 interface UpdateEventFormProps {
     event: EventType;
@@ -49,14 +52,18 @@ interface UpdateEventFormProps {
 
 const UpdateEventForm: FC<UpdateEventFormProps> = ({ event }) => {
     const { t } = useTranslation();
-
     const { token } = useAuth();
-
     const queryClient = useQueryClient();
 
+    const { data: staffs = [] } = useQuery({
+        queryKey: ["get-all-staffs"],
+        queryFn: () => apiGetAllStaff(token!),
+    });
+
     const languages = [
-        { label: "Fr", value: "Fr" },
-        { label: "En", value: "En" },
+        { label: "Français", value: "Français" },
+        { label: "English", value: "English" },
+        { label: "Español", value: "Español" },
     ];
 
     // Get all the promotional images
@@ -77,13 +84,12 @@ const UpdateEventForm: FC<UpdateEventFormProps> = ({ event }) => {
             endDateTime: event.endDateTime,
             location: event.location,
             category: event.category,
-            organizer: event.organizer,
+            staffId: event.staffId,
             ticketPrice: Number(event.ticketPrice),
             maximumCapacity: Number(event.maximumCapacity),
             targetAudience: event.targetAudience ?? "",
             eventLanguages: event.eventLanguages.map((lang) => lang.language),
             accessibilityForDisabled: event.accessibilityForDisabled,
-            organizerContact: event.organizerContact,
             program: event.program ?? "",
             promotionalImage: [],
             eventStatus: 0,
@@ -288,38 +294,19 @@ const UpdateEventForm: FC<UpdateEventFormProps> = ({ event }) => {
                 />
                 <FormField
                     control={form.control}
-                    name="organizer"
+                    name="staffId"
                     render={({ field }) => (
                         <FormItem>
                             <FormLabel className="text-base">
-                                {t("events.update-event-dialog.field7.title")}
+                                Organisateur
                             </FormLabel>
                             <FormControl>
-                                <BaseInput
-                                    placeholder={t(
-                                        "events.update-event-dialog.field7.placeholder"
-                                    )}
-                                    {...field}
-                                />
-                            </FormControl>
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                />
-                <FormField
-                    control={form.control}
-                    name="organizerContact"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormLabel className="text-base">
-                                {t("events.update-event-dialog.field13.title")}
-                            </FormLabel>
-                            <FormControl>
-                                <BaseInput
-                                    placeholder={t(
-                                        "events.update-event-dialog.field13.placeholder"
-                                    )}
-                                    {...field}
+                                <ProfileSelect
+                                    staffs={staffs}
+                                    value={field.value}
+                                    onChange={field.onChange}
+                                    placeholder="Sélectionnez un organisateur"
+                                    label="Organisateur"
                                 />
                             </FormControl>
                             <FormMessage />
@@ -414,146 +401,26 @@ const UpdateEventForm: FC<UpdateEventFormProps> = ({ event }) => {
                             <FormLabel className="text-base">
                                 {t("events.update-event-dialog.field11.title")}
                             </FormLabel>
-                            <FormControl>
-                                <Popover>
-                                    <PopoverTrigger
-                                        className="bg-white"
-                                        asChild
-                                    >
-                                        <FormControl>
-                                            <Button3
-                                                role="combobox"
-                                                className={cn(
-                                                    "py-6 justify-between text-base",
-                                                    !field.value?.length &&
-                                                        "text-muted-foreground"
-                                                )}
-                                            >
-                                                <span className="flex items-center w-full gap-2 px-2">
-                                                    {field.value?.length > 0
-                                                        ? field.value.map(
-                                                              (
-                                                                  selectedLang,
-                                                                  index
-                                                              ) => (
-                                                                  <SimpleChip
-                                                                      key={
-                                                                          index
-                                                                      }
-                                                                  >
-                                                                      {
-                                                                          languages?.find(
-                                                                              (
-                                                                                  lang
-                                                                              ) =>
-                                                                                  lang.value ===
-                                                                                  selectedLang
-                                                                          )
-                                                                              ?.label
-                                                                      }
-                                                                  </SimpleChip>
-                                                              )
-                                                          )
-                                                        : t(
-                                                              "events.update-event-dialog.field11.placeholder"
-                                                          )}
-                                                </span>
-                                                <ChevronsUpDown className="ml-2 h-3 w-3 shrink-0" />
-                                            </Button3>
-                                        </FormControl>
-                                    </PopoverTrigger>
-                                    <PopoverContent className="p-0">
-                                        <Command className="w-full">
-                                            <CommandInput placeholder="Rechercher une langue..." />
-                                            <CommandList>
-                                                <CommandEmpty>
-                                                    {t(
-                                                        "events.update-event-dialog.field11.not-found"
-                                                    )}
-                                                </CommandEmpty>
-                                                <CommandGroup>
-                                                    {languages?.map((lang) => (
-                                                        <CommandItem
-                                                            value={lang.label}
-                                                            key={lang.value.toString()}
-                                                            onSelect={() => {
-                                                                const currentRoles =
-                                                                    field.value ||
-                                                                    [];
-                                                                const isSelected =
-                                                                    currentRoles.some(
-                                                                        (r) =>
-                                                                            r ===
-                                                                            lang.value
-                                                                    );
-
-                                                                form.setValue(
-                                                                    "eventLanguages",
-                                                                    isSelected
-                                                                        ? currentRoles.filter(
-                                                                              (
-                                                                                  r
-                                                                              ) =>
-                                                                                  r !==
-                                                                                  lang.value
-                                                                          )
-                                                                        : [
-                                                                              ...currentRoles,
-                                                                              lang.value,
-                                                                          ]
-                                                                );
-                                                            }}
-                                                        >
-                                                            {lang.label}
-                                                            <Check
-                                                                className={cn(
-                                                                    "ml-auto",
-                                                                    field.value?.some(
-                                                                        (r) =>
-                                                                            r ===
-                                                                            lang.value
-                                                                    )
-                                                                        ? "opacity-100"
-                                                                        : "opacity-0"
-                                                                )}
-                                                            />
-                                                        </CommandItem>
-                                                    ))}
-                                                </CommandGroup>
-                                            </CommandList>
-                                        </Command>
-                                    </PopoverContent>
-                                </Popover>
-                            </FormControl>
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                />
-                <FormField
-                    control={form.control}
-                    name="accessibilityForDisabled"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormLabel className="text-base">
-                                {t("events.update-event-dialog.field12.title")}
-                            </FormLabel>
-                            <FormControl>
-                                <Select1
-                                    options={[
-                                        { label: "Oui", value: "true" },
-                                        { label: "Non", value: "false" },
-                                    ]}
-                                    placeholder={t(
-                                        "events.update-event-dialog.field12.placeholder"
+                            <div className="space-y-2">
+                                <MultiselectWithPlaceholderAndClear
+                                    onChange={(selectedOptions) => {
+                                        const languages = selectedOptions.map(
+                                            (option) => option.value
+                                        );
+                                        field.onChange(languages);
+                                    }}
+                                    options={languages}
+                                    label={t(
+                                        "events.update-event-dialog.field11.title"
                                     )}
-                                    value={field.value ? "true" : "false"}
-                                    onValueChange={(value) =>
-                                        field.onChange(
-                                            value === "true" ? true : false
-                                        )
-                                    }
+                                    placeholder={t(
+                                        "events.update-event-dialog.field11.placeholder"
+                                    )}
+                                    emptyMessage={t(
+                                        "events.update-event-dialog.field11.not-found"
+                                    )}
                                 />
-                            </FormControl>
+                            </div>
                             <FormMessage />
                         </FormItem>
                     )}
@@ -575,6 +442,23 @@ const UpdateEventForm: FC<UpdateEventFormProps> = ({ event }) => {
                                 />
                             </FormControl>
                             <FormMessage />
+                        </FormItem>
+                    )}
+                />
+                <FormField
+                    control={form.control}
+                    name="accessibilityForDisabled"
+                    render={({ field }) => (
+                        <FormItem className="flex items-center bg-white gap-3 rounded-md border p-4">
+                            <FormControl>
+                                <Checkbox
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                />
+                            </FormControl>
+                            <FormLabel className="text-sm md:text-base">
+                                Accessibilité pour les personnes handicapées
+                            </FormLabel>
                         </FormItem>
                     )}
                 />
