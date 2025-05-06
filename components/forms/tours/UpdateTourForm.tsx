@@ -49,6 +49,9 @@ const UpdateTourForm: FC<UpdateTourFormProps> = ({ tour }) => {
         queryFn: () => apiGetAllStaff(token!),
     });
 
+    // Filtrer pour n'avoir que les guides touristiques (type 0)
+    const tourGuides = staffs.filter((staff) => staff.type === 0);
+
     // Get all the main images
     const initialImages = tour.mainImages.map((image) => ({
         id: image.id.toString(),
@@ -246,7 +249,7 @@ const UpdateTourForm: FC<UpdateTourFormProps> = ({ tour }) => {
                             </FormLabel>
                             <FormControl>
                                 <ProfileSelect
-                                    staffs={staffs}
+                                    staffs={tourGuides}
                                     value={field.value}
                                     onChange={field.onChange}
                                     placeholder="Sélectionnez un guide"

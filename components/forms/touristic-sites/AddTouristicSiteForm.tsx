@@ -25,12 +25,14 @@ import NumericInput from "@/components/inputs/NumericInput";
 import Select1 from "@/components/selects/Select1";
 import ScheduleTimePicker from "@/components/inputs/ScheduleTimePicker";
 import { Checkbox } from "@/components/ui/checkbox";
+import { useTranslation } from "react-i18next";
 
 const formSchema = storeTouristicSiteSchema;
 
 type FormSchemaType = z.infer<typeof formSchema>;
 
 const AddTouristSiteForm = () => {
+    const { t } = useTranslation();
     const { token } = useAuth();
     const queryClient = useQueryClient();
 
@@ -38,6 +40,9 @@ const AddTouristSiteForm = () => {
         queryKey: ["get-all-staffs"],
         queryFn: () => apiGetAllStaff(token!),
     });
+
+    // Filtrer pour n'avoir que les guides touristiques (type 1)
+    const siteGuides = staffs.filter((staff) => staff.type === 1);
 
     const form = useForm<FormSchemaType>({
         resolver: zodResolver(formSchema),
@@ -98,7 +103,7 @@ const AddTouristSiteForm = () => {
             form={form}
             onSubmit={onSubmit}
             mutation={storeTouristSiteMutation}
-            ctaText="Ajouter le site"
+            ctaText={t("touristic-sites.add-touristic-site-dialog.cta")}
             multipart={true}
         >
             <div className="grid grid-cols-1 gap-5">
@@ -335,7 +340,7 @@ const AddTouristSiteForm = () => {
                             </FormLabel>
                             <FormControl>
                                 <ProfileSelect
-                                    staffs={staffs}
+                                    staffs={siteGuides}
                                     value={field.value}
                                     onChange={field.onChange}
                                     placeholder="Sélectionnez un guide"

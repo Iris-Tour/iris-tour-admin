@@ -45,6 +45,9 @@ const AddTourForm = () => {
         queryFn: () => apiGetAllStaff(token!),
     });
 
+    // Filtrer pour n'avoir que les guides touristiques (type 0)
+    const tourGuides = staffs.filter((staff) => staff.type === 0);
+
     const form = useForm<FormSchemaType>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -242,7 +245,7 @@ const AddTourForm = () => {
                             </FormLabel>
                             <FormControl>
                                 <ProfileSelect
-                                    staffs={staffs}
+                                    staffs={tourGuides}
                                     value={field.value}
                                     onChange={field.onChange}
                                     placeholder="Sélectionnez un guide"

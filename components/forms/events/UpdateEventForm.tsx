@@ -1,3 +1,5 @@
+"use client";
+
 import Button3 from "@/components/buttons/Button3";
 import SimpleChip from "@/components/chips/SimpleChip";
 import SharedForm from "@/components/forms/SharedForm";
@@ -59,6 +61,9 @@ const UpdateEventForm: FC<UpdateEventFormProps> = ({ event }) => {
         queryKey: ["get-all-staffs"],
         queryFn: () => apiGetAllStaff(token!),
     });
+
+    // Filtrer pour n'avoir que les organisateurs (type 2)
+    const eventOrganizers = staffs.filter((staff) => staff.type === 2);
 
     const languages = [
         { label: "Français", value: "Français" },
@@ -302,7 +307,7 @@ const UpdateEventForm: FC<UpdateEventFormProps> = ({ event }) => {
                             </FormLabel>
                             <FormControl>
                                 <ProfileSelect
-                                    staffs={staffs}
+                                    staffs={eventOrganizers}
                                     value={field.value}
                                     onChange={field.onChange}
                                     placeholder="Sélectionnez un organisateur"

@@ -46,6 +46,9 @@ const UpdateTouristicSiteForm: FC<UpdateTouristicSiteFormProps> = ({
         queryFn: () => apiGetAllStaff(token!),
     });
 
+    // Filtrer pour n'avoir que les guides touristiques (type 1)
+    const siteGuides = staffs.filter((staff) => staff.type === 1);
+
     // Get all the main images
     const initialImages = site.mainImages.map((image) => ({
         id: image.id.toString(),
@@ -343,7 +346,7 @@ const UpdateTouristicSiteForm: FC<UpdateTouristicSiteFormProps> = ({
                             </FormLabel>
                             <FormControl>
                                 <ProfileSelect
-                                    staffs={staffs}
+                                    staffs={siteGuides}
                                     value={field.value}
                                     onChange={field.onChange}
                                     placeholder="Sélectionnez un guide"
