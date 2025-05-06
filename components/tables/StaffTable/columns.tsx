@@ -8,6 +8,8 @@ import SimpleChip from "@/components/chips/SimpleChip";
 import ActionsCell from "./cells/ActionsCell";
 import StaffAccount from "@/components/StaffAccount";
 import { staffTypes } from "@/constants/staffTypes";
+import { format } from "date-fns";
+import { fr } from "date-fns/locale";
 
 export const getColumns = (): ColumnDef<StaffType>[] => [
     {
@@ -37,19 +39,16 @@ export const getColumns = (): ColumnDef<StaffType>[] => [
     {
         id: "account",
         header: () => {
-            return (
-                <Trans i18nKey="manage-staff.staff-list.headers.header1" />
-            );
+            return <Trans i18nKey="manage-staff.staff-list.headers.header1" />;
         },
         cell: ({ row }) => {
-            const admin = row.original;
-            return <StaffAccount user={admin} />;
+            const staff = row.original;
+            return <StaffAccount user={staff} />;
         },
         filterFn: (row: Row<any>, columnId: string, filterValue: string) => {
-            const admin = row.original.user;
-            const name =
-                `${admin.firstname} ${admin.lastname}`.toLowerCase() || "";
-            const email = admin.email.toLowerCase() || "";
+            const staff = row.original;
+            const name = staff.name.toLowerCase() || "";
+            const email = staff.email.toLowerCase() || "";
             const value = filterValue.toLowerCase();
 
             return name.includes(value) || email.includes(value);
@@ -58,9 +57,7 @@ export const getColumns = (): ColumnDef<StaffType>[] => [
     {
         id: "type",
         header: () => {
-            return (
-                <Trans i18nKey="manage-staff.staff-list.headers.header2" />
-            );
+            return <Trans i18nKey="manage-staff.staff-list.headers.header2" />;
         },
         cell: ({ row }) => {
             const staff = row.original;
@@ -78,19 +75,70 @@ export const getColumns = (): ColumnDef<StaffType>[] => [
         },
         cell: ({ row }) => {
             const staff = row.original;
-            return <span>{staff.phone}</span>;
+            return <span>{staff.phone || "Non renseigné"}</span>;
+        },
+    },
+    {
+        id: "languages",
+        header: () => {
+            return <Trans i18nKey="manage-staff.staff-list.headers.header4" />;
+        },
+        cell: ({ row }) => {
+            const staff = row.original;
+            return (
+                <div className="flex flex-wrap gap-1">
+                    {staff.languages && staff.languages.length > 0 ? (
+                        staff.languages.map((lang, index) => (
+                            <SimpleChip key={index}>{lang.language}</SimpleChip>
+                        ))
+                    ) : (
+                        <span className="text-muted-foreground">
+                            Non renseigné
+                        </span>
+                    )}
+                </div>
+            );
+        },
+    },
+    {
+        id: "createdAt",
+        header: () => {
+            return <Trans i18nKey="manage-staff.staff-list.headers.header5" />;
+        },
+        cell: ({ row }) => {
+            const staff = row.original;
+            return (
+                <span>
+                    {format(new Date(staff.createdAt), "dd MMMM yyyy", {
+                        locale: fr,
+                    })}
+                </span>
+            );
+        },
+    },
+    {
+        id: "updatedAt",
+        header: () => {
+            return <Trans i18nKey="manage-staff.staff-list.headers.header6" />;
+        },
+        cell: ({ row }) => {
+            const staff = row.original;
+            return (
+                <span>
+                    {format(new Date(staff.updatedAt), "dd MMMM yyyy", {
+                        locale: fr,
+                    })}
+                </span>
+            );
         },
     },
     {
         id: "actions",
         header: () => {
-            return (
-                <Trans i18nKey="manage-staff.staff-list.headers.header7" />
-            );
+            return <Trans i18nKey="manage-staff.staff-list.headers.header7" />;
         },
         cell: ({ row }) => {
             const staff = row.original;
-
             return <ActionsCell staff={staff} />;
         },
     },
