@@ -192,7 +192,7 @@
             },
             "cta": "Créer",
             "success-messages": {
-                "Event created successfully": "L'événement <b>{{event}}</b> a été créé avec succès."
+                "Event created successfully": "L'événement a été créé avec succès."
             }
         },
         "update-event-dialog": {
@@ -258,7 +258,7 @@
             },
             "cta": "Modifier",
             "success-messages": {
-                "Event updated successfully": "L'événement <b>{{event}}</b> a été modifié avec succès."
+                "Event updated successfully": "L'événement a été modifié avec succès."
             }
         },
         "delete-event-dialog": {
@@ -611,7 +611,6 @@
                     "placeholder": "Entrez l'adresse"
                 },
                 "cta": "Modifier"
-
             },
             "delete-staff-dialog": {
                 "title": "Suppression",

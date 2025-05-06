@@ -7,6 +7,8 @@ import BaseInput from "@/components/inputs/BaseInput";
 import NumericInput from "@/components/inputs/NumericInput";
 import Textarea1 from "@/components/inputs/Textarea1";
 import Select1 from "@/components/selects/Select1";
+import ProfileSelect from "@/components/selects/ProfileSelect";
+import MultiselectWithPlaceholderAndClear from "@/components/selects/MultiselectWithPlaceholderAndClear";
 import {
     Command,
     CommandEmpty,
@@ -28,14 +30,14 @@ import {
     PopoverTrigger,
 } from "@/components/ui/popover";
 import useAuth from "@/hooks/useAuth";
-import { apiStoreEvent } from "@/lib/api";
+import { apiStoreEvent, apiGetAllStaff } from "@/lib/api";
 import { cn } from "@/lib/utils";
 import {
     storeEventSchema,
     StoreEventSchemaType,
 } from "@/utils/schemas/events/store-event-schema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient, useQuery } from "@tanstack/react-query";
 import { format } from "date-fns";
 import { Check, ChevronsUpDown } from "lucide-react";
 import { useForm } from "react-hook-form";
@@ -49,9 +51,15 @@ const AddEventForm = () => {
 
     const queryClient = useQueryClient();
 
+    const { data: staffs = [] } = useQuery({
+        queryKey: ["get-all-staffs"],
+        queryFn: () => apiGetAllStaff(token!),
+    });
+
     const languages = [
-        { label: "Fr", value: "Fr" },
-        { label: "En", value: "En" },
+        { label: "Français", value: "Français" },
+        { label: "English", value: "English" },
+        { label: "Español", value: "Español" },
     ];
 
     const form = useForm({
@@ -63,13 +71,12 @@ const AddEventForm = () => {
             endDateTime: format(new Date(), "yyyy-MM-dd"),
             location: "",
             category: "",
-            organizer: "",
+            staffId: 0,
             ticketPrice: undefined,
             maximumCapacity: undefined,
             targetAudience: "",
             eventLanguages: [],
             accessibilityForDisabled: false,
-            organizerContact: "",
             program: "",
             promotionalImage: [],
             eventStatus: 0,
@@ -270,38 +277,19 @@ const AddEventForm = () => {
                 />
                 <FormField
                     control={form.control}
-                    name="organizer"
+                    name="staffId"
                     render={({ field }) => (
                         <FormItem>
                             <FormLabel className="text-base">
-                                {t("events.add-event-dialog.field7.title")}
+                                Organisateur
                             </FormLabel>
                             <FormControl>
-                                <BaseInput
-                                    placeholder={t(
-                                        "events.add-event-dialog.field7.placeholder"
-                                    )}
-                                    {...field}
-                                />
-                            </FormControl>
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                />
-                <FormField
-                    control={form.control}
-                    name="organizerContact"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormLabel className="text-base">
-                                {t("events.add-event-dialog.field13.title")}
-                            </FormLabel>
-                            <FormControl>
-                                <BaseInput
-                                    placeholder={t(
-                                        "events.add-event-dialog.field13.placeholder"
-                                    )}
-                                    {...field}
+                                <ProfileSelect
+                                    staffs={staffs}
+                                    value={field.value}
+                                    onChange={field.onChange}
+                                    placeholder="Sélectionnez un organisateur"
+                                    label="Organisateur"
                                 />
                             </FormControl>
                             <FormMessage />
@@ -318,6 +306,7 @@ const AddEventForm = () => {
                             </FormLabel>
                             <FormControl>
                                 <NumericInput
+                                    ref={field.ref}
                                     thousandSeparator=" "
                                     decimalSeparator=","
                                     allowNegative={false}
@@ -348,6 +337,7 @@ const AddEventForm = () => {
                             </FormLabel>
                             <FormControl>
                                 <NumericInput
+                                    ref={field.ref}
                                     thousandSeparator=""
                                     decimalSeparator=","
                                     allowNegative={false}
@@ -396,117 +386,26 @@ const AddEventForm = () => {
                             <FormLabel className="text-base">
                                 {t("events.add-event-dialog.field11.title")}
                             </FormLabel>
-                            <FormControl>
-                                <Popover>
-                                    <PopoverTrigger
-                                        className="bg-white"
-                                        asChild
-                                    >
-                                        <FormControl>
-                                            <Button3
-                                                role="combobox"
-                                                className={cn(
-                                                    "py-6 justify-between text-base",
-                                                    !field.value?.length &&
-                                                        "text-muted-foreground"
-                                                )}
-                                            >
-                                                <span className="flex items-center w-full gap-2 px-2">
-                                                    {field.value?.length > 0
-                                                        ? field.value.map(
-                                                              (
-                                                                  selectedLang,
-                                                                  index
-                                                              ) => (
-                                                                  <SimpleChip
-                                                                      key={
-                                                                          index
-                                                                      }
-                                                                  >
-                                                                      {
-                                                                          languages?.find(
-                                                                              (
-                                                                                  lang
-                                                                              ) =>
-                                                                                  lang.value ===
-                                                                                  selectedLang
-                                                                          )
-                                                                              ?.label
-                                                                      }
-                                                                  </SimpleChip>
-                                                              )
-                                                          )
-                                                        : t(
-                                                              "events.add-event-dialog.field11.placeholder"
-                                                          )}
-                                                </span>
-                                                <ChevronsUpDown className="ml-2 h-3 w-3 shrink-0" />
-                                            </Button3>
-                                        </FormControl>
-                                    </PopoverTrigger>
-                                    <PopoverContent className="p-0">
-                                        <Command className="w-full">
-                                            <CommandInput placeholder="Rechercher une langue..." />
-                                            <CommandList>
-                                                <CommandEmpty>
-                                                    {t(
-                                                        "events.add-event-dialog.field11.not-found"
-                                                    )}
-                                                </CommandEmpty>
-                                                <CommandGroup>
-                                                    {languages?.map((lang) => (
-                                                        <CommandItem
-                                                            value={lang.label}
-                                                            key={lang.value.toString()}
-                                                            onSelect={() => {
-                                                                const currentRoles =
-                                                                    field.value ||
-                                                                    [];
-                                                                const isSelected =
-                                                                    currentRoles.some(
-                                                                        (r) =>
-                                                                            r ===
-                                                                            lang.value
-                                                                    );
-
-                                                                form.setValue(
-                                                                    "eventLanguages",
-                                                                    isSelected
-                                                                        ? currentRoles.filter(
-                                                                              (
-                                                                                  r
-                                                                              ) =>
-                                                                                  r !==
-                                                                                  lang.value
-                                                                          )
-                                                                        : [
-                                                                              ...currentRoles,
-                                                                              lang.value,
-                                                                          ]
-                                                                );
-                                                            }}
-                                                        >
-                                                            {lang.label}
-                                                            <Check
-                                                                className={cn(
-                                                                    "ml-auto",
-                                                                    field.value?.some(
-                                                                        (r) =>
-                                                                            r ===
-                                                                            lang.value
-                                                                    )
-                                                                        ? "opacity-100"
-                                                                        : "opacity-0"
-                                                                )}
-                                                            />
-                                                        </CommandItem>
-                                                    ))}
-                                                </CommandGroup>
-                                            </CommandList>
-                                        </Command>
-                                    </PopoverContent>
-                                </Popover>
-                            </FormControl>
+                            <div className="space-y-2">
+                                <MultiselectWithPlaceholderAndClear
+                                    onChange={(selectedOptions) => {
+                                        const languages = selectedOptions.map(
+                                            (option) => option.value
+                                        );
+                                        field.onChange(languages);
+                                    }}
+                                    options={languages}
+                                    label={t(
+                                        "events.add-event-dialog.field11.title"
+                                    )}
+                                    placeholder={t(
+                                        "events.add-event-dialog.field11.placeholder"
+                                    )}
+                                    emptyMessage={t(
+                                        "events.add-event-dialog.field11.not-found"
+                                    )}
+                                />
+                            </div>
                             <FormMessage />
                         </FormItem>
                     )}

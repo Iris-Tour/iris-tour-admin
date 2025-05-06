@@ -23,6 +23,8 @@ const EventsTableSection = () => {
         setAllEvents(getAllEvents.data);
     }, [getAllEvents]);
 
+    console.log(getAllEvents.error);
+
     return (
         <SectionContainer>
             <EventsTable data={allEvents ?? []} />

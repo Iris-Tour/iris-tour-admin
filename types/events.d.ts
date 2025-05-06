@@ -6,7 +6,7 @@ type EventType = {
     endDateTime: string;
     location: string;
     category: string;
-    organizer: string;
+    staffId: number;
     ticketPrice: number;
     maximumCapacity: number;
     targetAudience: string;
@@ -22,7 +22,6 @@ type EventType = {
         name: string;
         type: string;
     }>;
-    organizerContact: string;
     program: string;
     eventStatus: number;
     createdAt: string;
@@ -38,15 +37,15 @@ type StoreEventMutation = {
     endDateTime: string;
     location: string;
     category: string | null;
-    organizer: string;
+    staffId: number;
     ticketPrice: number;
     maximumCapacity: number;
     targetAudience: string | null;
     eventLanguages: Array<string> | null;
     accessibilityForDisabled: boolean | null;
-    organizerContact: string;
     program: string | null;
     eventStatus: number;
+    promotionalImage: File[];
 };
 
 type StoreEventPromise = {
@@ -60,13 +59,12 @@ type UpdateEventMutation = {
     endDateTime: string;
     location: string;
     category: string | null;
-    organizer: string;
+    staffId: number;
     ticketPrice: number;
     maximumCapacity: number;
     targetAudience: string | null;
     eventLanguages: Array<string> | null;
     accessibilityForDisabled: boolean | null;
-    organizerContact: string;
     program: string | null;
     eventStatus: number;
 };

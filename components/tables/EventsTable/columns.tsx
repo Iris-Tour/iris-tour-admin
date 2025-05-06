@@ -1,15 +1,7 @@
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
-import {
-    Dialog,
-    DialogContent,
-    DialogDescription,
-    DialogHeader,
-    DialogTitle,
-    DialogTrigger,
-} from "@/components/ui/dialog";
-import { Calendar, Edit2, Eye, Location, Trash } from "iconsax-react";
+import { Calendar, Location } from "iconsax-react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { format } from "date-fns";
 import { fr } from "date-fns/locale";

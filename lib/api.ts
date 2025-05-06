@@ -280,8 +280,40 @@ export const apiGetAllEvents = (token: string): Promise<GetAllEventsPromise> =>
 export const apiStoreEvent = (
     token: string,
     data: StoreEventMutation
-): Promise<StoreEventPromise> =>
-    sessionApi(API_PREFIX, "/events", "POST", convertToFormData(data), token);
+): Promise<StoreEventPromise> => {
+    const formData = new FormData();
+
+    formData.append("name", data.name);
+    formData.append("description", data.description || "");
+    formData.append("startDateTime", data.startDateTime);
+    formData.append("endDateTime", data.endDateTime);
+    formData.append("location", data.location);
+    formData.append("category", data.category || "");
+    formData.append("staffId", data.staffId.toString());
+    formData.append("ticketPrice", data.ticketPrice.toString());
+    formData.append("maximumCapacity", data.maximumCapacity.toString());
+    formData.append("targetAudience", data.targetAudience || "");
+    formData.append(
+        "accessibilityForDisabled",
+        (data.accessibilityForDisabled ?? false).toString()
+    );
+    formData.append("program", data.program || "");
+    formData.append("eventStatus", data.eventStatus.toString());
+
+    // Ajouter les langues
+    if (data.eventLanguages) {
+        data.eventLanguages.forEach((lang, index) => {
+            formData.append(`eventLanguages[${index}]`, lang);
+        });
+    }
+
+    // Ajouter les images
+    data.promotionalImage.forEach((file: File) => {
+        formData.append("promotionalImage", file);
+    });
+
+    return sessionApi(API_PREFIX, "/events", "POST", formData, token);
+};
 
 // Update an event
 export const apiUpdateEvent = (
