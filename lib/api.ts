@@ -337,6 +337,102 @@ export const apiDeleteEvent = (
     sessionApi(API_PREFIX, `/events/${eventId}`, "DELETE", undefined, token);
 //------------- END EVENTS
 
+//------------- TOURISTIC SITES
+// Get all touristic sites
+export const apiGetAllTouristicSites = (
+    token: string
+): Promise<GetAllTouristicSitesPromise> =>
+    sessionApi(API_PREFIX, "/touristic-sites", "GET", undefined, token);
+
+export const apiGetTouristicSiteById = (
+    token: string,
+    siteId: string
+): Promise<TouristicSiteType> =>
+    sessionApi(
+        API_PREFIX,
+        `/touristic-sites/${siteId}`,
+        "GET",
+        undefined,
+        token
+    );
+
+// Create a touristic site
+export const apiStoreTouristicSite = (
+    token: string,
+    data: StoreTouristicSiteMutation
+): Promise<StoreTouristicSitePromise> => {
+    const formData = new FormData();
+
+    formData.append("name", data.name);
+    formData.append("description", data.description);
+    formData.append("address", data.address);
+    formData.append("category", data.category);
+    formData.append("schedule", JSON.stringify(data.schedule));
+    formData.append("entranceFee", data.entranceFee);
+    formData.append(
+        "accessibilityForDisabled",
+        data.accessibilityForDisabled.toString()
+    );
+    formData.append("averageRating", data.averageRating.toString());
+    formData.append("legalStatus", data.legalStatus);
+    formData.append("staffId", data.staffId.toString());
+
+    data.mainImages?.forEach((file) => {
+        formData.append("mainImages", file);
+    });
+
+    return sessionApi(API_PREFIX, "/touristic-sites", "POST", formData, token);
+};
+
+// Update a touristic site
+export const apiUpdateTouristicSite = (
+    token: string,
+    siteId: string,
+    data: UpdateTouristicSiteMutation
+): Promise<UpdateTouristicSitePromise> => {
+    const formData = new FormData();
+
+    formData.append("name", data.name);
+    formData.append("description", data.description);
+    formData.append("address", data.address);
+    formData.append("category", data.category);
+    formData.append("schedule", JSON.stringify(data.schedule));
+    formData.append("entranceFee", data.entranceFee);
+    formData.append(
+        "accessibilityForDisabled",
+        data.accessibilityForDisabled.toString()
+    );
+    formData.append("averageRating", data.averageRating.toString());
+    formData.append("legalStatus", data.legalStatus);
+    formData.append("staffId", data.staffId.toString());
+
+    data.mainImages?.forEach((file) => {
+        formData.append("mainImages", file);
+    });
+
+    return sessionApi(
+        API_PREFIX,
+        `/touristic-sites/${siteId}`,
+        "PUT",
+        formData,
+        token
+    );
+};
+
+// Delete a touristic site
+export const apiDeleteTouristicSite = (
+    token: string,
+    siteId: string
+): Promise<DeleteTouristicSitePromise> =>
+    sessionApi(
+        API_PREFIX,
+        `/touristic-sites/${siteId}`,
+        "DELETE",
+        undefined,
+        token
+    );
+//------------- END TOURISTIC SITES
+
 //------------- USERS
 // Store a user
 export const apiStoreUser = (

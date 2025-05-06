@@ -32,7 +32,7 @@ export const sidebarItems = [
     },
     {
         title: "Sites touristiques",
-        url: "/tourist-sites",
+        url: "/touristic-sites",
         icon: MountainSnow,
     },
     { title: "Transports", url: "/transport", icon: Bus },

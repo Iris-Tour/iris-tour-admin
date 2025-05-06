@@ -9,6 +9,11 @@ import {
 } from "@/components/ui/select";
 import { getServerUrl } from "@/lib/utils";
 import Image from "next/image";
+import {
+    getInitials,
+    getRandomColor,
+    getAvatarClasses,
+} from "@/lib/utils/avatar";
 
 interface ProfileSelectProps {
     staffs: StaffType[];
@@ -17,31 +22,6 @@ interface ProfileSelectProps {
     placeholder?: string;
     label?: string;
 }
-
-const getInitials = (name: string) => {
-    return name
-        .split(" ")
-        .map((n) => n[0])
-        .join("")
-        .toUpperCase()
-        .slice(0, 2);
-};
-
-const getRandomColor = (name: string) => {
-    const colors = [
-        "bg-blue-500",
-        "bg-green-500",
-        "bg-yellow-500",
-        "bg-red-500",
-        "bg-purple-500",
-        "bg-pink-500",
-        "bg-indigo-500",
-    ];
-    const index = name
-        .split("")
-        .reduce((acc, char) => acc + char.charCodeAt(0), 0);
-    return colors[index % colors.length];
-};
 
 export default function ProfileSelect({
     staffs,
@@ -67,9 +47,14 @@ export default function ProfileSelect({
         }
         return (
             <div
-                className={`w-10 h-10 rounded-full flex items-center justify-center text-white font-medium ${getRandomColor(
-                    staff.name
-                )}`}
+                className={getAvatarClasses({
+                    name: staff.name,
+                    size: "md",
+                    className: "border border-gray-300",
+                })}
+                style={{
+                    backgroundColor: getRandomColor(staff.name),
+                }}
             >
                 {getInitials(staff.name)}
             </div>

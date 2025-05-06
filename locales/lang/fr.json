@@ -630,5 +630,59 @@
                 "header7": "Actions"
             }
         }
+    },
+    "touristic-sites": {
+        "add-site": "Ajouter un site touristique",
+        "actions": {
+            "edit": "Modifier le site touristique",
+            "delete": "Supprimer le site touristique",
+            "view": "Voir les détails"
+        },
+        "add-site-dialog": {
+            "title": "Ajouter un site touristique",
+            "field1": {
+                "title": "Nom",
+                "placeholder": "Entrez le nom"
+            },
+            "field2": {
+                "title": "Description",
+                "placeholder": "Entrez la description"
+            },
+            "field3": {
+                "title": "Adresse",
+                "placeholder": "Entrez l'adresse"
+            },
+            "field4": {
+                "title": "Catégorie",
+                "placeholder": "Entrez la catégorie"
+            },
+            "field5": {
+                "title": "Horaires",
+                "placeholder": "Entrez les horaires"
+            },
+            "field6": {
+                "title": "Prix d'entrée",
+                "placeholder": "Entrez le prix d'entrée"
+            },
+            "field7": {
+                "title": "Statut légal",
+                "placeholder": "Entrez le statut légal"
+            },
+            "success-messages": {
+                "Site created successfully": "Le site touristique a été ajouté avec succès."
+            }
+        },
+        "update-site-dialog": {
+            "title": "Modifier le site touristique"
+        },
+        "delete-site-dialog": {
+            "title": "Suppression",
+            "description": "Voulez-vous vraiment supprimer le site touristique : <b>{{site}}</b> ?",
+            "button1": "Annuler",
+            "button2": "Supprimer",
+            "success-messages": {
+                "Site deleted successfully": "Le site touristique <b>{{site}}</b> a été supprimé avec succès."
+            }
+        }
     }
 }

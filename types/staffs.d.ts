@@ -12,7 +12,10 @@ type StaffType = {
     type: number;
     phone: string;
     email: string;
-    languages: string[];
+    languages: {
+        id: string;
+        language: string;
+    }[];
     address: string;
     createdAt: string;
     updatedAt: string;
