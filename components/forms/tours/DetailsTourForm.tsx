@@ -113,7 +113,7 @@ const DetailsTourForm: FC<DetailsTourFormProps> = ({ tour }) => {
             </div>
             <div className="grid grid-cols-2 md:grid-cols-3 place-items-start">
                 <span>Guide assigné : </span>
-                <span className="md:col-span-2">{tour.assignedGuide}</span>
+                <span className="md:col-span-2">{tour.staff?.name}</span>
             </div>
         </div>
     );
