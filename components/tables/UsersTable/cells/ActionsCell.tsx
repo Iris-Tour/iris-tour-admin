@@ -6,12 +6,12 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog";
-import { Edit2, Eye, LockSlash, Trash, Unlock } from "iconsax-react";
+import { Eye, LockSlash, Trash, Unlock } from "iconsax-react";
 import { Trans } from "react-i18next";
 import { FC } from "react";
 import SuspendUserForm from "@/components/forms/users-management/SuspendUserForm";
-import UpdateUserForm from "@/components/forms/users-management/UpdateUserForm";
 import DeleteUserForm from "@/components/forms/users-management/DeleteUserForm";
+import Link from "next/link";
 
 interface ActionsCellProps {
     user: UserType;
@@ -66,20 +66,6 @@ const ActionsCell: FC<ActionsCellProps> = ({ user }) => {
                         <DialogDescription></DialogDescription>
                     </DialogHeader>
                     <DeleteUserForm user={user} />
-                </DialogContent>
-            </Dialog>
-            <Dialog>
-                <DialogTrigger className="text-secondary hover:bg-secondary/10 px-2 py-2 rounded-md cursor-pointer transition">
-                    <span className="sr-only">Détails</span>
-                    <Eye className="stroke-secondary w-5 h-5" />
-                </DialogTrigger>
-                <DialogContent>
-                    <DialogHeader>
-                        <DialogTitle className="flex items-center gap-10">
-                            Détails
-                        </DialogTitle>
-                        <DialogDescription></DialogDescription>
-                    </DialogHeader>
                 </DialogContent>
             </Dialog>
         </div>

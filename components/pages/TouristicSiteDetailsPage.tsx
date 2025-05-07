@@ -29,11 +29,7 @@ import { getServerUrl } from "@/lib/utils";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { VisuallyHidden } from "@/components/ui/visually-hidden";
 import SectionContainer from "../containers/SectionContainer";
-import {
-    getInitials,
-    getRandomColor,
-    getAvatarClasses,
-} from "@/lib/utils/avatar";
+import { getInitials, getRandomColor, getAvatarClasses } from "@/utils/avatar";
 
 export default function TouristicSiteDetailsPage() {
     const params = useParams();

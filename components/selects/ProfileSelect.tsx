@@ -9,11 +9,7 @@ import {
 } from "@/components/ui/select";
 import { getServerUrl } from "@/lib/utils";
 import Image from "next/image";
-import {
-    getInitials,
-    getRandomColor,
-    getAvatarClasses,
-} from "@/lib/utils/avatar";
+import { getInitials, getRandomColor, getAvatarClasses } from "@/utils/avatar";
 
 interface ProfileSelectProps {
     staffs: StaffType[];

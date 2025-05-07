@@ -3,10 +3,8 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-
 import { toast } from "sonner";
 import {
-    Form,
     FormControl,
     FormField,
     FormItem,
@@ -15,13 +13,12 @@ import {
 } from "@/components/ui/form";
 import { useTranslation } from "react-i18next";
 import BaseInput from "@/components/inputs/BaseInput";
-import Button2 from "@/components/buttons/Button2";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { apiGetAllPermissions, apiUpdateRoleWithPermissions } from "@/lib/api";
 import useAuth from "@/hooks/useAuth";
 import { FC } from "react";
-import { DialogClose } from "@/components/ui/dialog";
+import SharedForm from "@/components/forms/SharedForm";
 
 interface UpdateRoleWithPermissionsFormProps {
     role: string | undefined;
@@ -44,9 +41,7 @@ const UpdateRoleWithPermissionsForm: FC<UpdateRoleWithPermissionsFormProps> = ({
     rolePermissionsIds,
 }) => {
     const { t } = useTranslation();
-
     const { token } = useAuth();
-
     const queryClient = useQueryClient();
 
     const { data: allPermissions } = useQuery({
@@ -68,17 +63,14 @@ const UpdateRoleWithPermissionsForm: FC<UpdateRoleWithPermissionsFormProps> = ({
         onSuccess: () => {
             document.getElementById("dialog-close")?.click();
 
-            // Update roles list
             queryClient.invalidateQueries({
                 queryKey: ["get-all-roles-with-permissions"],
             });
 
-            // Update admins list
             queryClient.invalidateQueries({
                 queryKey: ["get-all-admins-with-roles"],
             });
 
-            // Get all roles
             queryClient.invalidateQueries({
                 queryKey: ["get-all-roles"],
             });
@@ -107,108 +99,101 @@ const UpdateRoleWithPermissionsForm: FC<UpdateRoleWithPermissionsFormProps> = ({
     }
 
     return (
-        <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-                <FormField
-                    control={form.control}
-                    name="role"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormLabel className="text-base">
-                                {t(
-                                    "roles-and-permissions.updateRoleDialog.field1.title"
+        <SharedForm
+            form={form}
+            onSubmit={onSubmit}
+            mutation={updateRoleWithPermissionsMutation}
+            ctaText={t("roles-and-permissions.updateRoleDialog.cta")}
+        >
+            <FormField
+                control={form.control}
+                name="role"
+                render={({ field }) => (
+                    <FormItem>
+                        <FormLabel className="text-base">
+                            {t(
+                                "roles-and-permissions.updateRoleDialog.field1.title"
+                            )}
+                        </FormLabel>
+                        <FormControl>
+                            <BaseInput
+                                placeholder={t(
+                                    "roles-and-permissions.updateRoleDialog.field1.placeholder"
                                 )}
-                            </FormLabel>
-                            <FormControl>
-                                <BaseInput
-                                    placeholder={t(
-                                        "roles-and-permissions.updateRoleDialog.field1.placeholder"
-                                    )}
-                                    {...field}
-                                />
-                            </FormControl>
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                />
-                <div className="flex flex-col gap-5">
-                    <div>
-                        <h3 className="font-semibold text-lg">
-                            {t(
-                                "roles-and-permissions.updateRoleDialog.permissions.title"
-                            )}
-                        </h3>
-                        <p>
-                            {t(
-                                "roles-and-permissions.updateRoleDialog.permissions.description"
-                            )}
-                        </p>
-                    </div>
-                    <div className="grid grid-cols-1 gap-3">
-                        {allPermissions &&
-                        allPermissions.permissions.length > 0 ? (
-                            allPermissions.permissions.map(
-                                (permission, index) => (
-                                    <div key={index}>
-                                        <FormField
-                                            control={form.control}
-                                            name="permissions"
-                                            render={({ field }) => {
-                                                return (
-                                                    <FormItem className="flex items-center space-x-1">
-                                                        <FormControl>
-                                                            <Checkbox
-                                                                checked={field.value?.includes(
-                                                                    permission.id
-                                                                )}
-                                                                onCheckedChange={(
-                                                                    checked
-                                                                ) => {
-                                                                    return checked
-                                                                        ? field.onChange(
-                                                                              [
-                                                                                  ...(field.value ||
-                                                                                      []),
-                                                                                  permission.id,
-                                                                              ]
-                                                                          )
-                                                                        : field.onChange(
-                                                                              field.value?.filter(
-                                                                                  (
-                                                                                      value
-                                                                                  ) =>
-                                                                                      value !==
-                                                                                      permission.id
-                                                                              )
-                                                                          );
-                                                                }}
-                                                                className="data-[state=checked]:border-primary data-[state=checked]:bg-primary w-6 h-6 cursor-pointer"
-                                                            />
-                                                        </FormControl>
-                                                        <FormLabel className="text-base cursor-pointer">
-                                                            {permission.slug}
-                                                        </FormLabel>
-                                                    </FormItem>
-                                                );
-                                            }}
-                                        />
-                                    </div>
-                                )
-                            )
-                        ) : (
-                            <p>Aucune permission trouvée.</p>
+                                {...field}
+                            />
+                        </FormControl>
+                        <FormMessage />
+                    </FormItem>
+                )}
+            />
+            <div className="flex flex-col gap-5">
+                <div>
+                    <h3 className="font-semibold text-lg">
+                        {t(
+                            "roles-and-permissions.updateRoleDialog.permissions.title"
                         )}
-                    </div>
+                    </h3>
+                    <p>
+                        {t(
+                            "roles-and-permissions.updateRoleDialog.permissions.description"
+                        )}
+                    </p>
                 </div>
-                <DialogClose id="dialog-close"></DialogClose>
-                <Button2
-                    type="submit"
-                    disabled={updateRoleWithPermissionsMutation.isPending}
-                >
-                    {t("roles-and-permissions.updateRoleDialog.cta")}
-                </Button2>
-            </form>
-        </Form>
+                <div className="grid grid-cols-1 gap-3">
+                    {allPermissions && allPermissions.permissions.length > 0 ? (
+                        allPermissions.permissions.map((permission, index) => (
+                            <div key={index}>
+                                <FormField
+                                    control={form.control}
+                                    name="permissions"
+                                    render={({ field }) => {
+                                        return (
+                                            <FormItem className="flex items-center space-x-1">
+                                                <FormControl>
+                                                    <Checkbox
+                                                        checked={field.value?.includes(
+                                                            permission.id
+                                                        )}
+                                                        onCheckedChange={(
+                                                            checked
+                                                        ) => {
+                                                            return checked
+                                                                ? field.onChange(
+                                                                      [
+                                                                          ...(field.value ||
+                                                                              []),
+                                                                          permission.id,
+                                                                      ]
+                                                                  )
+                                                                : field.onChange(
+                                                                      field.value?.filter(
+                                                                          (
+                                                                              value
+                                                                          ) =>
+                                                                              value !==
+                                                                              permission.id
+                                                                      )
+                                                                  );
+                                                        }}
+                                                        className="data-[state=checked]:border-primary data-[state=checked]:bg-primary w-6 h-6 cursor-pointer"
+                                                    />
+                                                </FormControl>
+                                                <FormLabel className="text-base cursor-pointer">
+                                                    {permission.slug}
+                                                </FormLabel>
+                                            </FormItem>
+                                        );
+                                    }}
+                                />
+                            </div>
+                        ))
+                    ) : (
+                        <p>Aucune permission trouvée.</p>
+                    )}
+                </div>
+            </div>
+        </SharedForm>
     );
 };
 

@@ -5,7 +5,6 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { toast } from "sonner";
 import {
-    Form,
     FormControl,
     FormField,
     FormItem,
@@ -15,29 +14,11 @@ import {
 import { useTranslation } from "react-i18next";
 import useAuth from "@/hooks/useAuth";
 import BaseInput from "@/components/inputs/BaseInput";
-import { DialogClose } from "@/components/ui/dialog";
-import Button2 from "@/components/buttons/Button2";
 import { FC } from "react";
-import {
-    Popover,
-    PopoverContent,
-    PopoverTrigger,
-} from "@/components/ui/popover";
-import { cn } from "@/lib/utils";
-import { Check, ChevronsUpDown } from "lucide-react";
-import {
-    Command,
-    CommandEmpty,
-    CommandGroup,
-    CommandInput,
-    CommandItem,
-    CommandList,
-} from "@/components/ui/command";
-import Button3 from "@/components/buttons/Button3";
-import SimpleChip from "@/components/chips/SimpleChip";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { apiStoreAdmin } from "@/lib/api";
-import SpinningCircle from "@/components/spinners/SpinningCircle";
+import MultiselectWithPlaceholderAndClear from "@/components/selects/MultiselectWithPlaceholderAndClear";
+import SharedForm from "@/components/forms/SharedForm";
 
 interface AddAdminFormProps {
     roles?: Array<RolesWithPermissions>;
@@ -62,9 +43,7 @@ type FormSchemaType = z.infer<typeof formSchema>;
 
 const AddAdminForm: FC<AddAdminFormProps> = ({ roles }) => {
     const { t } = useTranslation();
-
     const { token } = useAuth();
-
     const queryClient = useQueryClient();
 
     const form = useForm<FormSchemaType>({
@@ -81,7 +60,6 @@ const AddAdminForm: FC<AddAdminFormProps> = ({ roles }) => {
         mutationFn: (variables: { data: StoreAdminMutation }) =>
             apiStoreAdmin(token!, variables.data),
         onSuccess: () => {
-            // Update admins list
             queryClient.invalidateQueries({
                 queryKey: ["get-all-admins-with-roles"],
             });
@@ -112,237 +90,125 @@ const AddAdminForm: FC<AddAdminFormProps> = ({ roles }) => {
     }
 
     return (
-        <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-                <div className="grid grid-cols-1 gap-5">
-                    <FormField
-                        control={form.control}
-                        name="lastname"
-                        render={({ field }) => (
-                            <FormItem>
-                                <FormLabel className="text-base">
-                                    {t(
-                                        "roles-and-permissions.admins-list.add-admin-dialog.field1.title"
-                                    )}
-                                </FormLabel>
-                                <FormControl>
-                                    <BaseInput
-                                        placeholder={t(
-                                            "roles-and-permissions.admins-list.add-admin-dialog.field1.placeholder"
-                                        )}
-                                        {...field}
-                                    />
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
-                    <FormField
-                        control={form.control}
-                        name="firstname"
-                        render={({ field }) => (
-                            <FormItem>
-                                <FormLabel className="text-base">
-                                    {t(
-                                        "roles-and-permissions.admins-list.add-admin-dialog.field2.title"
-                                    )}
-                                </FormLabel>
-                                <FormControl>
-                                    <BaseInput
-                                        placeholder={t(
-                                            "roles-and-permissions.admins-list.add-admin-dialog.field2.placeholder"
-                                        )}
-                                        {...field}
-                                    />
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
-                    <FormField
-                        control={form.control}
-                        name="email"
-                        render={({ field }) => (
-                            <FormItem>
-                                <FormLabel className="text-base">
-                                    {t(
-                                        "roles-and-permissions.admins-list.add-admin-dialog.field3.title"
-                                    )}
-                                </FormLabel>
-                                <FormControl>
-                                    <BaseInput
-                                        placeholder={t(
-                                            "roles-and-permissions.admins-list.add-admin-dialog.field3.placeholder"
-                                        )}
-                                        {...field}
-                                    />
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
-                    <FormField
-                        control={form.control}
-                        name="roles"
-                        render={({ field }) => (
-                            <FormItem>
-                                <FormLabel className="text-base">
-                                    {t(
-                                        "roles-and-permissions.admins-list.add-admin-dialog.field4.title"
-                                    )}
-                                </FormLabel>
-                                <FormControl>
-                                    <Popover>
-                                        <PopoverTrigger asChild>
-                                            <FormControl>
-                                                <Button3
-                                                    role="combobox"
-                                                    className={cn(
-                                                        "py-6 justify-between text-base",
-                                                        !field.value?.length &&
-                                                            "text-muted-foreground"
-                                                    )}
-                                                >
-                                                    <span className="flex items-center w-full gap-2 px-2">
-                                                        {field.value?.length > 0
-                                                            ? field.value.map(
-                                                                  (
-                                                                      selectedRole,
-                                                                      index
-                                                                  ) => (
-                                                                      <SimpleChip
-                                                                          key={
-                                                                              index
-                                                                          }
-                                                                      >
-                                                                          {
-                                                                              roles?.find(
-                                                                                  (
-                                                                                      role
-                                                                                  ) =>
-                                                                                      Number(
-                                                                                          role
-                                                                                              .role
-                                                                                              .id
-                                                                                      ) ===
-                                                                                      selectedRole
-                                                                              )
-                                                                                  ?.role
-                                                                                  .slug
-                                                                          }
-                                                                      </SimpleChip>
-                                                                  )
-                                                              )
-                                                            : t(
-                                                                  "roles-and-permissions.admins-list.add-admin-dialog.field4.placeholder"
-                                                              )}
-                                                    </span>
-                                                    <ChevronsUpDown className="ml-2 h-3 w-3 shrink-0" />
-                                                </Button3>
-                                            </FormControl>
-                                        </PopoverTrigger>
-                                        <PopoverContent className="p-0">
-                                            <Command className="w-full">
-                                                <CommandInput placeholder="Rechercher un rôle..." />
-                                                <CommandList>
-                                                    <CommandEmpty>
-                                                        Aucun rôle trouvé.
-                                                    </CommandEmpty>
-                                                    <CommandGroup>
-                                                        {roles?.map((role) => (
-                                                            <CommandItem
-                                                                value={
-                                                                    role.role
-                                                                        .slug
-                                                                }
-                                                                key={role.role.id.toString()}
-                                                                onSelect={() => {
-                                                                    const currentRoles =
-                                                                        field.value ||
-                                                                        [];
-                                                                    const isSelected =
-                                                                        currentRoles.some(
-                                                                            (
-                                                                                r
-                                                                            ) =>
-                                                                                r ===
-                                                                                Number(
-                                                                                    role
-                                                                                        .role
-                                                                                        .id
-                                                                                )
-                                                                        );
-
-                                                                    form.setValue(
-                                                                        "roles",
-                                                                        isSelected
-                                                                            ? currentRoles.filter(
-                                                                                  (
-                                                                                      r
-                                                                                  ) =>
-                                                                                      r !==
-                                                                                      Number(
-                                                                                          role
-                                                                                              .role
-                                                                                              .id
-                                                                                      )
-                                                                              )
-                                                                            : [
-                                                                                  ...currentRoles,
-                                                                                  Number(
-                                                                                      role
-                                                                                          .role
-                                                                                          .id
-                                                                                  ),
-                                                                              ]
-                                                                    );
-                                                                }}
-                                                            >
-                                                                {role.role.slug}
-                                                                <Check
-                                                                    className={cn(
-                                                                        "ml-auto",
-                                                                        field.value?.some(
-                                                                            (
-                                                                                r
-                                                                            ) =>
-                                                                                r ===
-                                                                                Number(
-                                                                                    role
-                                                                                        .role
-                                                                                        .id
-                                                                                )
-                                                                        )
-                                                                            ? "opacity-100"
-                                                                            : "opacity-0"
-                                                                    )}
-                                                                />
-                                                            </CommandItem>
-                                                        ))}
-                                                    </CommandGroup>
-                                                </CommandList>
-                                            </Command>
-                                        </PopoverContent>
-                                    </Popover>
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
-                </div>
-
-                <DialogClose id="dialog-close"></DialogClose>
-                <Button2 type="submit" disabled={storeAdminMutation.isPending}>
-                    {storeAdminMutation.isPending ? (
-                        <SpinningCircle />
-                    ) : (
-                        t(
-                            "roles-and-permissions.admins-list.add-admin-dialog.cta"
-                        )
-                    )}
-                </Button2>
-            </form>
-        </Form>
+        <SharedForm
+            form={form}
+            onSubmit={onSubmit}
+            mutation={storeAdminMutation}
+            ctaText={t(
+                "roles-and-permissions.admins-list.add-admin-dialog.cta"
+            )}
+        >
+            <FormField
+                control={form.control}
+                name="lastname"
+                render={({ field }) => (
+                    <FormItem>
+                        <FormLabel className="text-base">
+                            {t(
+                                "roles-and-permissions.admins-list.add-admin-dialog.field1.title"
+                            )}
+                        </FormLabel>
+                        <FormControl>
+                            <BaseInput
+                                placeholder={t(
+                                    "roles-and-permissions.admins-list.add-admin-dialog.field1.placeholder"
+                                )}
+                                {...field}
+                            />
+                        </FormControl>
+                        <FormMessage />
+                    </FormItem>
+                )}
+            />
+            <FormField
+                control={form.control}
+                name="firstname"
+                render={({ field }) => (
+                    <FormItem>
+                        <FormLabel className="text-base">
+                            {t(
+                                "roles-and-permissions.admins-list.add-admin-dialog.field2.title"
+                            )}
+                        </FormLabel>
+                        <FormControl>
+                            <BaseInput
+                                placeholder={t(
+                                    "roles-and-permissions.admins-list.add-admin-dialog.field2.placeholder"
+                                )}
+                                {...field}
+                            />
+                        </FormControl>
+                        <FormMessage />
+                    </FormItem>
+                )}
+            />
+            <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                    <FormItem>
+                        <FormLabel className="text-base">
+                            {t(
+                                "roles-and-permissions.admins-list.add-admin-dialog.field3.title"
+                            )}
+                        </FormLabel>
+                        <FormControl>
+                            <BaseInput
+                                placeholder={t(
+                                    "roles-and-permissions.admins-list.add-admin-dialog.field3.placeholder"
+                                )}
+                                {...field}
+                            />
+                        </FormControl>
+                        <FormMessage />
+                    </FormItem>
+                )}
+            />
+            <FormField
+                control={form.control}
+                name="roles"
+                render={({ field }) => (
+                    <FormItem>
+                        <FormLabel className="text-base">
+                            {t(
+                                "roles-and-permissions.admins-list.add-admin-dialog.field4.title"
+                            )}
+                        </FormLabel>
+                        <FormControl>
+                            <MultiselectWithPlaceholderAndClear
+                                options={
+                                    roles?.map((role) => ({
+                                        label: role.role.slug,
+                                        value: role.role.id.toString(),
+                                    })) || []
+                                }
+                                value={field.value?.map((value) => ({
+                                    label:
+                                        roles?.find(
+                                            (role) =>
+                                                Number(role.role.id) === value
+                                        )?.role.slug || "",
+                                    value: value.toString(),
+                                }))}
+                                onChange={(selectedOptions) => {
+                                    form.setValue(
+                                        "roles",
+                                        selectedOptions.map((option) =>
+                                            Number(option.value)
+                                        )
+                                    );
+                                }}
+                                placeholder={t(
+                                    "roles-and-permissions.admins-list.add-admin-dialog.field4.placeholder"
+                                )}
+                                emptyMessage="Aucun rôle trouvé."
+                            />
+                        </FormControl>
+                        <FormMessage />
+                    </FormItem>
+                )}
+            />
+        </SharedForm>
     );
 };
 

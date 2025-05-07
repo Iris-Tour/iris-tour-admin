@@ -5,7 +5,6 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { toast } from "sonner";
 import {
-    Form,
     FormControl,
     FormField,
     FormItem,
@@ -15,21 +14,17 @@ import {
 import { useTranslation } from "react-i18next";
 import useAuth from "@/hooks/useAuth";
 import BaseInput from "@/components/inputs/BaseInput";
-import { DialogClose } from "@/components/ui/dialog";
-import Button2 from "@/components/buttons/Button2";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { apiStoreUser } from "@/lib/api";
-import SpinningCircle from "@/components/spinners/SpinningCircle";
 import {
     storeUserSchema,
     StoreUserSchemaType,
 } from "@/utils/schemas/users/store-user-schema";
+import SharedForm from "@/components/forms/SharedForm";
 
 const AddUserForm = () => {
     const { t } = useTranslation();
-
     const { token } = useAuth();
-
     const queryClient = useQueryClient();
 
     const form = useForm<StoreUserSchemaType>({
@@ -47,7 +42,6 @@ const AddUserForm = () => {
         mutationFn: (variables: { data: StoreUserMutation }) =>
             apiStoreUser(token!, variables.data),
         onSuccess: () => {
-            // Update users list
             queryClient.invalidateQueries({
                 queryKey: ["get-all-users"],
             });
@@ -78,133 +72,125 @@ const AddUserForm = () => {
     }
 
     return (
-        <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-                <div className="grid grid-cols-1 gap-5">
-                    <FormField
-                        control={form.control}
-                        name="lastname"
-                        render={({ field }) => (
-                            <FormItem>
-                                <FormLabel className="text-base">
-                                    {t(
-                                        "manage-users.users-list.add-user-dialog.field1.title"
-                                    )}
-                                </FormLabel>
-                                <FormControl>
-                                    <BaseInput
-                                        placeholder={t(
-                                            "manage-users.users-list.add-user-dialog.field1.placeholder"
-                                        )}
-                                        {...field}
-                                    />
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
-                    <FormField
-                        control={form.control}
-                        name="firstname"
-                        render={({ field }) => (
-                            <FormItem>
-                                <FormLabel className="text-base">
-                                    {t(
-                                        "manage-users.users-list.add-user-dialog.field2.title"
-                                    )}
-                                </FormLabel>
-                                <FormControl>
-                                    <BaseInput
-                                        placeholder={t(
-                                            "manage-users.users-list.add-user-dialog.field2.placeholder"
-                                        )}
-                                        {...field}
-                                    />
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
-                    <FormField
-                        control={form.control}
-                        name="email"
-                        render={({ field }) => (
-                            <FormItem>
-                                <FormLabel className="text-base">
-                                    {t(
-                                        "manage-users.users-list.add-user-dialog.field3.title"
-                                    )}
-                                </FormLabel>
-                                <FormControl>
-                                    <BaseInput
-                                        placeholder={t(
-                                            "manage-users.users-list.add-user-dialog.field3.placeholder"
-                                        )}
-                                        {...field}
-                                    />
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
-                    <FormField
-                        control={form.control}
-                        name="password"
-                        render={({ field }) => (
-                            <FormItem>
-                                <FormLabel className="text-base">
-                                    {t(
-                                        "manage-users.users-list.add-user-dialog.field4.title"
-                                    )}
-                                </FormLabel>
-                                <FormControl>
-                                    <BaseInput
-                                        type="password"
-                                        placeholder={t(
-                                            "manage-users.users-list.add-user-dialog.field4.placeholder"
-                                        )}
-                                        {...field}
-                                    />
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
-                    <FormField
-                        control={form.control}
-                        name="passwordConfirmation"
-                        render={({ field }) => (
-                            <FormItem>
-                                <FormLabel className="text-base">
-                                    {t(
-                                        "manage-users.users-list.add-user-dialog.field5.title"
-                                    )}
-                                </FormLabel>
-                                <FormControl>
-                                    <BaseInput
-                                        type="password"
-                                        placeholder={t(
-                                            "manage-users.users-list.add-user-dialog.field5.placeholder"
-                                        )}
-                                        {...field}
-                                    />
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
-                </div>
-
-                <DialogClose id="dialog-close"></DialogClose>
-                <Button2 type="submit" disabled={storeUserMutation.isPending}>
-                    {storeUserMutation.isPending ? (
-                        <SpinningCircle />
-                    ) : (
-                        t("manage-users.users-list.add-user-dialog.cta")
-                    )}
-                </Button2>
-            </form>
-        </Form>
+        <SharedForm
+            form={form}
+            onSubmit={onSubmit}
+            mutation={storeUserMutation}
+            ctaText={t("manage-users.users-list.add-user-dialog.cta")}
+        >
+            <FormField
+                control={form.control}
+                name="lastname"
+                render={({ field }) => (
+                    <FormItem>
+                        <FormLabel className="text-base">
+                            {t(
+                                "manage-users.users-list.add-user-dialog.field1.title"
+                            )}
+                        </FormLabel>
+                        <FormControl>
+                            <BaseInput
+                                placeholder={t(
+                                    "manage-users.users-list.add-user-dialog.field1.placeholder"
+                                )}
+                                {...field}
+                            />
+                        </FormControl>
+                        <FormMessage />
+                    </FormItem>
+                )}
+            />
+            <FormField
+                control={form.control}
+                name="firstname"
+                render={({ field }) => (
+                    <FormItem>
+                        <FormLabel className="text-base">
+                            {t(
+                                "manage-users.users-list.add-user-dialog.field2.title"
+                            )}
+                        </FormLabel>
+                        <FormControl>
+                            <BaseInput
+                                placeholder={t(
+                                    "manage-users.users-list.add-user-dialog.field2.placeholder"
+                                )}
+                                {...field}
+                            />
+                        </FormControl>
+                        <FormMessage />
+                    </FormItem>
+                )}
+            />
+            <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                    <FormItem>
+                        <FormLabel className="text-base">
+                            {t(
+                                "manage-users.users-list.add-user-dialog.field3.title"
+                            )}
+                        </FormLabel>
+                        <FormControl>
+                            <BaseInput
+                                placeholder={t(
+                                    "manage-users.users-list.add-user-dialog.field3.placeholder"
+                                )}
+                                {...field}
+                            />
+                        </FormControl>
+                        <FormMessage />
+                    </FormItem>
+                )}
+            />
+            <FormField
+                control={form.control}
+                name="password"
+                render={({ field }) => (
+                    <FormItem>
+                        <FormLabel className="text-base">
+                            {t(
+                                "manage-users.users-list.add-user-dialog.field4.title"
+                            )}
+                        </FormLabel>
+                        <FormControl>
+                            <BaseInput
+                                type="password"
+                                placeholder={t(
+                                    "manage-users.users-list.add-user-dialog.field4.placeholder"
+                                )}
+                                {...field}
+                            />
+                        </FormControl>
+                        <FormMessage />
+                    </FormItem>
+                )}
+            />
+            <FormField
+                control={form.control}
+                name="passwordConfirmation"
+                render={({ field }) => (
+                    <FormItem>
+                        <FormLabel className="text-base">
+                            {t(
+                                "manage-users.users-list.add-user-dialog.field5.title"
+                            )}
+                        </FormLabel>
+                        <FormControl>
+                            <BaseInput
+                                type="password"
+                                placeholder={t(
+                                    "manage-users.users-list.add-user-dialog.field5.placeholder"
+                                )}
+                                {...field}
+                            />
+                        </FormControl>
+                        <FormMessage />
+                    </FormItem>
+                )}
+            />
+        </SharedForm>
     );
 };
 

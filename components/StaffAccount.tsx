@@ -1,7 +1,7 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { FC } from "react";
 import { getServerUrl } from "@/lib/utils";
-import { getInitials, getRandomColor } from "@/lib/utils/avatar";
+import { getInitials, getRandomColor } from "@/utils/avatar";
 
 interface StaffAccountProps {
     user: StaffType;
