@@ -14,13 +14,13 @@ import {
 import { useTranslation } from "react-i18next";
 import useAuth from "@/hooks/useAuth";
 import BaseInput from "@/components/inputs/BaseInput";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { apiUpdateStaff } from "@/lib/api";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { apiGetAllLanguages, apiUpdateStaff } from "@/lib/api";
 import {
     updateStaffSchema,
     UpdateStaffSchemaType,
 } from "@/utils/schemas/staff/update-staff-schema";
-import { FC } from "react";
+import { FC, useState, useEffect } from "react";
 import SharedForm from "@/components/forms/SharedForm";
 import { staffTypes } from "@/constants/staffTypes";
 import SelectWithSearch from "@/components/selects/SelectWithSearch";
@@ -37,6 +37,19 @@ const UpdateStaffForm: FC<UpdateStaffFormProps> = ({ staff }) => {
     const { token } = useAuth();
     const queryClient = useQueryClient();
 
+    const [languages, setLanguages] = useState<LanguageType[]>([]);
+
+    const languagesQuery = useQuery({
+        queryKey: ["get-all-languages"],
+        queryFn: () => apiGetAllLanguages(token!),
+    });
+
+    useEffect(() => {
+        if (languagesQuery.data) {
+            setLanguages(languagesQuery.data);
+        }
+    }, [languagesQuery.data]);
+
     // Get the staff's image
     const staffImage = staff.imagePath.map((image) => ({
         id: image.id,
@@ -46,28 +59,26 @@ const UpdateStaffForm: FC<UpdateStaffFormProps> = ({ staff }) => {
         type: image.type,
     }));
 
-    const languages = [
-        { label: "Français", value: "Français" },
-        { label: "English", value: "English" },
-        { label: "Español", value: "Español" },
-    ];
-
     const form = useForm<UpdateStaffSchemaType>({
         resolver: zodResolver(updateStaffSchema),
         defaultValues: {
             image_path: [],
-            name: staff.name,
+            firstname: staff.firstname,
+            lastname: staff.lastname,
             type: staff.type,
-            phone: staff.phone,
+            dialCode: "+221",
+            phoneNumber: staff.phoneNumber,
             email: staff.email,
-            languages: staff.languages.map((language) => language.language),
+            languages: staff.languages.map((language) =>
+                language.id.toString()
+            ),
             address: staff.address,
         },
     });
 
     const updateStaffMutation = useMutation({
         mutationFn: (variables: { data: UpdateStaffMutation }) =>
-            apiUpdateStaff(token!, staff.id, variables.data),
+            apiUpdateStaff(token!, staff.id.toString(), variables.data),
         onSuccess: () => {
             queryClient.invalidateQueries({
                 queryKey: ["get-all-staff"],
@@ -121,7 +132,15 @@ const UpdateStaffForm: FC<UpdateStaffFormProps> = ({ staff }) => {
                                     <AvatarFileUpload
                                         accept="image/png,image/jpeg,image/jpg"
                                         onFilesChange={field.onChange}
-                                        initialFiles={staffImage}
+                                        initialFiles={staffImage.map(
+                                            (image) => ({
+                                                id: image.id.toString(),
+                                                name: image.name,
+                                                size: image.size,
+                                                url: image.url,
+                                                type: image.type,
+                                            })
+                                        )}
                                     />
                                 </div>
                             </FormControl>
@@ -132,7 +151,7 @@ const UpdateStaffForm: FC<UpdateStaffFormProps> = ({ staff }) => {
 
                 <FormField
                     control={form.control}
-                    name="name"
+                    name="firstname"
                     render={({ field }) => (
                         <FormItem>
                             <FormLabel className="text-base">
@@ -155,7 +174,7 @@ const UpdateStaffForm: FC<UpdateStaffFormProps> = ({ staff }) => {
 
                 <FormField
                     control={form.control}
-                    name="type"
+                    name="lastname"
                     render={({ field }) => (
                         <FormItem>
                             <FormLabel className="text-base">
@@ -163,38 +182,10 @@ const UpdateStaffForm: FC<UpdateStaffFormProps> = ({ staff }) => {
                                     "manage-staff.staff-list.update-staff-dialog.field3.title"
                                 )}
                             </FormLabel>
-                            <SelectWithSearch
-                                value={field.value.toString()}
-                                onValueChange={(value) => {
-                                    field.onChange(Number(value));
-                                }}
-                                options={staffTypes}
-                                placeholder={t(
-                                    "manage-staff.staff-list.update-staff-dialog.field3.placeholder"
-                                )}
-                                noResultsText={t(
-                                    "manage-staff.staff-list.update-staff-dialog.field3.no-results-text"
-                                )}
-                            />
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                />
-
-                <FormField
-                    control={form.control}
-                    name="phone"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormLabel className="text-base">
-                                {t(
-                                    "manage-staff.staff-list.update-staff-dialog.field4.title"
-                                )}
-                            </FormLabel>
                             <FormControl>
                                 <BaseInput
                                     placeholder={t(
-                                        "manage-staff.staff-list.update-staff-dialog.field4.placeholder"
+                                        "manage-staff.staff-list.update-staff-dialog.field3.placeholder"
                                     )}
                                     {...field}
                                 />
@@ -206,7 +197,35 @@ const UpdateStaffForm: FC<UpdateStaffFormProps> = ({ staff }) => {
 
                 <FormField
                     control={form.control}
-                    name="email"
+                    name="type"
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel className="text-base">
+                                {t(
+                                    "manage-staff.staff-list.update-staff-dialog.field4.title"
+                                )}
+                            </FormLabel>
+                            <SelectWithSearch
+                                value={field.value.toString()}
+                                onValueChange={(value) => {
+                                    field.onChange(Number(value));
+                                }}
+                                options={staffTypes}
+                                placeholder={t(
+                                    "manage-staff.staff-list.update-staff-dialog.field4.placeholder"
+                                )}
+                                noResultsText={t(
+                                    "manage-staff.staff-list.update-staff-dialog.field4.no-results-text"
+                                )}
+                            />
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
+
+                <FormField
+                    control={form.control}
+                    name="phoneNumber"
                     render={({ field }) => (
                         <FormItem>
                             <FormLabel className="text-base">
@@ -229,7 +248,7 @@ const UpdateStaffForm: FC<UpdateStaffFormProps> = ({ staff }) => {
 
                 <FormField
                     control={form.control}
-                    name="languages"
+                    name="email"
                     render={({ field }) => (
                         <FormItem>
                             <FormLabel className="text-base">
@@ -237,23 +256,59 @@ const UpdateStaffForm: FC<UpdateStaffFormProps> = ({ staff }) => {
                                     "manage-staff.staff-list.update-staff-dialog.field6.title"
                                 )}
                             </FormLabel>
+                            <FormControl>
+                                <BaseInput
+                                    placeholder={t(
+                                        "manage-staff.staff-list.update-staff-dialog.field6.placeholder"
+                                    )}
+                                    {...field}
+                                />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
+
+                <FormField
+                    control={form.control}
+                    name="languages"
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel className="text-base">
+                                {t(
+                                    "manage-staff.staff-list.update-staff-dialog.field7.title"
+                                )}
+                            </FormLabel>
                             <div className="space-y-2">
                                 <MultiselectWithPlaceholderAndClear
                                     onChange={(selectedOptions) => {
                                         const languages = selectedOptions.map(
-                                            (option) => option.value
+                                            (option) => option.value.toString()
                                         );
                                         field.onChange(languages);
                                     }}
-                                    options={languages}
+                                    options={
+                                        languages?.map((language) => ({
+                                            label: language.title,
+                                            value: language.id.toString(),
+                                        })) ?? []
+                                    }
+                                    value={field.value?.map((value) => ({
+                                        label:
+                                            languages?.find(
+                                                (lang) =>
+                                                    lang.id.toString() === value
+                                            )?.title || "",
+                                        value: value.toString(),
+                                    }))}
                                     label={t(
-                                        "manage-staff.staff-list.update-staff-dialog.field6.title"
+                                        "manage-staff.staff-list.update-staff-dialog.field7.title"
                                     )}
                                     placeholder={t(
-                                        "manage-staff.staff-list.update-staff-dialog.field6.placeholder"
+                                        "manage-staff.staff-list.update-staff-dialog.field7.placeholder"
                                     )}
                                     emptyMessage={t(
-                                        "manage-staff.staff-list.update-staff-dialog.field6.no-results-text"
+                                        "manage-staff.staff-list.update-staff-dialog.field7.no-results-text"
                                     )}
                                 />
                             </div>
@@ -269,13 +324,13 @@ const UpdateStaffForm: FC<UpdateStaffFormProps> = ({ staff }) => {
                         <FormItem>
                             <FormLabel className="text-base">
                                 {t(
-                                    "manage-staff.staff-list.update-staff-dialog.field7.title"
+                                    "manage-staff.staff-list.update-staff-dialog.field8.title"
                                 )}
                             </FormLabel>
                             <FormControl>
                                 <BaseInput
                                     placeholder={t(
-                                        "manage-staff.staff-list.update-staff-dialog.field7.placeholder"
+                                        "manage-staff.staff-list.update-staff-dialog.field8.placeholder"
                                     )}
                                     {...field}
                                 />

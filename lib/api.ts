@@ -149,19 +149,21 @@ export const apiDeleteRole = (
     sessionApi(API_PREFIX, `/acl/roles/${roleId}`, "DELETE", undefined, token);
 
 //-------------- ADMINS
-// Create Admin
+
 // Get all admins with their roles
 export const apiGetAllAdminsWithRoles = (
     token: string
 ): Promise<GetAllAdminsWithRolesPromise> =>
     sessionApi(API_PREFIX, "/acl/admins/roles", "GET", undefined, token);
 
+// Create Admin
 export const apiStoreAdmin = (
     token: string,
     data: StoreAdminMutation
 ): Promise<StoreAdminPromise> =>
     sessionApi(API_PREFIX, "/admins/create-admin", "POST", data, token);
 
+// Update Admin
 export const apiUpdateAdmin = (
     token: string,
     adminId: string,
@@ -169,6 +171,7 @@ export const apiUpdateAdmin = (
 ): Promise<UpdateAdminPromise> =>
     sessionApi(API_PREFIX, `/admins/${adminId}`, "PUT", data, token);
 
+// Suspend Admin
 export const apiSuspendAdmin = (
     token: string,
     adminId: string
@@ -181,6 +184,7 @@ export const apiSuspendAdmin = (
         token
     );
 
+// Delete Admin
 export const apiDeleteAdmin = (
     token: string,
     adminId: string
@@ -308,9 +312,9 @@ export const apiStoreEvent = (
     formData.append("eventStatus", data.eventStatus.toString());
 
     // Ajouter les langues
-    if (data.eventLanguages) {
-        data.eventLanguages.forEach((lang, index) => {
-            formData.append(`eventLanguages[${index}]`, lang);
+    if (data.languages) {
+        data.languages.forEach((lang, index) => {
+            formData.append(`languages[${index}]`, lang);
         });
     }
 
@@ -327,14 +331,38 @@ export const apiUpdateEvent = (
     token: string,
     eventId: string,
     data: UpdateEventMutation
-): Promise<UpdateEventPromise> =>
-    sessionApi(
-        API_PREFIX,
-        `/events/${eventId}`,
-        "PUT",
-        convertToFormData(data),
-        token
+): Promise<UpdateEventPromise> => {
+    const formData = new FormData();
+
+    formData.append("name", data.name);
+    formData.append("description", data.description || "");
+    formData.append("startDateTime", data.startDateTime);
+    formData.append("endDateTime", data.endDateTime);
+    formData.append("location", data.location);
+    formData.append("category", data.category || "");
+    formData.append("staffId", data.staffId.toString());
+    formData.append("ticketPrice", data.ticketPrice.toString());
+    formData.append("maximumCapacity", data.maximumCapacity.toString());
+    formData.append("targetAudience", data.targetAudience || "");
+    formData.append(
+        "accessibilityForDisabled",
+        (data.accessibilityForDisabled ?? false).toString()
     );
+    formData.append("program", data.program || "");
+    formData.append("eventStatus", data.eventStatus.toString());
+
+    if (data.languages) {
+        data.languages.forEach((lang, index) => {
+            formData.append(`languages[${index}]`, lang);
+        });
+    }
+
+    data.promotionalImage.forEach((file: File) => {
+        formData.append("promotionalImage", file);
+    });
+
+    return sessionApi(API_PREFIX, `/events/${eventId}`, "PUT", formData, token);
+};
 
 // Delete an event
 export const apiDeleteEvent = (
@@ -566,9 +594,11 @@ export const apiStoreStaff = (
     const formData = new FormData();
 
     // Ajouter les champs texte
-    formData.append("name", data.name);
+    formData.append("firstname", data.firstname);
+    formData.append("lastname", data.lastname);
     formData.append("type", data.type.toString());
-    formData.append("phone", data.phone);
+    formData.append("dialCode", data.dialCode);
+    formData.append("phoneNumber", data.phoneNumber);
     formData.append("email", data.email);
     formData.append("address", data.address);
 
@@ -594,9 +624,11 @@ export const apiUpdateStaff = (
     const formData = new FormData();
 
     // Ajouter les champs texte
-    formData.append("name", data.name);
+    formData.append("firstname", data.firstname);
+    formData.append("lastname", data.lastname);
     formData.append("type", data.type.toString());
-    formData.append("phone", data.phone);
+    formData.append("dialCode", data.dialCode);
+    formData.append("phoneNumber", data.phoneNumber);
     formData.append("email", data.email);
     formData.append("address", data.address);
 
@@ -626,3 +658,49 @@ export const apiDeleteStaff = (
         token
     );
 //------------- END STAFF
+
+//------------- LANGUAGES
+// Get all languages
+export const apiGetAllLanguages = (
+    token: string
+): Promise<GetAllLanguagesPromise> =>
+    sessionApi(API_PREFIX, "/languages", "GET", undefined, token);
+
+// Store a language
+export const apiStoreLanguage = (
+    token: string,
+    data: StoreLanguageMutation
+): Promise<StoreLanguagePromise> => {
+    return sessionApi(API_PREFIX, "/languages", "POST", data, token);
+};
+
+// Update a language
+export const apiUpdateLanguage = (
+    token: string,
+    languageId: string,
+    data: UpdateLanguageMutation
+): Promise<UpdateLanguagePromise> => {
+    return sessionApi(
+        API_PREFIX,
+        `/languages/${languageId}`,
+        "PUT",
+        data,
+        token
+    );
+};
+
+// Delete a language
+export const apiDeleteLanguage = (
+    token: string,
+    languageId: string
+): Promise<void> => {
+    return sessionApi(
+        API_PREFIX,
+        `/languages/delete/${languageId}`,
+        "DELETE",
+        undefined,
+        token
+    );
+};
+
+//------------- END LANGUAGES

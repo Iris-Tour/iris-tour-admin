@@ -35,7 +35,7 @@ export default function ProfileSelect({
                 <Image
                     className="border border-gray-300 w-10 h-10 rounded-full"
                     src={`${getServerUrl()}/${staff.imagePath[0].path}`}
-                    alt={staff.name}
+                    alt={staff.firstname + " " + staff.lastname}
                     width={40}
                     height={40}
                 />
@@ -44,15 +44,17 @@ export default function ProfileSelect({
         return (
             <div
                 className={getAvatarClasses({
-                    name: staff.name,
+                    name: staff.firstname + " " + staff.lastname,
                     size: "md",
                     className: "border border-gray-300",
                 })}
                 style={{
-                    backgroundColor: getRandomColor(staff.name),
+                    backgroundColor: getRandomColor(
+                        staff.firstname + " " + staff.lastname
+                    ),
                 }}
             >
-                {getInitials(staff.name)}
+                {getInitials(staff.firstname + " " + staff.lastname)}
             </div>
         );
     };
@@ -75,7 +77,9 @@ export default function ProfileSelect({
                                 {renderProfileImage(selectedStaff)}
                                 <div className="flex flex-col items-start">
                                     <span className="block font-medium">
-                                        {selectedStaff.name}
+                                        {selectedStaff.firstname +
+                                            " " +
+                                            selectedStaff.lastname}
                                     </span>
                                     <span className="text-muted-foreground mt-0.5 block text-xs">
                                         {selectedStaff.email}
@@ -91,7 +95,7 @@ export default function ProfileSelect({
                     {staffs.map((staff) => (
                         <SelectItem
                             key={staff.id}
-                            value={staff.id}
+                            value={staff.id.toString()}
                             className="cursor-pointer hover:bg-gray-200"
                         >
                             <div className="flex items-center w-full pr-8">
@@ -99,7 +103,9 @@ export default function ProfileSelect({
                                     {renderProfileImage(staff)}
                                     <div className="flex flex-col items-start">
                                         <span className="block font-medium">
-                                            {staff.name}
+                                            {staff.firstname +
+                                                " " +
+                                                staff.lastname}
                                         </span>
                                         <span className="text-muted-foreground mt-0.5 block text-xs">
                                             {staff.email}

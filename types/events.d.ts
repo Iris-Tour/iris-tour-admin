@@ -10,10 +10,7 @@ type EventType = {
     ticketPrice: number;
     maximumCapacity: number;
     targetAudience: string;
-    eventLanguages: Array<{
-        order: number;
-        language: string;
-    }>;
+    languages: Array<LanguageType>;
     accessibilityForDisabled: boolean;
     promotionalImage: Array<{
         id: string;
@@ -41,7 +38,7 @@ type StoreEventMutation = {
     ticketPrice: number;
     maximumCapacity: number;
     targetAudience: string | null;
-    eventLanguages: Array<string> | null;
+    languages: Array<string> | null;
     accessibilityForDisabled: boolean | null;
     program: string | null;
     eventStatus: number;
@@ -63,7 +60,7 @@ type UpdateEventMutation = {
     ticketPrice: number;
     maximumCapacity: number;
     targetAudience: string | null;
-    eventLanguages: Array<string> | null;
+    languages: Array<string> | null;
     accessibilityForDisabled: boolean | null;
     program: string | null;
     eventStatus: number;

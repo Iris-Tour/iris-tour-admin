@@ -1,7 +1,5 @@
 "use client";
 
-import Button3 from "@/components/buttons/Button3";
-import SimpleChip from "@/components/chips/SimpleChip";
 import SharedForm from "@/components/forms/SharedForm";
 import DateTimePicker from "@/components/inputs/DateTimePicker";
 import FileUpload from "@/components/inputs/FileUpload";
@@ -12,37 +10,22 @@ import Select1 from "@/components/selects/Select1";
 import ProfileSelect from "@/components/selects/ProfileSelect";
 import MultiselectWithPlaceholderAndClear from "@/components/selects/MultiselectWithPlaceholderAndClear";
 import {
-    Command,
-    CommandEmpty,
-    CommandGroup,
-    CommandInput,
-    CommandItem,
-    CommandList,
-} from "@/components/ui/command";
-import {
     FormControl,
     FormField,
     FormItem,
     FormLabel,
     FormMessage,
 } from "@/components/ui/form";
-import {
-    Popover,
-    PopoverContent,
-    PopoverTrigger,
-} from "@/components/ui/popover";
 import useAuth from "@/hooks/useAuth";
-import { apiUpdateEvent, apiGetAllStaff } from "@/lib/api";
-import { cn, getServerUrl } from "@/lib/utils";
+import { apiUpdateEvent, apiGetAllStaff, apiGetAllLanguages } from "@/lib/api";
+import { getServerUrl } from "@/lib/utils";
 import {
     updateEventSchema,
     UpdateEventSchemaType,
 } from "@/utils/schemas/events/update-event-schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient, useQuery } from "@tanstack/react-query";
-import { format } from "date-fns";
-import { Check, ChevronsUpDown } from "lucide-react";
-import { FC } from "react";
+import { FC, useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { Trans, useTranslation } from "react-i18next";
 import { toast } from "sonner";
@@ -57,6 +40,19 @@ const UpdateEventForm: FC<UpdateEventFormProps> = ({ event }) => {
     const { token } = useAuth();
     const queryClient = useQueryClient();
 
+    const [languages, setLanguages] = useState<LanguageType[]>([]);
+
+    const languagesQuery = useQuery({
+        queryKey: ["get-all-languages"],
+        queryFn: () => apiGetAllLanguages(token!),
+    });
+
+    useEffect(() => {
+        if (languagesQuery.data) {
+            setLanguages(languagesQuery.data);
+        }
+    }, [languagesQuery.data]);
+
     const { data: staffs = [] } = useQuery({
         queryKey: ["get-all-staffs"],
         queryFn: () => apiGetAllStaff(token!),
@@ -64,12 +60,6 @@ const UpdateEventForm: FC<UpdateEventFormProps> = ({ event }) => {
 
     // Filtrer pour n'avoir que les organisateurs (type 2)
     const eventOrganizers = staffs.filter((staff) => staff.type === 2);
-
-    const languages = [
-        { label: "Français", value: "Français" },
-        { label: "English", value: "English" },
-        { label: "Español", value: "Español" },
-    ];
 
     // Get all the promotional images
     const initialImages = event.promotionalImage.map((image) => ({
@@ -93,7 +83,7 @@ const UpdateEventForm: FC<UpdateEventFormProps> = ({ event }) => {
             ticketPrice: Number(event.ticketPrice),
             maximumCapacity: Number(event.maximumCapacity),
             targetAudience: event.targetAudience ?? "",
-            eventLanguages: event.eventLanguages.map((lang) => lang.language),
+            languages: event.languages.map((lang) => lang.id.toString()),
             accessibilityForDisabled: event.accessibilityForDisabled,
             program: event.program ?? "",
             promotionalImage: [],
@@ -400,7 +390,7 @@ const UpdateEventForm: FC<UpdateEventFormProps> = ({ event }) => {
                 />
                 <FormField
                     control={form.control}
-                    name="eventLanguages"
+                    name="languages"
                     render={({ field }) => (
                         <FormItem>
                             <FormLabel className="text-base">
@@ -410,11 +400,24 @@ const UpdateEventForm: FC<UpdateEventFormProps> = ({ event }) => {
                                 <MultiselectWithPlaceholderAndClear
                                     onChange={(selectedOptions) => {
                                         const languages = selectedOptions.map(
-                                            (option) => option.value
+                                            (option) => option.value.toString()
                                         );
                                         field.onChange(languages);
                                     }}
-                                    options={languages}
+                                    options={
+                                        languages?.map((language) => ({
+                                            label: language.title,
+                                            value: language.id.toString(),
+                                        })) ?? []
+                                    }
+                                    value={field.value?.map((value) => ({
+                                        label:
+                                            languages?.find(
+                                                (lang) =>
+                                                    lang.id.toString() === value
+                                            )?.title || "",
+                                        value: value.toString(),
+                                    }))}
                                     label={t(
                                         "events.update-event-dialog.field11.title"
                                     )}

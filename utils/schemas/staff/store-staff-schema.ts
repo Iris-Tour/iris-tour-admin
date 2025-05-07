@@ -23,7 +23,10 @@ export const storeStaffSchema = z.object({
             message: "Le fichier doit être une image au format JPEG ou PNG.",
         }
     ),
-    name: z
+    firstname: z
+        .string()
+        .min(2, { message: "Le nom doit contenir au moins 2 caractères." }),
+    lastname: z
         .string()
         .min(2, { message: "Le nom doit contenir au moins 2 caractères." }),
     type: z
@@ -34,7 +37,10 @@ export const storeStaffSchema = z.object({
         .refine((type) => type > -1, {
             message: "Le type est requis.",
         }),
-    phone: z.string().min(9, {
+    dialCode: z.string().min(1, {
+        message: "Le code du pays est requis.",
+    }),
+    phoneNumber: z.string().min(9, {
         message: "Le numéro de téléphone doit contenir 9 chiffres.",
     }),
     email: z.string().email({ message: "L'email est invalide." }),

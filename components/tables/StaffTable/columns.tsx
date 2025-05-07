@@ -47,11 +47,16 @@ export const getColumns = (): ColumnDef<StaffType>[] => [
         },
         filterFn: (row: Row<any>, columnId: string, filterValue: string) => {
             const staff = row.original;
-            const name = staff.name.toLowerCase() || "";
+            const firstname = staff.firstname.toLowerCase() || "";
+            const lastname = staff.lastname.toLowerCase() || "";
             const email = staff.email.toLowerCase() || "";
             const value = filterValue.toLowerCase();
 
-            return name.includes(value) || email.includes(value);
+            return (
+                firstname.includes(value) ||
+                lastname.includes(value) ||
+                email.includes(value)
+            );
         },
     },
     {
@@ -75,13 +80,13 @@ export const getColumns = (): ColumnDef<StaffType>[] => [
         },
         cell: ({ row }) => {
             const staff = row.original;
-            return <span>{staff.phone || "Non renseigné"}</span>;
+            return <span>{staff.phoneNumber || "Non renseigné"}</span>;
         },
     },
     {
         id: "languages",
         header: () => {
-            return <Trans i18nKey="manage-staff.staff-list.headers.header4" />;
+            return <Trans i18nKey="manage-staff.staff-list.headers.header5" />;
         },
         cell: ({ row }) => {
             const staff = row.original;
@@ -89,7 +94,7 @@ export const getColumns = (): ColumnDef<StaffType>[] => [
                 <div className="flex flex-wrap gap-1">
                     {staff.languages && staff.languages.length > 0 ? (
                         staff.languages.map((lang, index) => (
-                            <SimpleChip key={index}>{lang.language}</SimpleChip>
+                            <SimpleChip key={index}>{lang.title}</SimpleChip>
                         ))
                     ) : (
                         <span className="text-muted-foreground">
@@ -97,38 +102,6 @@ export const getColumns = (): ColumnDef<StaffType>[] => [
                         </span>
                     )}
                 </div>
-            );
-        },
-    },
-    {
-        id: "createdAt",
-        header: () => {
-            return <Trans i18nKey="manage-staff.staff-list.headers.header5" />;
-        },
-        cell: ({ row }) => {
-            const staff = row.original;
-            return (
-                <span>
-                    {format(new Date(staff.createdAt), "dd MMMM yyyy", {
-                        locale: fr,
-                    })}
-                </span>
-            );
-        },
-    },
-    {
-        id: "updatedAt",
-        header: () => {
-            return <Trans i18nKey="manage-staff.staff-list.headers.header6" />;
-        },
-        cell: ({ row }) => {
-            const staff = row.original;
-            return (
-                <span>
-                    {format(new Date(staff.updatedAt), "dd MMMM yyyy", {
-                        locale: fr,
-                    })}
-                </span>
             );
         },
     },

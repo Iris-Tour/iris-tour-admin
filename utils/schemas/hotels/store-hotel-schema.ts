@@ -15,13 +15,17 @@ export const storeHotelSchema = z.object({
         .string()
         .min(1, "Le contact est requis")
         .min(10, "Le contact doit contenir au moins 10 caractères"),
-    hotelImages: z.custom<File[]>(
-        (files) => {
-            if (!Array.isArray(files)) return false;
-            return files.every((file) => file instanceof File);
-        },
-        {
-            message: "Les fichiers doivent être des images valides.",
-        }
-    ),
+    hotelImages: z
+        .custom<File[]>(
+            (files) => {
+                if (!Array.isArray(files)) return false;
+                return files.every((file) => file instanceof File);
+            },
+            {
+                message: "Les fichiers doivent être des images valides.",
+            }
+        )
+        .refine((files) => files.length > 0, {
+            message: "Au moins une image est requise.",
+        }),
 });

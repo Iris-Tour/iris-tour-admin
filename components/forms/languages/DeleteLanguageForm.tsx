@@ -1,37 +1,37 @@
-import Button2 from "@/components/buttons/Button2";
-import SpinningCircle from "@/components/spinners/SpinningCircle";
-import { DialogClose } from "@/components/ui/dialog";
-import useAuth from "@/hooks/useAuth";
-import { apiDeleteStaff } from "@/lib/api";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { FC } from "react";
-import { Trans } from "react-i18next";
-import { toast } from "sonner";
+"use client";
 
-interface DeleteStaffFormProps {
-    staff: StaffType;
+import { FC } from "react";
+import { Trans, useTranslation } from "react-i18next";
+import Button2 from "@/components/buttons/Button2";
+import { DialogClose } from "@/components/ui/dialog";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { apiDeleteLanguage } from "@/lib/api";
+import useAuth from "@/hooks/useAuth";
+import { toast } from "sonner";
+import SpinningCircle from "@/components/spinners/SpinningCircle";
+
+interface DeleteLanguageFormProps {
+    language: LanguageType;
 }
 
-const DeleteStaffForm: FC<DeleteStaffFormProps> = ({ staff }) => {
+const DeleteLanguageForm: FC<DeleteLanguageFormProps> = ({ language }) => {
+    const { t } = useTranslation();
     const { token } = useAuth();
     const queryClient = useQueryClient();
 
-    const staffName = staff.firstname + " " + staff.lastname;
-
-    const deleteStaffMutation = useMutation({
-        mutationFn: () => apiDeleteStaff(token!, staff.id.toString()),
-        onSuccess: (data: any) => {
-            // Update staff list
+    const deleteLanguageMutation = useMutation({
+        mutationFn: () => apiDeleteLanguage(token!, language.id),
+        onSuccess: () => {
             queryClient.invalidateQueries({
-                queryKey: ["get-all-staff"],
+                queryKey: ["get-all-languages"],
             });
 
             document.getElementById("dialog-close")?.click();
 
             toast.success(
                 <Trans
-                    i18nKey={`manage-staff.staff-list.delete-staff-dialog.success-messages.${data.message}`}
-                    values={{ staffName: staffName }}
+                    i18nKey="manage-languages.languages-list.delete-language-dialog.success-messages.Language deleted successfully"
+                    values={{ language: language.title }}
                     components={{ b: <b className="text-primary" /> }}
                 />
             );
@@ -42,7 +42,7 @@ const DeleteStaffForm: FC<DeleteStaffFormProps> = ({ staff }) => {
             } else {
                 toast.error(
                     <Trans
-                        i18nKey={`manage-staff.staff-list.delete-staff-dialog.error-messages.${error.message}`}
+                        i18nKey={`manage-languages.languages-list.delete-language-dialog.error-messages.${error.message}`}
                     />
                 );
             }
@@ -50,7 +50,7 @@ const DeleteStaffForm: FC<DeleteStaffFormProps> = ({ staff }) => {
     });
 
     const onSubmit = () => {
-        deleteStaffMutation.mutate();
+        deleteLanguageMutation.mutate();
     };
 
     return (
@@ -58,8 +58,8 @@ const DeleteStaffForm: FC<DeleteStaffFormProps> = ({ staff }) => {
             <div>
                 <p>
                     <Trans
-                        i18nKey="manage-staff.staff-list.delete-staff-dialog.description"
-                        values={{ staffName: staffName }}
+                        i18nKey="manage-languages.languages-list.delete-language-dialog.description"
+                        values={{ language: language.title }}
                         components={{ b: <b className="text-primary" /> }}
                     />
                 </p>
@@ -67,19 +67,21 @@ const DeleteStaffForm: FC<DeleteStaffFormProps> = ({ staff }) => {
             <div className="flex items-center justify-end gap-3">
                 <DialogClose asChild>
                     <Button2 className="text-primary hover:text-white bg-white hover:bg-primary">
-                        <Trans i18nKey="manage-staff.staff-list.delete-staff-dialog.button1" />
+                        {t(
+                            "manage-languages.languages-list.delete-language-dialog.button1"
+                        )}
                     </Button2>
                 </DialogClose>
 
                 <DialogClose id="dialog-close"></DialogClose>
                 <Button2
                     onClick={onSubmit}
-                    disabled={deleteStaffMutation.isPending}
+                    disabled={deleteLanguageMutation.isPending}
                 >
-                    {deleteStaffMutation.isPending ? (
+                    {deleteLanguageMutation.isPending ? (
                         <SpinningCircle />
                     ) : (
-                        <Trans i18nKey="manage-staff.staff-list.delete-staff-dialog.button2" />
+                        <Trans i18nKey="manage-languages.languages-list.delete-language-dialog.button2" />
                     )}
                 </Button2>
             </div>
@@ -87,4 +89,4 @@ const DeleteStaffForm: FC<DeleteStaffFormProps> = ({ staff }) => {
     );
 };
 
-export default DeleteStaffForm;
+export default DeleteLanguageForm;

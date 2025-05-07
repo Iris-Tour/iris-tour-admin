@@ -558,21 +558,25 @@
                 },
                 "field2": { "title": "Nom", "placeholder": "Entrez le nom" },
                 "field3": {
+                    "title": "Prénom",
+                    "placeholder": "Entrez le prénom"
+                },
+                "field4": {
                     "title": "Type",
                     "placeholder": "Entrez le type",
                     "no-results-text": "Aucun type trouvé."
                 },
-                "field4": {
+                "field5": {
                     "title": "Téléphone",
                     "placeholder": "Entrez le numéro de téléphone"
                 },
-                "field5": { "title": "Email", "placeholder": "Entrez l'email" },
-                "field6": {
+                "field6": { "title": "Email", "placeholder": "Entrez l'email" },
+                "field7": {
                     "title": "Langues",
                     "placeholder": "Sélectionnez les langues",
                     "no-results-text": "Aucune langue trouvée."
                 },
-                "field7": {
+                "field8": {
                     "title": "Adresse",
                     "placeholder": "Entrez l'adresse"
                 },
@@ -592,21 +596,25 @@
                 },
                 "field2": { "title": "Nom", "placeholder": "Entrez le nom" },
                 "field3": {
+                    "title": "Prénom",
+                    "placeholder": "Entrez le prénom"
+                },
+                "field4": {
                     "title": "Type",
                     "placeholder": "Entrez le type",
                     "no-results-text": "Aucun type trouvé."
                 },
-                "field4": {
+                "field5": {
                     "title": "Téléphone",
                     "placeholder": "Entrez le numéro de téléphone"
                 },
-                "field5": { "title": "Email", "placeholder": "Entrez l'email" },
-                "field6": {
+                "field6": { "title": "Email", "placeholder": "Entrez l'email" },
+                "field7": {
                     "title": "Langues",
                     "placeholder": "Sélectionnez les langues",
                     "no-results-text": "Aucune langue trouvée."
                 },
-                "field7": {
+                "field8": {
                     "title": "Adresse",
                     "placeholder": "Entrez l'adresse"
                 },
@@ -683,6 +691,96 @@
             "success-messages": {
                 "Site deleted successfully": "Le site touristique <b>{{site}}</b> a été supprimé avec succès."
             }
+        },
+        "add-touristic-site-dialog": {
+            "cta": "Ajouter le site",
+            "field1": {
+                "title": "Nom du site",
+                "placeholder": "Entrez le nom du site"
+            },
+            "field2": {
+                "title": "Description",
+                "placeholder": "Entrez la description du site"
+            },
+            "field3": {
+                "title": "Adresse",
+                "placeholder": "Entrez l'adresse du site"
+            },
+            "field4": {
+                "title": "Catégorie",
+                "placeholder": "Sélectionnez une catégorie"
+            },
+            "field5": {
+                "title": "Horaires",
+                "placeholder": "Entrez les horaires"
+            },
+            "field6": {
+                "title": "Prix d'entrée",
+                "placeholder": "Entrez le prix d'entrée"
+            },
+            "field7": {
+                "title": "Note moyenne",
+                "placeholder": "Entrez la note moyenne"
+            },
+            "field8": {
+                "title": "Statut légal",
+                "placeholder": "Entrez le statut légal du site"
+            },
+            "field9": {
+                "title": "Guide assigné",
+                "placeholder": "Sélectionnez un guide"
+            },
+            "field10": {
+                "title": "Accessibilité pour les personnes handicapées"
+            },
+            "field11": {
+                "title": "Images du site"
+            }
+        },
+        "update-touristic-site-dialog": {
+            "cta": "Mettre à jour le site",
+            "field1": {
+                "title": "Nom du site",
+                "placeholder": "Entrez le nom du site"
+            },
+            "field2": {
+                "title": "Description",
+                "placeholder": "Entrez la description du site"
+            },
+            "field3": {
+                "title": "Adresse",
+                "placeholder": "Entrez l'adresse du site"
+            },
+            "field4": {
+                "title": "Catégorie",
+                "placeholder": "Sélectionnez une catégorie"
+            },
+            "field5": {
+                "title": "Horaires",
+                "placeholder": "Entrez les horaires"
+            },
+            "field6": {
+                "title": "Prix d'entrée",
+                "placeholder": "Entrez le prix d'entrée"
+            },
+            "field7": {
+                "title": "Note moyenne",
+                "placeholder": "Entrez la note moyenne"
+            },
+            "field8": {
+                "title": "Statut légal",
+                "placeholder": "Entrez le statut légal du site"
+            },
+            "field9": {
+                "title": "Guide assigné",
+                "placeholder": "Sélectionnez un guide"
+            },
+            "field10": {
+                "title": "Accessibilité pour les personnes handicapées"
+            },
+            "field11": {
+                "title": "Images du site"
+            }
         }
     },
     "hotels": {
@@ -754,6 +852,73 @@
             "button2": "Supprimer",
             "success-messages": {
                 "Hotel deleted successfully": "L'hôtel <b>{{hotel}}</b> a été supprimé avec succès."
+            }
+        }
+    },
+    "manage-languages": {
+        "languages-list": {
+            "title": "Liste des langues",
+            "subheading": "Gérez les langues disponibles dans l'application",
+            "actions": {
+                "edit": "Modifier la langue",
+                "delete": "Supprimer la langue"
+            },
+            "add-language-dialog": {
+                "title": "Ajouter une langue",
+                "description": "Remplissez le formulaire ci-dessous pour ajouter une nouvelle langue",
+                "trigger": "Ajouter une langue",
+                "cta": "Ajouter",
+                "field1": {
+                    "title": "Nom de la langue",
+                    "placeholder": "Entrez le nom de la langue"
+                },
+                "success-messages": {
+                    "Language created successfully": "La langue a été créée avec succès"
+                },
+                "error-messages": {
+                    "validation_error": {
+                        "title": {
+                            "required": "Le nom de la langue est requis",
+                            "string": "Le nom de la langue doit être une chaîne de caractères",
+                            "min": "Le nom de la langue doit contenir au moins 2 caractères",
+                            "max": "Le nom de la langue ne doit pas dépasser 50 caractères"
+                        }
+                    }
+                }
+            },
+            "update-language-dialog": {
+                "title": "Modifier la langue",
+                "description": "Modifiez les informations de la langue",
+                "cta": "Mettre à jour",
+                "field1": {
+                    "title": "Nom de la langue",
+                    "placeholder": "Entrez le nom de la langue"
+                },
+                "success-messages": {
+                    "Language updated successfully": "La langue a été mise à jour avec succès"
+                },
+                "error-messages": {
+                    "validation_error": {
+                        "title": {
+                            "required": "Le nom de la langue est requis",
+                            "string": "Le nom de la langue doit être une chaîne de caractères",
+                            "min": "Le nom de la langue doit contenir au moins 2 caractères",
+                            "max": "Le nom de la langue ne doit pas dépasser 50 caractères"
+                        }
+                    }
+                }
+            },
+            "delete-language-dialog": {
+                "title": "Supprimer la langue",
+                "description": "Êtes-vous sûr de vouloir supprimer la langue <b>{{language}}</b> ?",
+                "button1": "Annuler",
+                "button2": "Supprimer",
+                "success-messages": {
+                    "Language deleted successfully": "La langue <b>{{language}}</b> a été supprimée avec succès"
+                },
+                "error-messages": {
+                    "Language deletion failed": "Une erreur est survenue lors de la suppression de la langue"
+                }
             }
         }
     }

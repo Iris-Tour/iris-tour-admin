@@ -26,6 +26,7 @@ import { FC } from "react";
 import { getServerUrl } from "@/lib/utils";
 import ScheduleTimePicker from "@/components/inputs/ScheduleTimePicker";
 import { Checkbox } from "@/components/ui/checkbox";
+import { useTranslation } from "react-i18next";
 
 const formSchema = updateTouristicSiteSchema;
 
@@ -38,6 +39,7 @@ interface UpdateTouristicSiteFormProps {
 const UpdateTouristicSiteForm: FC<UpdateTouristicSiteFormProps> = ({
     site,
 }) => {
+    const { t } = useTranslation();
     const { token } = useAuth();
     const queryClient = useQueryClient();
 
@@ -109,7 +111,7 @@ const UpdateTouristicSiteForm: FC<UpdateTouristicSiteFormProps> = ({
             form={form}
             onSubmit={onSubmit}
             mutation={updateTouristSiteMutation}
-            ctaText="Mettre à jour le site"
+            ctaText={t("touristic-sites.update-touristic-site-dialog.cta")}
             multipart={true}
         >
             <div className="grid grid-cols-1 gap-5">
@@ -119,11 +121,15 @@ const UpdateTouristicSiteForm: FC<UpdateTouristicSiteFormProps> = ({
                     render={({ field }) => (
                         <FormItem>
                             <FormLabel className="text-base">
-                                Nom du site
+                                {t(
+                                    "touristic-sites.update-touristic-site-dialog.field1.title"
+                                )}
                             </FormLabel>
                             <FormControl>
                                 <BaseInput
-                                    placeholder="Entrez le nom du site"
+                                    placeholder={t(
+                                        "touristic-sites.update-touristic-site-dialog.field1.placeholder"
+                                    )}
                                     {...field}
                                 />
                             </FormControl>
@@ -137,11 +143,15 @@ const UpdateTouristicSiteForm: FC<UpdateTouristicSiteFormProps> = ({
                     render={({ field }) => (
                         <FormItem>
                             <FormLabel className="text-base">
-                                Description
+                                {t(
+                                    "touristic-sites.update-touristic-site-dialog.field2.title"
+                                )}
                             </FormLabel>
                             <FormControl>
                                 <Textarea1
-                                    placeholder="Entrez la description du site"
+                                    placeholder={t(
+                                        "touristic-sites.update-touristic-site-dialog.field2.placeholder"
+                                    )}
                                     {...field}
                                 />
                             </FormControl>
@@ -154,10 +164,16 @@ const UpdateTouristicSiteForm: FC<UpdateTouristicSiteFormProps> = ({
                     name="address"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel className="text-base">Adresse</FormLabel>
+                            <FormLabel className="text-base">
+                                {t(
+                                    "touristic-sites.update-touristic-site-dialog.field3.title"
+                                )}
+                            </FormLabel>
                             <FormControl>
                                 <BaseInput
-                                    placeholder="Entrez l'adresse du site"
+                                    placeholder={t(
+                                        "touristic-sites.update-touristic-site-dialog.field3.placeholder"
+                                    )}
                                     {...field}
                                 />
                             </FormControl>
@@ -171,7 +187,9 @@ const UpdateTouristicSiteForm: FC<UpdateTouristicSiteFormProps> = ({
                     render={({ field }) => (
                         <FormItem>
                             <FormLabel className="text-base">
-                                Catégorie
+                                {t(
+                                    "touristic-sites.update-touristic-site-dialog.field4.title"
+                                )}
                             </FormLabel>
                             <FormControl>
                                 <Select1
@@ -192,7 +210,9 @@ const UpdateTouristicSiteForm: FC<UpdateTouristicSiteFormProps> = ({
                                         },
                                         { label: "Autre", value: "Autre" },
                                     ]}
-                                    placeholder="Sélectionnez une catégorie"
+                                    placeholder={t(
+                                        "touristic-sites.update-touristic-site-dialog.field4.placeholder"
+                                    )}
                                     value={field.value}
                                     onValueChange={field.onChange}
                                 />
@@ -206,84 +226,98 @@ const UpdateTouristicSiteForm: FC<UpdateTouristicSiteFormProps> = ({
                         control={form.control}
                         name="schedule.lundi"
                         render={({ field }) => (
-                            <ScheduleTimePicker
-                                day="Lundi"
-                                control={form.control}
-                                name="schedule.lundi"
-                                field={field}
-                            />
+                            <FormItem>
+                                <ScheduleTimePicker
+                                    day="Lundi"
+                                    control={form.control}
+                                    name="schedule.lundi"
+                                    field={field}
+                                />
+                            </FormItem>
                         )}
                     />
                     <FormField
                         control={form.control}
                         name="schedule.mardi"
                         render={({ field }) => (
-                            <ScheduleTimePicker
-                                day="Mardi"
-                                control={form.control}
-                                name="schedule.mardi"
-                                field={field}
-                            />
+                            <FormItem>
+                                <ScheduleTimePicker
+                                    day="Mardi"
+                                    control={form.control}
+                                    name="schedule.mardi"
+                                    field={field}
+                                />
+                            </FormItem>
                         )}
                     />
                     <FormField
                         control={form.control}
                         name="schedule.mercredi"
                         render={({ field }) => (
-                            <ScheduleTimePicker
-                                day="Mercredi"
-                                control={form.control}
-                                name="schedule.mercredi"
-                                field={field}
-                            />
+                            <FormItem>
+                                <ScheduleTimePicker
+                                    day="Mercredi"
+                                    control={form.control}
+                                    name="schedule.mercredi"
+                                    field={field}
+                                />
+                            </FormItem>
                         )}
                     />
                     <FormField
                         control={form.control}
                         name="schedule.jeudi"
                         render={({ field }) => (
-                            <ScheduleTimePicker
-                                day="Jeudi"
-                                control={form.control}
-                                name="schedule.jeudi"
-                                field={field}
-                            />
+                            <FormItem>
+                                <ScheduleTimePicker
+                                    day="Jeudi"
+                                    control={form.control}
+                                    name="schedule.jeudi"
+                                    field={field}
+                                />
+                            </FormItem>
                         )}
                     />
                     <FormField
                         control={form.control}
                         name="schedule.vendredi"
                         render={({ field }) => (
-                            <ScheduleTimePicker
-                                day="Vendredi"
-                                control={form.control}
-                                name="schedule.vendredi"
-                                field={field}
-                            />
+                            <FormItem>
+                                <ScheduleTimePicker
+                                    day="Vendredi"
+                                    control={form.control}
+                                    name="schedule.vendredi"
+                                    field={field}
+                                />
+                            </FormItem>
                         )}
                     />
                     <FormField
                         control={form.control}
                         name="schedule.samedi"
                         render={({ field }) => (
-                            <ScheduleTimePicker
-                                day="Samedi"
-                                control={form.control}
-                                name="schedule.samedi"
-                                field={field}
-                            />
+                            <FormItem>
+                                <ScheduleTimePicker
+                                    day="Samedi"
+                                    control={form.control}
+                                    name="schedule.samedi"
+                                    field={field}
+                                />
+                            </FormItem>
                         )}
                     />
                     <FormField
                         control={form.control}
                         name="schedule.dimanche"
                         render={({ field }) => (
-                            <ScheduleTimePicker
-                                day="Dimanche"
-                                control={form.control}
-                                name="schedule.dimanche"
-                                field={field}
-                            />
+                            <FormItem>
+                                <ScheduleTimePicker
+                                    day="Dimanche"
+                                    control={form.control}
+                                    name="schedule.dimanche"
+                                    field={field}
+                                />
+                            </FormItem>
                         )}
                     />
                 </div>
@@ -293,11 +327,12 @@ const UpdateTouristicSiteForm: FC<UpdateTouristicSiteFormProps> = ({
                     render={({ field }) => (
                         <FormItem>
                             <FormLabel className="text-base">
-                                Prix d'entrée
+                                {t(
+                                    "touristic-sites.update-touristic-site-dialog.field6.title"
+                                )}
                             </FormLabel>
                             <FormControl>
                                 <NumericInput
-                                    ref={field.ref}
                                     thousandSeparator=" "
                                     decimalSeparator=","
                                     allowNegative={false}
@@ -305,8 +340,10 @@ const UpdateTouristicSiteForm: FC<UpdateTouristicSiteFormProps> = ({
                                     decimalScale={0}
                                     fixedDecimalScale
                                     inputSuffix="FCFA"
-                                    placeholder="Entrez le prix d'entrée"
-                                    value={field.value ?? ""}
+                                    placeholder={t(
+                                        "touristic-sites.update-touristic-site-dialog.field6.placeholder"
+                                    )}
+                                    value={field.value}
                                     onValueChange={({ floatValue }) => {
                                         field.onChange(
                                             floatValue?.toString() ?? ""
@@ -320,15 +357,51 @@ const UpdateTouristicSiteForm: FC<UpdateTouristicSiteFormProps> = ({
                 />
                 <FormField
                     control={form.control}
+                    name="averageRating"
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel className="text-base">
+                                {t(
+                                    "touristic-sites.update-touristic-site-dialog.field7.title"
+                                )}
+                            </FormLabel>
+                            <FormControl>
+                                <NumericInput
+                                    thousandSeparator=""
+                                    decimalSeparator=","
+                                    allowNegative={false}
+                                    allowLeadingZeros={false}
+                                    decimalScale={1}
+                                    fixedDecimalScale
+                                    inputSuffix=""
+                                    placeholder={t(
+                                        "touristic-sites.update-touristic-site-dialog.field7.placeholder"
+                                    )}
+                                    value={field.value}
+                                    onValueChange={({ floatValue }) => {
+                                        field.onChange(floatValue ?? 0);
+                                    }}
+                                />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
+                <FormField
+                    control={form.control}
                     name="legalStatus"
                     render={({ field }) => (
                         <FormItem>
                             <FormLabel className="text-base">
-                                Statut légal
+                                {t(
+                                    "touristic-sites.update-touristic-site-dialog.field8.title"
+                                )}
                             </FormLabel>
                             <FormControl>
                                 <BaseInput
-                                    placeholder="Entrez le statut légal du site"
+                                    placeholder={t(
+                                        "touristic-sites.update-touristic-site-dialog.field8.placeholder"
+                                    )}
                                     {...field}
                                 />
                             </FormControl>
@@ -342,15 +415,21 @@ const UpdateTouristicSiteForm: FC<UpdateTouristicSiteFormProps> = ({
                     render={({ field }) => (
                         <FormItem>
                             <FormLabel className="text-base">
-                                Guide assigné
+                                {t(
+                                    "touristic-sites.update-touristic-site-dialog.field9.title"
+                                )}
                             </FormLabel>
                             <FormControl>
                                 <ProfileSelect
                                     staffs={siteGuides}
                                     value={field.value}
                                     onChange={field.onChange}
-                                    placeholder="Sélectionnez un guide"
-                                    label="Guide assigné"
+                                    placeholder={t(
+                                        "touristic-sites.update-touristic-site-dialog.field9.placeholder"
+                                    )}
+                                    label={t(
+                                        "touristic-sites.update-touristic-site-dialog.field9.title"
+                                    )}
                                 />
                             </FormControl>
                             <FormMessage />
@@ -369,7 +448,9 @@ const UpdateTouristicSiteForm: FC<UpdateTouristicSiteFormProps> = ({
                                 />
                             </FormControl>
                             <FormLabel className="text-sm md:text-base">
-                                Accessibilité pour les personnes handicapées
+                                {t(
+                                    "touristic-sites.update-touristic-site-dialog.field10.title"
+                                )}
                             </FormLabel>
                         </FormItem>
                     )}
@@ -380,7 +461,9 @@ const UpdateTouristicSiteForm: FC<UpdateTouristicSiteFormProps> = ({
                     render={({ field }) => (
                         <FormItem>
                             <FormLabel className="text-base">
-                                Images du site
+                                {t(
+                                    "touristic-sites.update-touristic-site-dialog.field11.title"
+                                )}
                             </FormLabel>
                             <FormControl>
                                 <FileUpload

@@ -41,7 +41,9 @@ export const storeEventSchema = z
                 message: "Le nombre maximum de ticket doit être positif.",
             }),
         targetAudience: z.string(),
-        eventLanguages: z.array(z.string()),
+        languages: z
+            .array(z.string())
+            .min(1, { message: "Au moins une langue est requise." }),
         accessibilityForDisabled: z.boolean(),
         program: z.string(),
         promotionalImage: z.custom<File[]>(

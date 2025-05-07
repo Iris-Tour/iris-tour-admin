@@ -7,18 +7,13 @@ import {
     User,
     UserSquare,
 } from "iconsax-react";
-import { MountainSnow, UserCog, Hotel } from "lucide-react";
+import { MountainSnow, UserCog, Hotel, Languages } from "lucide-react";
 
 export const sidebarItems = [
     {
         title: "Tableau de bord",
         url: "/dashboard",
         icon: House2,
-    },
-    {
-        title: "Gestion des réservations",
-        url: "/manage-reservations",
-        icon: BookSaved,
     },
     {
         title: "Excursions",
@@ -40,8 +35,6 @@ export const sidebarItems = [
         url: "/manage-hotels",
         icon: Hotel,
     },
-
-    { title: "Transports", url: "/transport", icon: Bus },
     {
         title: "Rôles & Permissions",
         url: "/roles-and-permissions",
@@ -57,4 +50,15 @@ export const sidebarItems = [
         url: "/manage-staff",
         icon: UserSquare,
     },
+    {
+        title: "Gestion des langues",
+        url: "/manage-languages",
+        icon: Languages,
+    },
+    {
+        title: "Gestion des réservations",
+        url: "/manage-reservations",
+        icon: BookSaved,
+    },
+    { title: "Transports", url: "/transport", icon: Bus },
 ];

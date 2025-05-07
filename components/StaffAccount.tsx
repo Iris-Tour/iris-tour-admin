@@ -14,22 +14,26 @@ const StaffAccount: FC<StaffAccountProps> = ({ user }) => {
                 {user.imagePath?.[0]?.path ? (
                     <AvatarImage
                         src={`${getServerUrl()}/${user.imagePath[0].path}`}
-                        alt={user.name}
+                        alt={`${user.firstname} ${user.lastname}`}
                     />
                 ) : (
                     <AvatarFallback
                         style={{
-                            backgroundColor: getRandomColor(user.name),
+                            backgroundColor: getRandomColor(
+                                `${user.firstname} ${user.lastname}`
+                            ),
                         }}
                     >
-                        {getInitials(user.name)}
+                        {getInitials(
+                            `${user.firstname} ${user.lastname}`
+                        )}
                     </AvatarFallback>
                 )}
             </Avatar>
 
             <div className="flex flex-col">
                 <span className="font-bold text-[18px] leading-5">
-                    {user.name}
+                    {`${user.firstname} ${user.lastname}`}
                 </span>
                 <span className="text-sm text-gray-500">{user.email}</span>
             </div>

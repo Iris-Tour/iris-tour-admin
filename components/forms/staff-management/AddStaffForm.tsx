@@ -1,6 +1,6 @@
 "use client";
 
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -14,8 +14,8 @@ import {
 import { useTranslation } from "react-i18next";
 import useAuth from "@/hooks/useAuth";
 import BaseInput from "@/components/inputs/BaseInput";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { apiStoreStaff } from "@/lib/api";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { apiGetAllLanguages, apiStoreStaff } from "@/lib/api";
 import {
     storeStaffSchema,
     StoreStaffSchemaType,
@@ -34,19 +34,28 @@ const AddStaffForm: FC = () => {
     const { token } = useAuth();
     const queryClient = useQueryClient();
 
-    const languages = [
-        { label: "Français", value: "Français" },
-        { label: "English", value: "English" },
-        { label: "Español", value: "Español" },
-    ];
+    const [languages, setLanguages] = useState<LanguageType[]>([]);
+
+    const languagesQuery = useQuery({
+        queryKey: ["get-all-languages"],
+        queryFn: () => apiGetAllLanguages(token!),
+    });
+
+    useEffect(() => {
+        if (languagesQuery.data) {
+            setLanguages(languagesQuery.data);
+        }
+    }, [languagesQuery.data]);
 
     const form = useForm<StoreStaffSchemaType>({
         resolver: zodResolver(storeStaffSchema),
         defaultValues: {
             image_path: [],
-            name: "",
+            firstname: "",
+            lastname: "",
             type: undefined,
-            phone: "",
+            dialCode: "+221",
+            phoneNumber: "",
             email: "",
             languages: [],
             address: "",
@@ -126,7 +135,7 @@ const AddStaffForm: FC = () => {
 
                 <FormField
                     control={form.control}
-                    name="name"
+                    name="lastname"
                     render={({ field }) => (
                         <FormItem>
                             <FormLabel className="text-base">
@@ -149,12 +158,35 @@ const AddStaffForm: FC = () => {
 
                 <FormField
                     control={form.control}
-                    name="type"
+                    name="firstname"
                     render={({ field }) => (
                         <FormItem>
                             <FormLabel className="text-base">
                                 {t(
                                     "manage-staff.staff-list.add-staff-dialog.field3.title"
+                                )}
+                            </FormLabel>
+                            <FormControl>
+                                <BaseInput
+                                    placeholder={t(
+                                        "manage-staff.staff-list.add-staff-dialog.field3.placeholder"
+                                    )}
+                                    {...field}
+                                />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
+
+                <FormField
+                    control={form.control}
+                    name="type"
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel className="text-base">
+                                {t(
+                                    "manage-staff.staff-list.add-staff-dialog.field4.title"
                                 )}
                             </FormLabel>
                             <SelectWithSearch
@@ -164,10 +196,10 @@ const AddStaffForm: FC = () => {
                                 }}
                                 options={staffTypes}
                                 placeholder={t(
-                                    "manage-staff.staff-list.add-staff-dialog.field3.placeholder"
+                                    "manage-staff.staff-list.add-staff-dialog.field4.placeholder"
                                 )}
                                 noResultsText={t(
-                                    "manage-staff.staff-list.add-staff-dialog.field3.no-results-text"
+                                    "manage-staff.staff-list.add-staff-dialog.field4.no-results-text"
                                 )}
                             />
                             <FormMessage />
@@ -177,12 +209,12 @@ const AddStaffForm: FC = () => {
 
                 <FormField
                     control={form.control}
-                    name="phone"
+                    name="phoneNumber"
                     render={({ field }) => (
                         <FormItem>
                             <FormLabel className="text-base">
                                 {t(
-                                    "manage-staff.staff-list.add-staff-dialog.field4.title"
+                                    "manage-staff.staff-list.add-staff-dialog.field5.title"
                                 )}
                             </FormLabel>
                             <FormControl>
@@ -192,7 +224,7 @@ const AddStaffForm: FC = () => {
                                         field.onChange(value);
                                     }}
                                     placeholder={t(
-                                        "manage-staff.staff-list.add-staff-dialog.field4.placeholder"
+                                        "manage-staff.staff-list.add-staff-dialog.field5.placeholder"
                                     )}
                                     maxLength={9}
                                 />
@@ -209,13 +241,13 @@ const AddStaffForm: FC = () => {
                         <FormItem>
                             <FormLabel className="text-base">
                                 {t(
-                                    "manage-staff.staff-list.add-staff-dialog.field5.title"
+                                    "manage-staff.staff-list.add-staff-dialog.field6.title"
                                 )}
                             </FormLabel>
                             <FormControl>
                                 <BaseInput
                                     placeholder={t(
-                                        "manage-staff.staff-list.add-staff-dialog.field5.placeholder"
+                                        "manage-staff.staff-list.add-staff-dialog.field6.placeholder"
                                     )}
                                     {...field}
                                 />
@@ -232,27 +264,39 @@ const AddStaffForm: FC = () => {
                         <FormItem>
                             <FormLabel className="text-base">
                                 {t(
-                                    "manage-staff.staff-list.add-staff-dialog.field6.title"
+                                    "manage-staff.staff-list.add-staff-dialog.field7.title"
                                 )}
                             </FormLabel>
                             <div className="space-y-2">
                                 <MultiselectWithPlaceholderAndClear
                                     onChange={(selectedOptions) => {
                                         const languages = selectedOptions.map(
-                                            (option) => option.value
+                                            (option) => option.value.toString()
                                         );
-
                                         field.onChange(languages);
                                     }}
-                                    options={languages}
+                                    options={
+                                        languages?.map((language) => ({
+                                            label: language.title,
+                                            value: language.id.toString(),
+                                        })) ?? []
+                                    }
+                                    value={field.value?.map((value) => ({
+                                        label:
+                                            languages?.find(
+                                                (lang) =>
+                                                    lang.id.toString() === value
+                                            )?.title || "",
+                                        value: value.toString(),
+                                    }))}
                                     label={t(
-                                        "manage-staff.staff-list.add-staff-dialog.field6.title"
+                                        "manage-staff.staff-list.add-staff-dialog.field7.title"
                                     )}
                                     placeholder={t(
-                                        "manage-staff.staff-list.add-staff-dialog.field6.placeholder"
+                                        "manage-staff.staff-list.add-staff-dialog.field7.placeholder"
                                     )}
                                     emptyMessage={t(
-                                        "manage-staff.staff-list.add-staff-dialog.field6.no-results-text"
+                                        "manage-staff.staff-list.add-staff-dialog.field7.no-results-text"
                                     )}
                                 />
                             </div>
@@ -268,13 +312,13 @@ const AddStaffForm: FC = () => {
                         <FormItem>
                             <FormLabel className="text-base">
                                 {t(
-                                    "manage-staff.staff-list.add-staff-dialog.field7.title"
+                                    "manage-staff.staff-list.add-staff-dialog.field8.title"
                                 )}
                             </FormLabel>
                             <FormControl>
                                 <BaseInput
                                     placeholder={t(
-                                        "manage-staff.staff-list.add-staff-dialog.field7.placeholder"
+                                        "manage-staff.staff-list.add-staff-dialog.field8.placeholder"
                                     )}
                                     {...field}
                                 />

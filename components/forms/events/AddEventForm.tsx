@@ -1,7 +1,5 @@
 "use client";
 
-import Button3 from "@/components/buttons/Button3";
-import SimpleChip from "@/components/chips/SimpleChip";
 import SharedForm from "@/components/forms/SharedForm";
 import DateTimePicker from "@/components/inputs/DateTimePicker";
 import FileUpload from "@/components/inputs/FileUpload";
@@ -12,28 +10,14 @@ import Select1 from "@/components/selects/Select1";
 import ProfileSelect from "@/components/selects/ProfileSelect";
 import MultiselectWithPlaceholderAndClear from "@/components/selects/MultiselectWithPlaceholderAndClear";
 import {
-    Command,
-    CommandEmpty,
-    CommandGroup,
-    CommandInput,
-    CommandItem,
-    CommandList,
-} from "@/components/ui/command";
-import {
     FormControl,
     FormField,
     FormItem,
     FormLabel,
     FormMessage,
 } from "@/components/ui/form";
-import {
-    Popover,
-    PopoverContent,
-    PopoverTrigger,
-} from "@/components/ui/popover";
 import useAuth from "@/hooks/useAuth";
-import { apiStoreEvent, apiGetAllStaff } from "@/lib/api";
-import { cn } from "@/lib/utils";
+import { apiStoreEvent, apiGetAllStaff, apiGetAllLanguages } from "@/lib/api";
 import {
     storeEventSchema,
     StoreEventSchemaType,
@@ -45,6 +29,7 @@ import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import { Checkbox } from "@/components/ui/checkbox";
+import { useState, useEffect } from "react";
 
 const AddEventForm = () => {
     const { t } = useTranslation();
@@ -53,6 +38,19 @@ const AddEventForm = () => {
 
     const queryClient = useQueryClient();
 
+    const [languages, setLanguages] = useState<LanguageType[]>([]);
+
+    const languagesQuery = useQuery({
+        queryKey: ["get-all-languages"],
+        queryFn: () => apiGetAllLanguages(token!),
+    });
+
+    useEffect(() => {
+        if (languagesQuery.data) {
+            setLanguages(languagesQuery.data);
+        }
+    }, [languagesQuery.data]);
+
     const { data: staffs = [] } = useQuery({
         queryKey: ["get-all-staffs"],
         queryFn: () => apiGetAllStaff(token!),
@@ -60,12 +58,6 @@ const AddEventForm = () => {
 
     // Filtrer pour n'avoir que les organisateurs (type 2)
     const eventOrganizers = staffs.filter((staff) => staff.type === 2);
-
-    const languages = [
-        { label: "Français", value: "Français" },
-        { label: "English", value: "English" },
-        { label: "Español", value: "Español" },
-    ];
 
     const form = useForm({
         resolver: zodResolver(storeEventSchema),
@@ -80,7 +72,7 @@ const AddEventForm = () => {
             ticketPrice: undefined,
             maximumCapacity: undefined,
             targetAudience: "",
-            eventLanguages: [],
+            languages: [],
             accessibilityForDisabled: false,
             program: "",
             promotionalImage: [],
@@ -385,7 +377,7 @@ const AddEventForm = () => {
                 />
                 <FormField
                     control={form.control}
-                    name="eventLanguages"
+                    name="languages"
                     render={({ field }) => (
                         <FormItem>
                             <FormLabel className="text-base">
@@ -395,11 +387,24 @@ const AddEventForm = () => {
                                 <MultiselectWithPlaceholderAndClear
                                     onChange={(selectedOptions) => {
                                         const languages = selectedOptions.map(
-                                            (option) => option.value
+                                            (option) => option.value.toString()
                                         );
                                         field.onChange(languages);
                                     }}
-                                    options={languages}
+                                    options={
+                                        languages?.map((language) => ({
+                                            label: language.title,
+                                            value: language.id.toString(),
+                                        })) ?? []
+                                    }
+                                    value={field.value?.map((value) => ({
+                                        label:
+                                            languages?.find(
+                                                (lang) =>
+                                                    lang.id.toString() === value
+                                            )?.title || "",
+                                        value: value.toString(),
+                                    }))}
                                     label={t(
                                         "events.add-event-dialog.field11.title"
                                     )}

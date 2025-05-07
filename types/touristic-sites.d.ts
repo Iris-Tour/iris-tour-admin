@@ -59,7 +59,15 @@ type UpdateTouristicSiteMutation = {
     description: string;
     address: string;
     category: string;
-    schedule: { [key: string]: string };
+    schedule: {
+        lundi: string;
+        mardi: string;
+        mercredi: string;
+        jeudi: string;
+        vendredi: string;
+        samedi: string;
+        dimanche: string;
+    };
     entranceFee: string;
     accessibilityForDisabled: boolean;
     averageRating: number;

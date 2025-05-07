@@ -1,22 +1,24 @@
 // Staff Types
 type StaffType = {
-    id: string;
+    id: number;
+    firstname: string;
+    lastname: string;
+    type: number;
+    dialCode: string;
+    phoneNumber: string;
+    email: string;
     imagePath: {
-        id: string;
+        id: number;
         name: string;
         size: number;
         path: string;
         type: string;
     }[];
-    name: string;
-    type: number;
-    phone: string;
-    email: string;
-    languages: {
-        id: string;
-        language: string;
-    }[];
     address: string;
+    languages: {
+        id: number;
+        title: string;
+    }[];
     createdAt: string;
     updatedAt: string;
 };
@@ -25,9 +27,11 @@ type GetAllStaffPromise = StaffType[];
 
 type StoreStaffMutation = {
     image_path: File[];
-    name: string;
+    firstname: string;
+    lastname: string;
     type: number;
-    phone: string;
+    dialCode: string;
+    phoneNumber: string;
     email: string;
     languages: string[];
     address: string;
@@ -40,9 +44,11 @@ type StoreStaffPromise = {
 
 type UpdateStaffMutation = {
     image_path: File[];
-    name: string;
+    firstname: string;
+    lastname: string;
     type: number;
-    phone: string;
+    dialCode: string;
+    phoneNumber: string;
     email: string;
     languages: string[];
     address: string;
