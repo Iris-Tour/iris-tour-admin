@@ -300,10 +300,7 @@ export default function TouristicSiteDetailsPage() {
                                                         touristicSite.staff
                                                             .imagePath[0].path
                                                     }`}
-                                                    alt={
-                                                        touristicSite.staff
-                                                            ?.name || ""
-                                                    }
+                                                    alt={`${touristicSite.staff.firstname} ${touristicSite.staff.lastname}`}
                                                     fill
                                                     className="object-cover"
                                                 />
@@ -311,28 +308,26 @@ export default function TouristicSiteDetailsPage() {
                                                 <div
                                                     className={getAvatarClasses(
                                                         {
-                                                            name: touristicSite
-                                                                .staff.name,
+                                                            name: `${touristicSite.staff.firstname} ${touristicSite.staff.lastname}`,
                                                             size: "lg",
                                                         }
                                                     )}
                                                     style={{
                                                         backgroundColor:
                                                             getRandomColor(
-                                                                touristicSite
-                                                                    .staff.name
+                                                                `${touristicSite.staff.firstname} ${touristicSite.staff.lastname}`
                                                             ),
                                                     }}
                                                 >
                                                     {getInitials(
-                                                        touristicSite.staff.name
+                                                        `${touristicSite.staff.firstname} ${touristicSite.staff.lastname}`
                                                     )}
                                                 </div>
                                             )}
                                         </div>
                                         <div>
                                             <span className="text-lg md:text-xl font-semibold">
-                                                {touristicSite.staff.name}
+                                                {`${touristicSite.staff.firstname} ${touristicSite.staff.lastname}`}
                                             </span>
                                             <p className="text-sm text-muted-foreground">
                                                 {touristicSite.staff.email}
@@ -345,7 +340,7 @@ export default function TouristicSiteDetailsPage() {
                                                 Téléphone
                                             </span>
                                             <span className="text-base">
-                                                {touristicSite.staff.phone ||
+                                                {`${touristicSite.staff.dialCode} ${touristicSite.staff.phoneNumber}` ||
                                                     "Non renseigné"}
                                             </span>
                                         </div>
@@ -364,7 +359,7 @@ export default function TouristicSiteDetailsPage() {
                                                                 key={index}
                                                                 className="inline-flex items-center px-2 py-0.5 rounded-full text-xs md:text-sm font-medium bg-primary/10 text-primary"
                                                             >
-                                                                {lang.language}
+                                                                {lang.title}
                                                             </span>
                                                         )
                                                     )
