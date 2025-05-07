@@ -51,7 +51,7 @@ export default function MultiselectWithPlaceholderAndClear({
                 commandProps={{
                     label,
                 }}
-                defaultOptions={options}
+                options={options}
                 placeholder={placeholder}
                 emptyIndicator={
                     <p className="text-center text-sm">{emptyMessage}</p>
