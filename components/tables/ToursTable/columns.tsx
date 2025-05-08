@@ -1,30 +1,9 @@
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
-import {
-    Dialog,
-    DialogContent,
-    DialogDescription,
-    DialogHeader,
-    DialogTitle,
-    DialogTrigger,
-} from "@/components/ui/dialog";
-import {
-    Calendar,
-    Edit2,
-    Eye,
-    Forbidden,
-    Location,
-    Trash,
-} from "iconsax-react";
+import { Location } from "iconsax-react";
 import { Checkbox } from "@/components/ui/checkbox";
-import { format } from "date-fns";
-import { fr } from "date-fns/locale";
-import UpdateTourForm from "@/components/forms/tours/UpdateTourForm";
-import DeleteTourForm from "@/components/forms/tours/DeleteTourForm";
-import DetailsTourForm from "@/components/forms/tours/DetailsTourForm";
 import ToursStatusChip from "@/components/chips/ToursStatusChip";
-import Link from "next/link";
 import ActionsCell from "./cells/ActionsCell";
 
 export const columns: ColumnDef<TourType>[] = [
