@@ -96,6 +96,7 @@ const UpdateStaffForm: FC<UpdateStaffFormProps> = ({ staff }) => {
             );
         },
         onError: (error: any) => {
+            console.log(error);
             const code = error?.error?.code;
             const field = error?.error?.messages[0].field;
             const rule = error?.error?.messages[0].rule;
