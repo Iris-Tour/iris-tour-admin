@@ -24,9 +24,7 @@ const StaffAccount: FC<StaffAccountProps> = ({ user }) => {
                             ),
                         }}
                     >
-                        {getInitials(
-                            `${user.firstname} ${user.lastname}`
-                        )}
+                        {getInitials(`${user.firstname} ${user.lastname}`)}
                     </AvatarFallback>
                 )}
             </Avatar>

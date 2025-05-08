@@ -8,7 +8,6 @@ import {
 } from "@/hooks/use-file-upload";
 import { Button } from "@/components/ui/button";
 import { FC, useEffect } from "react";
-import Image from "next/image";
 
 interface FileUploadProps {
     accept?: string;
@@ -134,11 +133,10 @@ const FileUpload: FC<FileUploadProps> = ({
                                     key={file.id}
                                     className="bg-accent relative aspect-square rounded-md"
                                 >
-                                    <Image
+                                    <img
                                         src={file.preview}
                                         alt={file.file.name}
                                         className="size-full rounded-[inherit] object-cover"
-                                        fill
                                     />
                                     <Button
                                         type="button"

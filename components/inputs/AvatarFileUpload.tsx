@@ -9,7 +9,6 @@ import {
     FileMetadata,
 } from "@/hooks/use-file-upload";
 import { Button } from "@/components/ui/button";
-import Image from "next/image";
 
 interface AvatarFileUploadProps {
     accept?: string;
@@ -105,7 +104,7 @@ export default function AvatarFileUpload({
                     aria-label={previewUrl ? "Change image" : "Upload image"}
                 >
                     {previewUrl ? (
-                        <Image
+                        <img
                             className="size-full object-cover"
                             src={previewUrl}
                             alt={files[0]?.file?.name || "Uploaded image"}

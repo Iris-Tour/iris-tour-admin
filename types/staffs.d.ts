@@ -8,7 +8,7 @@ type StaffType = {
     phoneNumber: string;
     email: string;
     imagePath: {
-        id: number;
+        id: string;
         name: string;
         size: number;
         path: string;

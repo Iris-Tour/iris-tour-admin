@@ -45,10 +45,13 @@ const UpdateStaffForm: FC<UpdateStaffFormProps> = ({ staff }) => {
     });
 
     useEffect(() => {
-        if (languagesQuery.data) {
+        if (
+            languagesQuery.data &&
+            JSON.stringify(languagesQuery.data) !== JSON.stringify(languages)
+        ) {
             setLanguages(languagesQuery.data);
         }
-    }, [languagesQuery.data]);
+    }, [languagesQuery.data, languages]);
 
     // Get the staff's image
     const staffImage = staff.imagePath.map((image) => ({
@@ -132,15 +135,7 @@ const UpdateStaffForm: FC<UpdateStaffFormProps> = ({ staff }) => {
                                     <AvatarFileUpload
                                         accept="image/png,image/jpeg,image/jpg"
                                         onFilesChange={field.onChange}
-                                        initialFiles={staffImage.map(
-                                            (image) => ({
-                                                id: image.id.toString(),
-                                                name: image.name,
-                                                size: image.size,
-                                                url: image.url,
-                                                type: image.type,
-                                            })
-                                        )}
+                                        initialFiles={staffImage}
                                     />
                                 </div>
                             </FormControl>
