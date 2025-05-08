@@ -22,27 +22,7 @@ type TourType = {
     createdAt: string;
     updatedAt: string;
     staffId: number;
-    staff: {
-        id: number;
-        name: string;
-        type: number;
-        phone: string;
-        email: string;
-        imagePath: Array<{
-            id: number;
-            path: string;
-            size: number;
-            name: string;
-            type: string;
-        }>;
-        languages: Array<{
-            order: number;
-            language: string;
-        }>;
-        address: string;
-        createdAt: string;
-        updatedAt: string;
-    };
+    staff: StaffType;
 };
 
 type GetAllToursPromise = Array<TourType>;

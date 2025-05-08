@@ -14,8 +14,9 @@ import {
     ArrowRight2,
     Calendar,
     User,
+    LanguageSquare,
+    InfoCircle,
 } from "iconsax-react";
-import { CheckCircle, XCircle } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
@@ -28,8 +29,10 @@ import Image from "next/image";
 import { getServerUrl } from "@/lib/utils";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { VisuallyHidden } from "@/components/ui/visually-hidden";
-import SectionContainer from "../containers/SectionContainer";
+import SectionContainer from "@/components/containers/SectionContainer";
 import EventsStatusChip from "@/components/chips/EventsStatusChip";
+import { eventCategories } from "@/constants/eventCategories";
+import { getAvatarClasses, getInitials, getRandomColor } from "@/utils/avatar";
 
 export default function EventDetailsPage() {
     const params = useParams();
@@ -170,7 +173,11 @@ export default function EventDetailsPage() {
                             </h1>
                             <p className="text-muted-foreground mt-1 flex items-center gap-2 text-base md:text-lg">
                                 <Tag className="w-5 h-5 stroke-muted-foreground" />
-                                {event.category}
+                                {eventCategories.find(
+                                    (category) =>
+                                        category.id.toString() ===
+                                        event.category
+                                )?.name || "Non catégorisé"}
                             </p>
                         </div>
                     </div>
@@ -365,7 +372,7 @@ export default function EventDetailsPage() {
                                     Public cible
                                 </span>
                                 <span className="text-lg md:text-xl font-semibold">
-                                    {event.targetAudience}
+                                    {event.targetAudience || "Non spécifié"}
                                 </span>
                             </div>
                         </div>
@@ -394,11 +401,35 @@ export default function EventDetailsPage() {
                 <Card className="border-none shadow-lg hover:shadow-xl transition-shadow duration-300 bg-gradient-to-br from-background to-background/50 backdrop-blur-sm">
                     <CardHeader className="pb-2">
                         <CardTitle className="flex items-center gap-2 text-lg md:text-xl">
-                            {event.accessibilityForDisabled ? (
-                                <CheckCircle className="w-6 h-6 stroke-primary" />
-                            ) : (
-                                <XCircle className="w-6 h-6 stroke-primary" />
-                            )}
+                            <LanguageSquare className="w-6 h-6 stroke-primary" />
+                            Langues
+                        </CardTitle>
+                    </CardHeader>
+                    <CardContent className="pt-0">
+                        <div className="space-y-3">
+                            <div className="flex flex-col gap-1">
+                                <span className="text-base font-medium text-muted-foreground">
+                                    Langues disponibles
+                                </span>
+                                <div className="flex flex-wrap gap-2">
+                                    {event.languages?.map((lang) => (
+                                        <span
+                                            key={lang.id}
+                                            className="px-3 py-1 rounded-full bg-primary/10 text-primary text-sm font-medium"
+                                        >
+                                            {lang.title}
+                                        </span>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+                    </CardContent>
+                </Card>
+
+                <Card className="border-none shadow-lg hover:shadow-xl transition-shadow duration-300 bg-gradient-to-br from-background to-background/50 backdrop-blur-sm">
+                    <CardHeader className="pb-2">
+                        <CardTitle className="flex items-center gap-2 text-lg md:text-xl">
+                            <InfoCircle className="w-6 h-6 stroke-primary" />
                             Accessibilité
                         </CardTitle>
                     </CardHeader>
@@ -418,10 +449,135 @@ export default function EventDetailsPage() {
                     </CardContent>
                 </Card>
 
-                <Card className="border-none shadow-lg hover:shadow-xl transition-shadow duration-300 bg-gradient-to-br from-background to-background/50 backdrop-blur-sm md:col-span-2">
+                <Card className="border-none shadow-lg hover:shadow-xl transition-shadow duration-300 bg-gradient-to-br from-background to-background/50 backdrop-blur-sm">
                     <CardHeader className="pb-2">
                         <CardTitle className="flex items-center gap-2 text-lg md:text-xl">
-                            <Tag className="w-6 h-6 stroke-primary" />
+                            <User className="w-6 h-6 stroke-primary" />
+                            Organisateur
+                        </CardTitle>
+                    </CardHeader>
+                    <CardContent className="pt-0">
+                        <div className="flex flex-col gap-3">
+                            {event.staffId ? (
+                                <>
+                                    <div className="flex items-center gap-3">
+                                        <div className="relative w-12 h-12 md:w-14 md:h-14 rounded-full overflow-hidden">
+                                            {event.staff?.imagePath?.[0]
+                                                ?.path ? (
+                                                <Image
+                                                    src={`${getServerUrl()}/${
+                                                        event.staff.imagePath[0]
+                                                            .path
+                                                    }`}
+                                                    alt={`${event.staff.firstname} ${event.staff.lastname}`}
+                                                    fill
+                                                    className="object-cover"
+                                                />
+                                            ) : (
+                                                <div
+                                                    className={getAvatarClasses(
+                                                        {
+                                                            name: `${event.staff.firstname} ${event.staff.lastname}`,
+                                                            size: "lg",
+                                                        }
+                                                    )}
+                                                    style={{
+                                                        backgroundColor:
+                                                            getRandomColor(
+                                                                `${event.staff.firstname} ${event.staff.lastname}`
+                                                            ),
+                                                    }}
+                                                >
+                                                    {getInitials(
+                                                        `${event.staff.firstname} ${event.staff.lastname}`
+                                                    )}
+                                                </div>
+                                            )}
+                                        </div>
+                                        <div>
+                                            <span className="text-lg md:text-xl font-semibold">
+                                                {`${event.staff.firstname} ${event.staff.lastname}`}
+                                            </span>
+                                            <p className="text-sm text-muted-foreground">
+                                                {event.staff.email}
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div className="grid grid-cols-2 gap-4 mt-2">
+                                        <div className="flex flex-col gap-1">
+                                            <span className="text-sm font-medium text-muted-foreground">
+                                                Téléphone
+                                            </span>
+                                            <span className="text-base">
+                                                {`${event.staff.dialCode} ${event.staff.phoneNumber}` ||
+                                                    "Non renseigné"}
+                                            </span>
+                                        </div>
+                                        <div className="flex flex-col gap-1">
+                                            <span className="text-sm font-medium text-muted-foreground">
+                                                Langues parlées
+                                            </span>
+                                            <div className="flex flex-wrap gap-1">
+                                                {event.staff.languages &&
+                                                event.staff.languages.length >
+                                                    0 ? (
+                                                    event.staff.languages.map(
+                                                        (lang, index) => (
+                                                            <span
+                                                                key={index}
+                                                                className="inline-flex items-center px-2 py-0.5 rounded-full text-xs md:text-sm font-medium bg-primary/10 text-primary"
+                                                            >
+                                                                {lang.title}
+                                                            </span>
+                                                        )
+                                                    )
+                                                ) : (
+                                                    <span className="text-base md:text-lg text-muted-foreground">
+                                                        Non renseigné
+                                                    </span>
+                                                )}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </>
+                            ) : (
+                                <div className="flex flex-col items-center justify-center py-4 text-center">
+                                    <User className="w-12 h-12 md:w-16 md:h-16 stroke-muted-foreground/50 mb-2" />
+                                    <span className="text-base md:text-lg text-muted-foreground">
+                                        Aucun organisateur assigné
+                                    </span>
+                                    <p className="text-sm md:text-base text-muted-foreground/70 mt-1">
+                                        Vous pouvez assigner un organisateur
+                                        dans les paramètres de l'événement
+                                    </p>
+                                </div>
+                            )}
+                        </div>
+                    </CardContent>
+                </Card>
+            </div>
+
+            {event.description && (
+                <Card className="border-none shadow-lg hover:shadow-xl transition-shadow duration-300 bg-gradient-to-br from-background to-background/50 backdrop-blur-sm">
+                    <CardHeader className="pb-2">
+                        <CardTitle className="text-lg md:text-xl">
+                            Description
+                        </CardTitle>
+                    </CardHeader>
+                    <CardContent className="pt-0">
+                        <div className="prose prose-base md:prose-lg max-w-none">
+                            <p className="text-foreground whitespace-pre-wrap leading-relaxed">
+                                {event.description}
+                            </p>
+                        </div>
+                    </CardContent>
+                </Card>
+            )}
+
+            {event.program && (
+                <Card className="border-none shadow-lg hover:shadow-xl transition-shadow duration-300 bg-gradient-to-br from-background to-background/50 backdrop-blur-sm">
+                    <CardHeader className="pb-2">
+                        <CardTitle className="text-lg md:text-xl">
                             Programme
                         </CardTitle>
                     </CardHeader>
@@ -433,22 +589,7 @@ export default function EventDetailsPage() {
                         </div>
                     </CardContent>
                 </Card>
-            </div>
-
-            <Card className="border-none shadow-lg hover:shadow-xl transition-shadow duration-300 bg-gradient-to-br from-background to-background/50 backdrop-blur-sm">
-                <CardHeader className="pb-2">
-                    <CardTitle className="text-lg md:text-xl">
-                        Description
-                    </CardTitle>
-                </CardHeader>
-                <CardContent className="pt-0">
-                    <div className="prose prose-base md:prose-lg max-w-none">
-                        <p className="text-foreground whitespace-pre-wrap leading-relaxed">
-                            {event.description}
-                        </p>
-                    </div>
-                </CardContent>
-            </Card>
+            )}
 
             {selectedImageIndex !== null && event.promotionalImage && (
                 <Dialog

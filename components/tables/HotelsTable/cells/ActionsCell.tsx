@@ -52,7 +52,7 @@ const ActionsCell = ({ hotel }: { hotel: HotelType }) => {
             </Dialog>
 
             <Link
-                href={`/hotels/${hotel.id}`}
+                href={`/manage-hotels/${hotel.id}`}
                 className="text-secondary hover:bg-secondary/10 px-2 py-2 rounded-md cursor-pointer transition"
             >
                 <span className="sr-only">

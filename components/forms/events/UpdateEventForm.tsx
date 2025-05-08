@@ -30,6 +30,7 @@ import { useForm } from "react-hook-form";
 import { Trans, useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import { Checkbox } from "@/components/ui/checkbox";
+import { eventCategories } from "@/constants/eventCategories";
 
 interface UpdateEventFormProps {
     event: EventType;
@@ -271,11 +272,12 @@ const UpdateEventForm: FC<UpdateEventFormProps> = ({ event }) => {
                             </FormLabel>
                             <FormControl>
                                 <Select1
-                                    options={[
-                                        { label: "Catégorie 1", value: "0" },
-                                        { label: "Catégorie 2", value: "1" },
-                                        { label: "Catégorie 3", value: "2" },
-                                    ]}
+                                    options={eventCategories.map(
+                                        (category) => ({
+                                            label: category.name,
+                                            value: category.id.toString(),
+                                        })
+                                    )}
                                     placeholder={t(
                                         "events.update-event-dialog.field6.placeholder"
                                     )}

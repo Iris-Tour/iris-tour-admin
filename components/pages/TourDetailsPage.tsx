@@ -1,22 +1,25 @@
 "use client";
 
 import { useParams } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { format } from "date-fns";
 import { fr } from "date-fns/locale";
 import {
-    Calendar,
     Location,
-    User,
     Tag,
     ArrowLeft,
-    Map,
     Gallery,
     CloseCircle,
     ArrowLeft2,
     ArrowRight2,
+    Calendar,
+    User,
+    Clock,
+    InfoCircle,
+    RouteSquare,
+    Ruler,
+    DollarCircle,
 } from "iconsax-react";
-import ToursStatusChip from "@/components/chips/ToursStatusChip";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
@@ -24,13 +27,17 @@ import Link from "next/link";
 import { useQuery } from "@tanstack/react-query";
 import { apiGetTourById } from "@/lib/api";
 import useAuth from "@/hooks/useAuth";
-import { Separator } from "@/components/ui/separator";
 import SpinningCircle from "@/components/spinners/SpinningCircle";
 import Image from "next/image";
 import { getServerUrl } from "@/lib/utils";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { VisuallyHidden } from "@/components/ui/visually-hidden";
 import SectionContainer from "../containers/SectionContainer";
+import ToursStatusChip from "@/components/chips/ToursStatusChip";
+import { difficulties } from "@/constants/difficulties";
+import { getInitials } from "@/utils/avatar";
+import { getRandomColor } from "@/utils/avatar";
+import { getAvatarClasses } from "@/utils/avatar";
 
 export default function TourDetailsPage() {
     const params = useParams();
@@ -38,6 +45,7 @@ export default function TourDetailsPage() {
     const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(
         null
     );
+
     const {
         data: tour,
         isLoading,
@@ -55,24 +63,41 @@ export default function TourDetailsPage() {
         setSelectedImageIndex(index);
     };
 
-    const handleClose = () => {
+    const handleClose = useCallback(() => {
         setSelectedImageIndex(null);
-    };
+    }, []);
 
-    const handlePrevious = () => {
+    const handlePrevious = useCallback(() => {
         if (selectedImageIndex === null || !tour?.mainImages) return;
         setSelectedImageIndex(
             (selectedImageIndex - 1 + tour.mainImages.length) %
                 tour.mainImages.length
         );
-    };
+    }, [selectedImageIndex, tour?.mainImages]);
 
-    const handleNext = () => {
+    const handleNext = useCallback(() => {
         if (selectedImageIndex === null || !tour?.mainImages) return;
         setSelectedImageIndex(
             (selectedImageIndex + 1) % tour.mainImages.length
         );
-    };
+    }, [selectedImageIndex, tour?.mainImages]);
+
+    useEffect(() => {
+        const handleKeyDown = (e: KeyboardEvent) => {
+            if (selectedImageIndex === null) return;
+
+            if (e.key === "ArrowLeft") {
+                handlePrevious();
+            } else if (e.key === "ArrowRight") {
+                handleNext();
+            } else if (e.key === "Escape") {
+                handleClose();
+            }
+        };
+
+        window.addEventListener("keydown", handleKeyDown);
+        return () => window.removeEventListener("keydown", handleKeyDown);
+    }, [selectedImageIndex, handlePrevious, handleNext, handleClose]);
 
     if (isLoading) {
         return (
@@ -133,6 +158,14 @@ export default function TourDetailsPage() {
         currency: "XOF",
     }).format(tour.excursionPrice);
 
+    const formattedCreatedAt = format(new Date(tour.createdAt), "PPP", {
+        locale: fr,
+    });
+
+    const formattedUpdatedAt = format(new Date(tour.updatedAt), "PPP", {
+        locale: fr,
+    });
+
     return (
         <div className="container mx-auto px-4 py-6 md:py-8 space-y-6 md:space-y-8">
             <SectionContainer>
@@ -152,8 +185,9 @@ export default function TourDetailsPage() {
                                 {tour.title}
                             </h1>
                             <p className="text-muted-foreground mt-1 flex items-center gap-2 text-base md:text-lg">
-                                <Map className="w-5 h-5 stroke-muted-foreground" />
-                                {tour.departurePoint} → {tour.arrivalPoint}
+                                <Tag className="w-5 h-5 stroke-muted-foreground" />
+                                Difficulté :{" "}
+                                {difficulties[tour.difficulty].label}
                             </p>
                         </div>
                     </div>
@@ -197,12 +231,12 @@ export default function TourDetailsPage() {
                 <Card className="border-none shadow-lg hover:shadow-xl transition-shadow duration-300 bg-gradient-to-br from-background to-background/50 backdrop-blur-sm">
                     <CardHeader className="pb-2">
                         <CardTitle className="flex items-center gap-2 text-lg md:text-xl">
-                            <Location className="w-6 h-6 stroke-primary" />
+                            <RouteSquare className="w-6 h-6 stroke-primary" />
                             Itinéraire
                         </CardTitle>
                     </CardHeader>
                     <CardContent className="pt-0">
-                        <div className="space-y-3">
+                        <div className="space-y-4">
                             <div className="flex flex-col gap-1">
                                 <span className="text-base font-medium text-muted-foreground">
                                     Point de départ
@@ -213,10 +247,18 @@ export default function TourDetailsPage() {
                             </div>
                             <div className="flex flex-col gap-1">
                                 <span className="text-base font-medium text-muted-foreground">
-                                    Destination
+                                    Point d'arrivée
                                 </span>
                                 <span className="text-lg md:text-xl font-semibold">
                                     {tour.arrivalPoint}
+                                </span>
+                            </div>
+                            <div className="flex flex-col gap-1">
+                                <span className="text-base font-medium text-muted-foreground">
+                                    Distance totale
+                                </span>
+                                <span className="text-lg md:text-xl font-semibold">
+                                    {tour.totalDistance} km
                                 </span>
                             </div>
                         </div>
@@ -341,19 +383,6 @@ export default function TourDetailsPage() {
                                     </span>
                                 </div>
                             </div>
-                            <div className="flex flex-col gap-1">
-                                <span className="text-base font-medium text-muted-foreground">
-                                    Places actuellement occupées
-                                </span>
-                                <div className="flex items-center gap-2">
-                                    <span className="text-lg md:text-xl font-semibold">
-                                        {tour.maxParticipants}
-                                    </span>
-                                    <span className="text-base text-muted-foreground">
-                                        personnes
-                                    </span>
-                                </div>
-                            </div>
                         </div>
                     </CardContent>
                 </Card>
@@ -361,7 +390,7 @@ export default function TourDetailsPage() {
                 <Card className="border-none shadow-lg hover:shadow-xl transition-shadow duration-300 bg-gradient-to-br from-background to-background/50 backdrop-blur-sm">
                     <CardHeader className="pb-2">
                         <CardTitle className="flex items-center gap-2 text-lg md:text-xl">
-                            <Tag className="w-6 h-6 stroke-primary" />
+                            <DollarCircle className="w-6 h-6 stroke-primary" />
                             Prix
                         </CardTitle>
                     </CardHeader>
@@ -377,100 +406,213 @@ export default function TourDetailsPage() {
                     </CardContent>
                 </Card>
 
-                <Card className="border-none shadow-lg hover:shadow-xl transition-shadow duration-300 bg-gradient-to-br from-background to-background/50 backdrop-blur-sm md:col-span-2">
+                <Card className="border-none shadow-lg hover:shadow-xl transition-shadow duration-300 bg-gradient-to-br from-background to-background/50 backdrop-blur-sm">
                     <CardHeader className="pb-2">
                         <CardTitle className="flex items-center gap-2 text-lg md:text-xl">
-                            <Tag className="w-6 h-6 stroke-primary" />
-                            Équipements requis
+                            <InfoCircle className="w-6 h-6 stroke-primary" />
+                            Équipement requis
                         </CardTitle>
                     </CardHeader>
                     <CardContent className="pt-0">
-                        <div className="prose prose-base md:prose-lg max-w-none">
-                            <p className="text-foreground whitespace-pre-wrap leading-relaxed">
-                                {tour.requiredEquipment}
-                            </p>
+                        <div className="space-y-3">
+                            <div className="flex flex-col gap-1">
+                                <span className="text-base font-medium text-muted-foreground">
+                                    Liste d'équipement
+                                </span>
+                                <span className="text-lg md:text-xl font-semibold">
+                                    {tour.requiredEquipment ||
+                                        "Aucun équipement spécifique requis"}
+                                </span>
+                            </div>
+                        </div>
+                    </CardContent>
+                </Card>
+
+                <Card className="border-none shadow-lg hover:shadow-xl transition-shadow duration-300 bg-gradient-to-br from-background to-background/50 backdrop-blur-sm">
+                    <CardHeader className="pb-2">
+                        <CardTitle className="flex items-center gap-2 text-lg md:text-xl">
+                            <User className="w-6 h-6 stroke-primary" />
+                            Guide assigné
+                        </CardTitle>
+                    </CardHeader>
+                    <CardContent className="pt-0">
+                        <div className="flex flex-col gap-3">
+                            {tour.staff ? (
+                                <>
+                                    <div className="flex items-center gap-3">
+                                        <div className="relative w-12 h-12 md:w-14 md:h-14 rounded-full overflow-hidden">
+                                            {tour.staff?.imagePath?.[0]
+                                                ?.path ? (
+                                                <Image
+                                                    src={`${getServerUrl()}/${
+                                                        tour.staff.imagePath[0]
+                                                            .path
+                                                    }`}
+                                                    alt={`${tour.staff.firstname} ${tour.staff.lastname}`}
+                                                    fill
+                                                    className="object-cover"
+                                                />
+                                            ) : (
+                                                <div
+                                                    className={getAvatarClasses(
+                                                        {
+                                                            name: `${tour.staff.firstname} ${tour.staff.lastname}`,
+                                                            size: "lg",
+                                                        }
+                                                    )}
+                                                    style={{
+                                                        backgroundColor:
+                                                            getRandomColor(
+                                                                `${tour.staff.firstname} ${tour.staff.lastname}`
+                                                            ),
+                                                    }}
+                                                >
+                                                    {getInitials(
+                                                        `${tour.staff.firstname} ${tour.staff.lastname}`
+                                                    )}
+                                                </div>
+                                            )}
+                                        </div>
+                                        <div>
+                                            <span className="text-lg md:text-xl font-semibold">
+                                                {`${tour.staff.firstname} ${tour.staff.lastname}`}
+                                            </span>
+                                            <p className="text-sm text-muted-foreground">
+                                                {tour.staff.email}
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div className="grid grid-cols-2 gap-4 mt-2">
+                                        <div className="flex flex-col gap-1">
+                                            <span className="text-sm font-medium text-muted-foreground">
+                                                Téléphone
+                                            </span>
+                                            <span className="text-base">
+                                                {`${tour.staff.dialCode} ${tour.staff.phoneNumber}` ||
+                                                    "Non renseigné"}
+                                            </span>
+                                        </div>
+                                        <div className="flex flex-col gap-1">
+                                            <span className="text-sm font-medium text-muted-foreground">
+                                                Langues parlées
+                                            </span>
+                                            <div className="flex flex-wrap gap-1">
+                                                {tour.staff.languages &&
+                                                tour.staff.languages.length >
+                                                    0 ? (
+                                                    tour.staff.languages.map(
+                                                        (lang, index) => (
+                                                            <span
+                                                                key={index}
+                                                                className="inline-flex items-center px-2 py-0.5 rounded-full text-xs md:text-sm font-medium bg-primary/10 text-primary"
+                                                            >
+                                                                {lang.title}
+                                                            </span>
+                                                        )
+                                                    )
+                                                ) : (
+                                                    <span className="text-base md:text-lg text-muted-foreground">
+                                                        Non renseigné
+                                                    </span>
+                                                )}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </>
+                            ) : (
+                                <div className="flex flex-col items-center justify-center py-4 text-center">
+                                    <User className="w-12 h-12 md:w-16 md:h-16 stroke-muted-foreground/50 mb-2" />
+                                    <span className="text-base md:text-lg text-muted-foreground">
+                                        Aucun guide assigné
+                                    </span>
+                                    <p className="text-sm md:text-base text-muted-foreground/70 mt-1">
+                                        Vous pouvez assigner un guide dans les
+                                        paramètres du site
+                                    </p>
+                                </div>
+                            )}
                         </div>
                     </CardContent>
                 </Card>
             </div>
 
-            <Card className="border-none shadow-lg hover:shadow-xl transition-shadow duration-300 bg-gradient-to-br from-background to-background/50 backdrop-blur-sm">
-                <CardHeader className="pb-2">
-                    <CardTitle className="text-lg md:text-xl">
-                        Description
-                    </CardTitle>
-                </CardHeader>
-                <CardContent className="pt-0">
-                    <div className="prose prose-base md:prose-lg max-w-none">
-                        <p className="text-foreground whitespace-pre-wrap leading-relaxed">
-                            {tour.description}
-                        </p>
-                    </div>
-                </CardContent>
-            </Card>
+            {tour.description && (
+                <Card className="border-none shadow-lg hover:shadow-xl transition-shadow duration-300 bg-gradient-to-br from-background to-background/50 backdrop-blur-sm">
+                    <CardHeader className="pb-2">
+                        <CardTitle className="text-lg md:text-xl">
+                            Description
+                        </CardTitle>
+                    </CardHeader>
+                    <CardContent className="pt-0">
+                        <div className="prose prose-base md:prose-lg max-w-none">
+                            <p className="text-foreground whitespace-pre-wrap leading-relaxed">
+                                {tour.description}
+                            </p>
+                        </div>
+                    </CardContent>
+                </Card>
+            )}
 
-            <Dialog
-                open={selectedImageIndex !== null}
-                onOpenChange={handleClose}
-            >
-                <DialogContent className="max-w-5xl w-full p-0 bg-transparent border-none [&>button]:hidden">
-                    <VisuallyHidden>
-                        <DialogTitle>
-                            Visionneuse d'images - {tour?.title}
-                        </DialogTitle>
-                    </VisuallyHidden>
-                    <div className="relative w-full aspect-[4/3] bg-black/95 backdrop-blur-sm rounded-xl overflow-hidden shadow-2xl">
-                        {selectedImageIndex !== null && tour?.mainImages && (
-                            <>
-                                <Image
-                                    src={`${getServerUrl()}/${
-                                        tour.mainImages[selectedImageIndex].path
-                                    }`}
-                                    alt={`${tour.title} - ${tour.mainImages[selectedImageIndex].name}`}
-                                    fill
-                                    className="object-contain transition-opacity duration-300"
-                                    priority
-                                />
-                                <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
-                                <Button
-                                    variant="ghost"
-                                    size="icon"
-                                    className="absolute top-4 right-4 rounded-full bg-black/30 hover:bg-black/50 backdrop-blur-sm transition-all duration-200 hover:scale-110"
-                                    onClick={handleClose}
-                                    aria-label="Fermer la visionneuse"
-                                >
-                                    <CloseCircle className="h-5 w-5 stroke-white" />
-                                </Button>
-                                <Button
-                                    variant="ghost"
-                                    size="icon"
-                                    className="absolute left-4 top-1/2 -translate-y-1/2 rounded-full bg-black/30 hover:bg-black/50 backdrop-blur-sm transition-all duration-200 hover:scale-110"
-                                    onClick={handlePrevious}
-                                    aria-label="Image précédente"
-                                >
-                                    <ArrowLeft2 className="h-5 w-5 stroke-white" />
-                                </Button>
-                                <Button
-                                    variant="ghost"
-                                    size="icon"
-                                    className="absolute right-4 top-1/2 -translate-y-1/2 rounded-full bg-black/30 hover:bg-black/50 backdrop-blur-sm transition-all duration-200 hover:scale-110"
-                                    onClick={handleNext}
-                                    aria-label="Image suivante"
-                                >
-                                    <ArrowRight2 className="h-5 w-5 stroke-white" />
-                                </Button>
-                                <div className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-black/30 backdrop-blur-sm px-4 py-2 rounded-full text-white text-sm font-medium">
-                                    {selectedImageIndex + 1} /{" "}
-                                    {tour.mainImages.length}
-                                </div>
-                                <div className="absolute bottom-4 left-4 text-white/80 text-sm font-medium max-w-[60%] truncate bg-black/30 backdrop-blur-sm px-3 py-1 rounded-full">
-                                    {tour.mainImages[selectedImageIndex].name}
-                                </div>
-                            </>
-                        )}
-                    </div>
-                </DialogContent>
-            </Dialog>
+            {selectedImageIndex !== null && tour.mainImages && (
+                <Dialog
+                    open={selectedImageIndex !== null}
+                    onOpenChange={handleClose}
+                >
+                    <DialogContent className="max-w-5xl w-full p-0 bg-transparent border-none [&>button]:hidden">
+                        <VisuallyHidden>
+                            <DialogTitle>
+                                Visionneuse d'images - {tour.title}
+                            </DialogTitle>
+                        </VisuallyHidden>
+                        <div className="relative w-full aspect-[4/3] bg-black/95 backdrop-blur-sm rounded-xl overflow-hidden shadow-2xl">
+                            <Image
+                                src={`${getServerUrl()}/${
+                                    tour.mainImages[selectedImageIndex].path
+                                }`}
+                                alt={`${tour.title} - ${tour.mainImages[selectedImageIndex].name}`}
+                                fill
+                                className="object-contain transition-opacity duration-300"
+                                priority
+                            />
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
+                            <Button
+                                variant="ghost"
+                                size="icon"
+                                className="absolute top-4 right-4 rounded-full bg-black/30 hover:bg-black/50 backdrop-blur-sm transition-all duration-200 hover:scale-110"
+                                onClick={handleClose}
+                                aria-label="Fermer la visionneuse"
+                            >
+                                <CloseCircle className="h-5 w-5 stroke-white" />
+                            </Button>
+                            <Button
+                                variant="ghost"
+                                size="icon"
+                                className="absolute left-4 top-1/2 -translate-y-1/2 rounded-full bg-black/30 hover:bg-black/50 backdrop-blur-sm transition-all duration-200 hover:scale-110"
+                                onClick={handlePrevious}
+                                aria-label="Image précédente"
+                            >
+                                <ArrowLeft2 className="h-5 w-5 stroke-white" />
+                            </Button>
+                            <Button
+                                variant="ghost"
+                                size="icon"
+                                className="absolute right-4 top-1/2 -translate-y-1/2 rounded-full bg-black/30 hover:bg-black/50 backdrop-blur-sm transition-all duration-200 hover:scale-110"
+                                onClick={handleNext}
+                                aria-label="Image suivante"
+                            >
+                                <ArrowRight2 className="h-5 w-5 stroke-white" />
+                            </Button>
+                            <div className="absolute bottom-4 right-4 text-white/80 text-sm font-medium bg-black/30 backdrop-blur-sm px-3 py-1 rounded-full">
+                                {selectedImageIndex + 1} /{" "}
+                                {tour.mainImages.length}
+                            </div>
+                            <div className="absolute bottom-4 left-4 text-white/80 text-sm font-medium max-w-[60%] truncate bg-black/30 backdrop-blur-sm px-3 py-1 rounded-full">
+                                {tour.mainImages[selectedImageIndex].name}
+                            </div>
+                        </div>
+                    </DialogContent>
+                </Dialog>
+            )}
         </div>
     );
 }

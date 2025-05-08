@@ -21,6 +21,7 @@ type EventType = {
     }>;
     program: string;
     eventStatus: number;
+    staff: StaffType;
     createdAt: string;
     updatedAt: string;
 };
