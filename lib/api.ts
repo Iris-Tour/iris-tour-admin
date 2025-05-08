@@ -491,13 +491,13 @@ export const apiStoreHotel = (
     formData.append("description", data.description);
     formData.append("location", data.location);
     formData.append(
-        "accessibility_for_disabled",
+        "accessibilityForDisabled",
         data.accessibilityForDisabled.toString()
     );
     formData.append("contact", data.contact);
 
     data.hotelImages.forEach((file) => {
-        formData.append("hotel_images", file);
+        formData.append("hotelImages", file);
     });
 
     return sessionApi(API_PREFIX, "/hotels", "POST", formData, token);
@@ -515,13 +515,13 @@ export const apiUpdateHotel = (
     formData.append("description", data.description);
     formData.append("location", data.location);
     formData.append(
-        "accessibility_for_disabled",
+        "accessibilityForDisabled",
         data.accessibilityForDisabled.toString()
     );
     formData.append("contact", data.contact);
 
     data.hotelImages.forEach((file) => {
-        formData.append("hotel_images", file);
+        formData.append("hotelImages", file);
     });
 
     return sessionApi(API_PREFIX, `/hotels/${hotelId}`, "PUT", formData, token);

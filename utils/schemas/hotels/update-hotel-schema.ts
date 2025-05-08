@@ -15,8 +15,5 @@ export const updateHotelSchema = z.object({
             {
                 message: "Les fichiers doivent être des images valides.",
             }
-        )
-        .refine((files) => files.length > 0, {
-            message: "Au moins une image est requise.",
-        }),
+        ),
 });
