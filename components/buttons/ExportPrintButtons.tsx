@@ -5,6 +5,8 @@ import { DocumentUpload, Printer } from "iconsax-react";
 import { Trans } from "react-i18next";
 import { format } from "date-fns";
 import { fr } from "date-fns/locale";
+import jsPDF from "jspdf";
+import autoTable from "jspdf-autotable";
 
 export interface Column {
     key: string;
@@ -30,37 +32,56 @@ const ExportPrintButtons = ({
     const handleExport = (e: React.MouseEvent) => {
         e.preventDefault();
         try {
-            // Créer le contenu CSV
-            const headers = columns.map((col) => col.header);
-            const rows = data.map((item) =>
+            const doc = new jsPDF();
+
+            // Ajouter le titre
+            doc.setFontSize(16);
+            doc.text(title, 14, 15);
+
+            // Ajouter la date
+            doc.setFontSize(10);
+            doc.text(
+                `Date d'exportation: ${format(new Date(), "dd MMMM yyyy", {
+                    locale: fr,
+                })}`,
+                14,
+                25
+            );
+
+            // Préparer les données pour le tableau
+            const tableData = data.map((item) =>
                 columns.map((col) => {
                     const value = item[col.key];
                     return col.render ? col.render(value) : value;
                 })
             );
 
-            const csvContent = [
-                headers.join(","),
-                ...rows.map((row) => row.join(",")),
-            ].join("\n");
-
-            // Créer et télécharger le fichier
-            const blob = new Blob([csvContent], {
-                type: "text/csv;charset=utf-8;",
+            // Générer le tableau
+            autoTable(doc, {
+                head: [columns.map((col) => col.header)],
+                body: tableData,
+                startY: 30,
+                styles: {
+                    fontSize: 8,
+                    cellPadding: 2,
+                },
+                headStyles: {
+                    fillColor: [66, 66, 66],
+                    textColor: 255,
+                    fontStyle: "bold",
+                },
+                alternateRowStyles: {
+                    fillColor: [245, 245, 245],
+                },
+                margin: { top: 30 },
             });
-            const link = document.createElement("a");
-            const url = URL.createObjectURL(blob);
-            link.setAttribute("href", url);
-            link.setAttribute(
-                "download",
+
+            // Télécharger le PDF
+            doc.save(
                 `${fileName}_${format(new Date(), "yyyy-MM-dd", {
                     locale: fr,
-                })}.csv`
+                })}.pdf`
             );
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-            URL.revokeObjectURL(url);
         } catch (error) {
             console.error("Erreur lors de l'exportation:", error);
             alert("Une erreur est survenue lors de l'exportation.");
