@@ -28,11 +28,13 @@ export function AppSidebar() {
     const pathname = usePathname();
 
     useEffect(() => {
-        sidebarItems.some((item) => item.url === pathname)
-            ? setActiveLink(
-                  sidebarItems.findIndex((item) => item.url === pathname)
-              )
-            : setActiveLink(-1);
+        if (sidebarItems.some((item) => item.url === pathname)) {
+            setActiveLink(
+                sidebarItems.findIndex((item) => item.url === pathname)
+            );
+        } else {
+            setActiveLink(-1);
+        }
     }, [pathname]);
 
     const logoutMutation = useMutation({
