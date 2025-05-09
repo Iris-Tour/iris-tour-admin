@@ -28,9 +28,11 @@ export function AppSidebar() {
     const pathname = usePathname();
 
     useEffect(() => {
-        sidebarItems.forEach(
-            (item, index) => item.url == pathname && setActiveLink(index)
-        );
+        sidebarItems.some((item) => item.url === pathname)
+            ? setActiveLink(
+                  sidebarItems.findIndex((item) => item.url === pathname)
+              )
+            : setActiveLink(-1);
     }, [pathname]);
 
     const logoutMutation = useMutation({
@@ -91,7 +93,7 @@ export function AppSidebar() {
                     </SidebarGroupContent>
                 </SidebarGroup>
             </SidebarContent>
-            <SidebarFooter>
+            <SidebarFooter className="border-t border-t-white/30">
                 <SidebarMenuItem className="flex flex-col items-center">
                     <SidebarMenuButton
                         className={`text-base px-6 py-5 rounded-none group-data-[collapsible=icon]:rounded`}

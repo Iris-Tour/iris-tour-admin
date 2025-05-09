@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, ReactNode } from "react";
 import { usePathname } from "next/navigation";
 import { sidebarItems } from "@/data/sidebarItems";
 
@@ -8,9 +8,10 @@ import useAuth from "@/hooks/useAuth";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import UserSkeleton from "@/components/skeletons/Header/UserSkeleton";
 import UserAccount from "@/components/UserAccount";
+import { otherPagesLinks } from "@/data/otherPagesLinks";
 
 const Header = () => {
-    const [title, setTitle] = useState("");
+    const [title, setTitle] = useState<ReactNode>("");
     const pathname = usePathname();
 
     const { user } = useAuth();
@@ -18,7 +19,25 @@ const Header = () => {
     // Titre de l'entête
     useEffect(() => {
         sidebarItems.forEach(
-            (item) => pathname == item.url && setTitle(item.title)
+            (item) =>
+                pathname === item.url &&
+                setTitle(
+                    <div className="flex items-center gap-2">
+                        <item.icon className="w-7 h-7 stroke-secondary" />
+                        {item.title}
+                    </div>
+                )
+        );
+
+        otherPagesLinks.forEach(
+            (item) =>
+                pathname === item.url &&
+                setTitle(
+                    <div className="flex items-center gap-2">
+                        <item.icon className="w-7 h-7 stroke-secondary" />
+                        {item.title}
+                    </div>
+                )
         );
     }, [pathname]);
 

@@ -12,6 +12,24 @@ body {
     overflow-x: hidden;
 }
 
+::-webkit-scrollbar {
+    width: 7px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--background);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--foreground);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--foreground);
+}
+
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
