@@ -1,6 +1,4 @@
 {
-    "i18n-ally.localesPaths": [
-        "locales",
-        "locales/lang"
-    ]
+    "i18n-ally.localesPaths": ["locales", "locales/lang"],
+    "i18next.i18nPaths": "f:/Works/Alimha/Iris Tour/iris-tour-admin/locales,f:/Works/Alimha/Iris Tour/iris-tour-admin/locales/lang"
 }
